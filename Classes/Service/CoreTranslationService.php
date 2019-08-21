@@ -17,7 +17,7 @@ class CoreTranslationService extends AbstractTranslationServerService
         $absoluteLanguagePath = Environment::getVarPath() . '/transient/crowdin/v' . $version . '-' . $key . '-l10n-' . $language . '/';
 
 
-        $this->unzipTranslationFile($filePath, $absoluteLanguagePath);
+        $this->unzip($filePath, $absoluteLanguagePath);
         $this->processFiles($absoluteLanguagePath);
         $this->upload($absoluteLanguagePath, $language, true);
     }

@@ -14,4 +14,12 @@ return [
         'class' => \GeorgRinger\Crowdin\Command\ExtractExtTranslationsCommand::class,
         'schedulable' => true,
     ],
+    'crowdin:download' => [
+        'class' => \GeorgRinger\Crowdin\Command\DownloadCommand::class,
+        'schedulable' => false,
+    ],
+    'crowdin:export' => [
+        'class' => \GeorgRinger\Crowdin\Command\ExportCommand::class,
+        'schedulable' => false,
+    ],
 ];

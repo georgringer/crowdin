@@ -15,7 +15,7 @@ class ExtTranslationService extends AbstractTranslationServerService
         $filePath = $this->downloadPackage($url, $key, $language);
         $absoluteLanguagePath = Environment::getVarPath() . '/transient/crowdin/' . $key . '-l10n-' . $language . '/';
 
-        $this->unzipTranslationFile($filePath, $absoluteLanguagePath);
+        $this->unzip($filePath, $absoluteLanguagePath);
         $this->processFiles($absoluteLanguagePath);
         $this->upload($absoluteLanguagePath, $language, false);
     }
