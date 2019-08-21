@@ -6,8 +6,12 @@
  * of Symfony/Console/Command.
  */
 return [
-    'crowdin:extractT3Downloads' => [
-        'class' => \GeorgRinger\Crowdin\Command\ExtractT3DownloadsCommand::class,
+    'crowdin:extractCoreTranslations' => [
+        'class' => \GeorgRinger\Crowdin\Command\ExtractCoreTranslationsCommand::class,
+        'schedulable' => true,
+    ],
+    'crowdin:extractExtTranslations' => [
+        'class' => \GeorgRinger\Crowdin\Command\ExtractExtTranslationsCommand::class,
         'schedulable' => true,
     ],
 ];

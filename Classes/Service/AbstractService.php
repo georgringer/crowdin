@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GeorgRinger\Crowdin\Service;
 
-use Crowdin\Client;
+use Akeneo\Crowdin\Client;
 
 class AbstractService
 {

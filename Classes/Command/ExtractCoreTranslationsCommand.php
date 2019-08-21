@@ -10,9 +10,9 @@ namespace GeorgRinger\Crowdin\Command;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use FriendsOfTYPO3\TtAddress\Service\GeocodeService;
-use GeorgRinger\Crowdin\Service\TranslationServerService;
+use GeorgRinger\Crowdin\Service\CoreTranslationService;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-class ExtractT3DownloadsCommand extends Command
+class ExtractCoreTranslationsCommand extends Command
 {
 
     /**
@@ -34,7 +34,7 @@ class ExtractT3DownloadsCommand extends Command
             ->setDescription('Extract translations from translation server')
             ->addArgument('key', InputArgument::REQUIRED, 'Extension key')
             ->addArgument('language', InputArgument::REQUIRED, 'Language')
-            ->addArgument('version', InputArgument::OPTIONAL, 'Core version');
+            ->addArgument('version', InputArgument::REQUIRED, 'Core version');
     }
 
     /**
@@ -46,26 +46,35 @@ class ExtractT3DownloadsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $service = GeneralUtility::makeInstance(TranslationServerService::class);
-        if (in_array($input->getArgument('key'), TranslationServerService::CORE_EXTENSIONS, true)
-            && !$input->getArgument('version')) {
-            $io->error('For core extensions, provide version');
+        $service = GeneralUtility::makeInstance(CoreTranslationService::class);
+        $key = $input->getArgument('key');
+        if ($key !== '*' && !in_array($key, CoreTranslationService::CORE_EXTENSIONS, true)) {
+            $io->error('No core ext provided');
         }
 
         $version = (int)$input->getArgument('version');
-        if (!in_array($version, [8,9,10], true)) {
+        if (!in_array($version, [8, 9, 10], true)) {
             $io->error('Provided version is invalid');
         }
 
-        $service->getTranslation($input->getArgument('key'), $input->getArgument('language'), $version);
-    }
+        if ($key !== '*') {
+            $service->getTranslation($key, $input->getArgument('language'), $version);
+        } else {
+            $keyList = CoreTranslationService::CORE_EXTENSIONS;
 
-    /**
-     * @param string $key Google Maps key
-     * @return GeocodeService
-     */
-    protected function getGeocodeService(string $key)
-    {
-        return GeneralUtility::makeInstance(GeocodeService::class, $key);
+            $progress = new ProgressBar($output, count($keyList));
+            $progress->start();
+
+            foreach ($keyList as $key) {
+                try {
+                    $service->getTranslation($key, $input->getArgument('language'), $version);
+                    $io->success(sprintf('Done with "%s"', $key));
+                } catch (\Exception $e) {
+                    $io->warning(sprintf('Error with "%s"', $key));
+                }
+                $progress->advance();
+            }
+            $progress->finish();
+        }
     }
 }
