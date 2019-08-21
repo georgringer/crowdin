@@ -13,7 +13,7 @@ class AbstractTranslationServerService extends AbstractService
 {
 
     public const CORE_EXTENSIONS = ['about', 'adminpanel',
-        'backend', 'belog', 'core', 'extbase', 'extensionmanager', 'felogin', 'filelist',
+        'backend', 'beuser', 'belog', 'core', 'extbase', 'extensionmanager', 'felogin', 'filelist',
         'filemetadata', 'fluid', 'frontend', 'fluid_styled_content', 'form', 'frontend', 'impexp',
         'indexed_search', 'info', 'install', 'linkvalidator', 'lowlevel', 'opendocs', 'recordlist',
         'recycler', 'redirects', 'reports', 'rte_ckeditor', 'scheduler', 'seo', 'setup', 'sys_note', 't3editor',
@@ -49,15 +49,19 @@ class AbstractTranslationServerService extends AbstractService
         }
 
         if (!empty($finalFiles)) {
-            /** @var UploadTranslation $api */
-            $api = $this->client->api('upload-translation');
-            $api->setLocale($language);
-            $api->setImportsAutoApproved(true);
+            $chunks = array_chunk($finalFiles, 15, true);
 
-            foreach ($finalFiles as $crowdinFile => $localFile) {
-                $api->addTranslation($localFile, $crowdinFile);
+            foreach ($chunks as $chunk) {
+                /** @var UploadTranslation $api */
+                $api = $this->client->api('upload-translation');
+                $api->setLocale($language);
+                $api->setImportsAutoApproved(true);
+
+                foreach ($chunk as $crowdinFile => $localFile) {
+                    $api->addTranslation($localFile, $crowdinFile);
+                }
+                $result = $api->execute();
             }
-            $result = $api->execute();
         }
     }
 
