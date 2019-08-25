@@ -5,7 +5,12 @@
  * Required parameter is the "class" of the command which needs to be a subclass
  * of Symfony/Console/Command.
  */
+
 return [
+    'crowdin:setApiCredentials' => [
+        'class' => \GeorgRinger\Crowdin\Command\SetApiCredentialsCommand::class,
+        'schedulable' => false,
+    ],
     'crowdin:extractCoreTranslations' => [
         'class' => \GeorgRinger\Crowdin\Command\ExtractCoreTranslationsCommand::class,
         'schedulable' => true,

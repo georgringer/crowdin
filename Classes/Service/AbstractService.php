@@ -18,7 +18,9 @@ class AbstractService
      */
     public function __construct()
     {
-        $this->client = new Client('typo3-cms', 'bc0fd8047b2e10ec18e9f8ac4f92b995');
+        $apiService = GeneralUtility::makeInstance(ApiCredentialsService::class);
+        $credentials = $apiService->get();
+        $this->client = new Client($credentials[0], $credentials[1]);
     }
 
 
