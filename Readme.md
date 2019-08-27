@@ -1,10 +1,26 @@
 # TYPO3 Extension `crowdin`
 
-This extension is currently a proof of concept
+Integration of crowdin into TYPO3 with the following features:
+
+- Inplace editing
+- Fill Crowdin with all translation provided by the translation server
+- Package translations to follow the structure required by TYPO3 sites
 
 ## Install
 
 Install this extension + `akeneo/crowdin-api` (dev-master)
+
+## Usage
+
+### Crowdin Inline Translation
+
+![Inline Translation](Resources/Public/Screenshots/crowdin-inline-translation.png)
+
+To enable inline translation, follow this steps:
+
+1.) Add `$GLOBALS['TYPO3_CONF_VARS']['SYS']['localization']['locales']['user']['kdh'] = 'Crowdin Inline Translation';` to your `typo3conf/AdditionalConfiguration.php`
+2.) Download the kdh language and place it in your language directory
+3.) Switch your user to Language *Crowdin Inline Translation*
 
 ## Commands
 

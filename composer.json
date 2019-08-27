@@ -1,0 +1,40 @@
+{
+	"name": "georgringer/crowdin",
+	"type": "typo3-cms-extension",
+	"description": "Crowdin integration for TYPO3",
+	"keywords": [
+		"TYPO3",
+		"extension",
+		"crowdin",
+		"localization",
+		"translation"
+	],
+	"homepage": "https://github.com/georgringer/crowdin",
+	"support": {
+		"issues": "https://github.com/georgringer/crowdin/issues"
+	},
+	"authors": [
+		{
+			"name": "Georg Ringer",
+			"email": "mail@ringer.it",
+			"role": "Developer",
+			"homepage": "https://www.ringer.it"
+		}
+	],
+	"license": [
+		"GPL-2.0+"
+	],
+	"require": {
+		"typo3/cms-core": "^9.5 || ^10",
+		"akeneo/crowdin-api": "dev-master"
+	},
+	"replace": {
+		"crowdin": "self.version",
+		"typo3-ter/crowdin": "self.version"
+	},
+	"autoload": {
+		"psr-4": {
+			"GeorgRinger\\Crowdin\\": "Classes/"
+		}
+	}
+}
