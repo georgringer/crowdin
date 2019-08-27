@@ -83,9 +83,9 @@ class AbstractTranslationServerService extends AbstractService
     protected function downloadPackage(string $url, string $key, string $language, int $version = 0): string
     {
         $versionString = $version > 0 ? ('v' . $version . '-') : '';
-        $absolutePathToZipFile = Environment::getVarPath() . '/transient/' . $versionString . $key . '-l10n-' . $language . '.zip';
+        $absolutePathToZipFile = Environment::getVarPath() . '/transient/download/' . $versionString . $key . '-l10n-' . $language . '.zip';
         if (!is_file($absolutePathToZipFile)) {
-            GeneralUtility::mkdir_deep(Environment::getVarPath() . '/transient/');
+            GeneralUtility::mkdir_deep(Environment::getVarPath() . '/transient/download/');
             $languagePackContent = $this->getRemoteContent($url);
             if (!$languagePackContent) {
                 throw new \UnexpectedValueException(sprintf('Error while downloading language pack: %s', $url), 1566269621);

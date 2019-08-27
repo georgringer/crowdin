@@ -42,10 +42,20 @@ class ExtractExtTranslationsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $extensionKey = $input->getArgument('key');
         $io = new SymfonyStyle($input, $output);
 
         $service = GeneralUtility::makeInstance(ExtTranslationService::class);
 
-        $service->getTranslation($input->getArgument('key'), $input->getArgument('language'));
+        $languages = GeneralUtility::trimExplode(',', $input->getArgument('language'), true);
+        foreach ($languages as $language) {
+            try {
+                $service->getTranslation($extensionKey, $language);
+
+                $io->success(sprintf('Translations for %s in %s has been downloaded', $extensionKey, $language));
+            } catch (\Exception $e) {
+                $io->error(sprintf('Error fetching translations for %s in %s: %s', $extensionKey, $language, $e->getMessage()));
+            }
+        }
     }
 }
