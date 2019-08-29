@@ -23,6 +23,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ExtractCoreTranslationsCommand extends Command
 {
 
+    private const LANGUAGE_LIST = ['de', 'hr', 'cs', 'da', 'nl', 'fr', 'el', 'hi', 'it', 'ja', 'km', 'ru', 'th'];
+
     /**
      * Defines the allowed options for this command
      *
@@ -48,6 +50,8 @@ class ExtractCoreTranslationsCommand extends Command
 
         $service = GeneralUtility::makeInstance(CoreTranslationService::class);
         $key = $input->getArgument('key');
+        $languages = $input->getArgument('language');
+
         if ($key !== '*' && !in_array($key, CoreTranslationService::CORE_EXTENSIONS, true)) {
             $io->error('No core ext provided');
         }
@@ -57,20 +61,26 @@ class ExtractCoreTranslationsCommand extends Command
             $io->error('Provided version is invalid');
         }
 
-        if ($key !== '*') {
-            $service->getTranslation($key, $input->getArgument('language'), $version);
-        } else {
-            $keyList = CoreTranslationService::CORE_EXTENSIONS;
+        $keyList = $key === '*' ? CoreTranslationService::CORE_EXTENSIONS : GeneralUtility::trimExplode(',', $key, true);
+        $languageList = $languages === '*' ? self::LANGUAGE_LIST : GeneralUtility::trimExplode(',', $languages, true);
+
+        foreach ($languageList as $language) {
+            if (!in_array($language, self::LANGUAGE_LIST, true)) {
+                $io->warning(sprintf('Language "%s" not supported', $language));
+                continue;
+            }
+
+            $io->title(sprintf('Working on language "%s"', $language));
 
             $progress = new ProgressBar($output, count($keyList));
             $progress->start();
 
             foreach ($keyList as $key) {
                 try {
-                    $service->getTranslation($key, $input->getArgument('language'), $version);
-                    $io->success(sprintf('Done with "%s"', $key));
+                    $service->getTranslation($key, $language, $version);
+                    $io->success(sprintf('Done with "%s" in "%s"', $key, $language));
                 } catch (\Exception $e) {
-                    $io->warning(sprintf('Error with "%s"', $key));
+                    $io->warning(sprintf('Error with "%s" in "%s": %s', $key, $language, $e->getMessage()));
                 }
                 $progress->advance();
             }

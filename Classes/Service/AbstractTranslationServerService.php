@@ -55,6 +55,7 @@ class AbstractTranslationServerService extends AbstractService
                 /** @var UploadTranslation $api */
                 $api = $this->client->api('upload-translation');
                 $api->setLocale($language);
+                $api->setEqualSuggestionsImported(true);
                 $api->setImportsAutoApproved(true);
 
                 foreach ($chunk as $crowdinFile => $localFile) {
