@@ -41,8 +41,8 @@ This command will download translations from translation server and upload those
 Instead of a single extension name, also `'*'` can be used!
 
 ```
-# Arguments: extension-key language version
-./bin/typo3 crowdin:extractCoreTranslations about de 9
+# Arguments: extension-key language version targetBranch
+./bin/typo3 crowdin:extractCoreTranslations about de 9 9.5
 ```
 
 ### Extract extension translations + upload to Crowdin

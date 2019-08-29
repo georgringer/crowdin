@@ -36,7 +36,8 @@ class ExtractCoreTranslationsCommand extends Command
             ->setDescription('Extract translations from translation server')
             ->addArgument('key', InputArgument::REQUIRED, 'Extension key')
             ->addArgument('language', InputArgument::REQUIRED, 'Language')
-            ->addArgument('version', InputArgument::REQUIRED, 'Core version');
+            ->addArgument('version', InputArgument::REQUIRED, 'Core version')
+            ->addArgument('branch', InputArgument::REQUIRED, 'Target branch');
     }
 
     /**
@@ -48,20 +49,21 @@ class ExtractCoreTranslationsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        $version = (int)$input->getArgument('version');
+        if (!in_array($version, [8, 9, 10], true)) {
+            $io->error('Provided version is invalid');
+            return;
+        }
+
         $service = GeneralUtility::makeInstance(CoreTranslationService::class);
         $key = $input->getArgument('key');
         $languages = $input->getArgument('language');
 
-        if ($key !== '*' && !in_array($key, CoreTranslationService::CORE_EXTENSIONS, true)) {
+        if ($key !== '*' && !in_array($key, $service->getCoreExtensions($version), true)) {
             $io->error('No core ext provided');
         }
 
-        $version = (int)$input->getArgument('version');
-        if (!in_array($version, [8, 9, 10], true)) {
-            $io->error('Provided version is invalid');
-        }
-
-        $keyList = $key === '*' ? CoreTranslationService::CORE_EXTENSIONS : GeneralUtility::trimExplode(',', $key, true);
+        $keyList = $key === '*' ? $service->getCoreExtensions($version) : GeneralUtility::trimExplode(',', $key, true);
         $languageList = $languages === '*' ? self::LANGUAGE_LIST : GeneralUtility::trimExplode(',', $languages, true);
 
         foreach ($languageList as $language) {
@@ -77,7 +79,7 @@ class ExtractCoreTranslationsCommand extends Command
 
             foreach ($keyList as $key) {
                 try {
-                    $service->getTranslation($key, $language, $version);
+                    $service->getTranslation($key, $language, $version, $input->getArgument('branch'));
                     $io->success(sprintf('Done with "%s" in "%s"', $key, $language));
                 } catch (\Exception $e) {
                     $io->warning(sprintf('Error with "%s" in "%s": %s', $key, $language, $e->getMessage()));

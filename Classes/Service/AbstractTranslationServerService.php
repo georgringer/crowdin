@@ -21,11 +21,18 @@ class AbstractTranslationServerService extends AbstractService
         'tstemplate', 'viewpage', 'workspaces',
     ];
     public const OLD_CORE_EXTENSIONS = [
-        'sys_action', 'taskcenter' // removed in 10
+        'info', 'rsaauth', 'sys_action', 'taskcenter' // removed in 10
     ];
 
+    public function getCoreExtensions(int $version): array
+    {
+        if ($version >= 10) {
+            return self::CORE_EXTENSIONS;
+        }
+        return array_merge(self::CORE_EXTENSIONS, self::OLD_CORE_EXTENSIONS);
+    }
 
-    public function upload($absoluteLanguagePath, string $language, bool $isSystemExtension)
+    public function upload($absoluteLanguagePath, string $language, bool $isSystemExtension, string $targetBranch)
     {
         $translations = GeneralUtility::getAllFilesAndFoldersInPath([],
             $absoluteLanguagePath, 'xlf',
@@ -48,10 +55,10 @@ class AbstractTranslationServerService extends AbstractService
                     $key = str_replace($absoluteLanguagePath, 'typo3/sysext/', $key);
 
                     if (!is_file($originalFile)) {
-                        continue;
+//                        continue;
                     }
                 }
-                $key = '/master/' . $key;
+                $key = sprintf('/%s/', $targetBranch) . $key;
                 $finalFiles[$key] = $translation;
             }
         }

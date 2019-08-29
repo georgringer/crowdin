@@ -10,7 +10,7 @@ class CoreTranslationService extends AbstractTranslationServerService
 {
 
 
-    public function getTranslation(string $key, string $language, int $version)
+    public function getTranslation(string $key, string $language, int $version, string $targetBranch)
     {
         $url = $this->getCoreExtensionUrl($key, $language, $version);
         $filePath = $this->downloadPackage($url, $key, $language, $version);
@@ -19,7 +19,7 @@ class CoreTranslationService extends AbstractTranslationServerService
 
         $this->unzip($filePath, $absoluteLanguagePath);
         $this->processFiles($absoluteLanguagePath);
-        $this->upload($absoluteLanguagePath, $language, true);
+        $this->upload($absoluteLanguagePath, $language, true, $targetBranch);
     }
 
     protected function getCoreExtensionUrl(string $key, string $language, int $version)
