@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Core\Environment;
 class ExtTranslationService extends AbstractTranslationServerService
 {
 
-    public function getTranslation(string $key, string $language)
+    public function getTranslation(string $key, string $language, string $targetBranch)
     {
         $url = $this->getExtensionUrl($key, $language);
         $filePath = $this->downloadPackage($url, $key, $language);
@@ -17,7 +17,7 @@ class ExtTranslationService extends AbstractTranslationServerService
 
         $this->unzip($filePath, $absoluteLanguagePath);
         $this->processFiles($absoluteLanguagePath);
-        $this->upload($absoluteLanguagePath, $language, false);
+        $this->upload($absoluteLanguagePath, $language, false, $targetBranch);
     }
 
     protected function getExtensionUrl(string $key, string $language)

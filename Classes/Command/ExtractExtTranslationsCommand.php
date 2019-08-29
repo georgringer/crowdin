@@ -32,7 +32,8 @@ class ExtractExtTranslationsCommand extends Command
         $this
             ->setDescription('Extract translations from translation server')
             ->addArgument('key', InputArgument::REQUIRED, 'Extension key')
-            ->addArgument('language', InputArgument::REQUIRED, 'Language');
+            ->addArgument('language', InputArgument::REQUIRED, 'Language')
+            ->addArgument('branch', InputArgument::REQUIRED, 'Target branch', 'master');
     }
 
     /**
@@ -50,7 +51,7 @@ class ExtractExtTranslationsCommand extends Command
         $languages = GeneralUtility::trimExplode(',', $input->getArgument('language'), true);
         foreach ($languages as $language) {
             try {
-                $service->getTranslation($extensionKey, $language);
+                $service->getTranslation($extensionKey, $language, $input->getArgument('branch'));
 
                 $io->success(sprintf('Translations for %s in %s has been downloaded', $extensionKey, $language));
             } catch (\Exception $e) {
