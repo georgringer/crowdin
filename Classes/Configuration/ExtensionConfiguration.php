@@ -39,5 +39,4 @@ class ExtensionConfiguration implements SingletonInterface
     {
         return $this->inlineTranslationProjectIdentifier;
     }
-
 }

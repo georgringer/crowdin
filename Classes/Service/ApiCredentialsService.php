@@ -31,7 +31,6 @@ class ApiCredentialsService implements SingletonInterface
         }
 
         return explode('|', $entry);
-
     }
 
     public function set(string $project, string $key): void
@@ -43,5 +42,4 @@ class ApiCredentialsService implements SingletonInterface
     {
         $this->registry->remove('crowdin', 'credentials');
     }
-
 }

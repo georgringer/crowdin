@@ -6,5 +6,4 @@ namespace GeorgRinger\Crowdin\Exception;
 
 class NoApiCredentialsException extends \Exception
 {
-
 }

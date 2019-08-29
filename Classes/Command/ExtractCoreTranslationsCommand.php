@@ -9,7 +9,6 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
-
 use GeorgRinger\Crowdin\Service\CoreTranslationService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -19,10 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 class ExtractCoreTranslationsCommand extends Command
 {
-
     private const LANGUAGE_LIST = ['de', 'hr', 'cs', 'da', 'nl', 'fr', 'el', 'hi', 'it', 'ja', 'km', 'ru', 'th'];
 
     /**

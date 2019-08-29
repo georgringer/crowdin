@@ -12,7 +12,6 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 
 class AbstractTranslationServerService extends AbstractService
 {
-
     public const CORE_EXTENSIONS = ['about', 'adminpanel',
         'backend', 'beuser', 'belog', 'core', 'extbase', 'extensionmanager', 'felogin', 'filelist',
         'filemetadata', 'fluid', 'frontend', 'fluid_styled_content', 'form', 'frontend', 'impexp',
@@ -118,7 +117,6 @@ class AbstractTranslationServerService extends AbstractService
         $httpOptions = $GLOBALS['TYPO3_CONF_VARS']['HTTP'];
         $httpOptions['verify'] = filter_var($httpOptions['verify'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $httpOptions['verify'];
 
-
         $client = GeneralUtility::makeInstance(Client::class, $httpOptions);
         $response = $client->request('get', $url, ['force_ip_resolve' => 'v4']);
 
@@ -127,6 +125,4 @@ class AbstractTranslationServerService extends AbstractService
         }
         return $response->getBody()->getContents();
     }
-
-
 }
