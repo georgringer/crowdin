@@ -10,7 +10,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PageRendererHook
 {
-
     private const LANGUAGE_KEY = 'kdh';
 
     public function run(array &$params)

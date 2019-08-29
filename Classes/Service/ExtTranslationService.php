@@ -8,7 +8,6 @@ use TYPO3\CMS\Core\Core\Environment;
 
 class ExtTranslationService extends AbstractTranslationServerService
 {
-
     public function getTranslation(string $key, string $language, string $targetBranch)
     {
         $url = $this->getExtensionUrl($key, $language);
@@ -30,5 +29,4 @@ class ExtTranslationService extends AbstractTranslationServerService
             $language
         );
     }
-
 }

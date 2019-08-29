@@ -23,7 +23,6 @@ class AbstractService
         $this->client = new Client($credentials[0], $credentials[1]);
     }
 
-
     public function initializeClient(string $project, string $apiKey): void
     {
         $this->client = new Client($project, $apiKey);
@@ -73,5 +72,4 @@ class AbstractService
             throw new \RuntimeException('Unable to open zip file ' . $file, 1520170848);
         }
     }
-
 }

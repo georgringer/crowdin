@@ -10,7 +10,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DownloadService extends AbstractService
 {
-
     public function downloadPackage(string $language, string $branch)
     {
         $zipFile = $this->downloadFromCrowdin($language, $branch);
@@ -43,7 +42,6 @@ class DownloadService extends AbstractService
 
     protected function zipDir($source, $destination)
     {
-
         $zip = new \ZipArchive();
         if (!$zip->open($destination, \ZipArchive::CREATE)) {
             return false;
@@ -57,8 +55,9 @@ class DownloadService extends AbstractService
                 $file = str_replace('\\', '/', $file);
 
                 // Ignore "." and ".." folders
-                if (in_array(substr($file, strrpos($file, '/') + 1), ['.', '..']))
+                if (in_array(substr($file, strrpos($file, '/') + 1), ['.', '..'])) {
                     continue;
+                }
 
                 $file = realpath($file);
 
@@ -111,6 +110,4 @@ class DownloadService extends AbstractService
         }
         return $finalName;
     }
-
-
 }

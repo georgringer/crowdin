@@ -8,7 +8,6 @@ use Akeneo\Crowdin\Api\Export;
 
 class ExportService extends AbstractService
 {
-
     public function export(string $branch)
     {
         /** @var Export $api */
@@ -16,5 +15,4 @@ class ExportService extends AbstractService
         $api->setBranch($branch);
         $api->execute();
     }
-
 }

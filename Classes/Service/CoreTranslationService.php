@@ -8,14 +8,11 @@ use TYPO3\CMS\Core\Core\Environment;
 
 class CoreTranslationService extends AbstractTranslationServerService
 {
-
-
     public function getTranslation(string $key, string $language, int $version, string $targetBranch)
     {
         $url = $this->getCoreExtensionUrl($key, $language, $version);
         $filePath = $this->downloadPackage($url, $key, $language, $version);
         $absoluteLanguagePath = Environment::getVarPath() . '/transient/crowdin/v' . $version . '-' . $key . '-l10n-' . $language . '/';
-
 
         $this->unzip($filePath, $absoluteLanguagePath);
         $this->processFiles($absoluteLanguagePath);
@@ -33,5 +30,4 @@ class CoreTranslationService extends AbstractTranslationServerService
             $version
         );
     }
-
 }
