@@ -8,6 +8,7 @@ use Akeneo\Crowdin\Api\UploadTranslation;
 use GuzzleHttp\Client;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 
 class AbstractTranslationServerService extends AbstractService
 {
@@ -33,7 +34,14 @@ class AbstractTranslationServerService extends AbstractService
 
         $finalFiles = [];
         foreach ($translations as $translation) {
+            if (is_dir($translation)) {
+                continue;
+            }
             if (is_file($translation)) {
+                $fileInfo = pathinfo($translation);
+                if (!StringUtility::beginsWith($fileInfo['filename'], $language . '.')) {
+                    continue;
+                }
                 $key = str_replace('/' . $language . '.', '/', $translation);
                 if ($isSystemExtension) {
                     $originalFile = str_replace($absoluteLanguagePath, Environment::getBackendPath() . '/sysext/', $key);
@@ -47,7 +55,6 @@ class AbstractTranslationServerService extends AbstractService
                 $finalFiles[$key] = $translation;
             }
         }
-
         if (!empty($finalFiles)) {
             $chunks = array_chunk($finalFiles, 15, true);
 
@@ -113,7 +120,6 @@ class AbstractTranslationServerService extends AbstractService
         }
         return $response->getBody()->getContents();
     }
-
 
 
 }
