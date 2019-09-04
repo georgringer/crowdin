@@ -19,7 +19,7 @@ class ExtTranslationService extends AbstractTranslationServerService
         $this->upload($absoluteLanguagePath, $language, false, $targetBranch);
     }
 
-    protected function getExtensionUrl(string $key, string $language)
+    protected function getExtensionUrl(string $key, string $language): string
     {
         return sprintf('https://typo3.org/fileadmin/ter/%s/%s/%s-l10n/%s-l10n-%s.zip',
             $key{0},

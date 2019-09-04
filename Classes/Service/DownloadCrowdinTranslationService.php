@@ -8,7 +8,7 @@ use Akeneo\Crowdin\Api\Download;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class DownloadService extends AbstractService
+class DownloadCrowdinTranslationService extends AbstractService
 {
     public function downloadPackage(string $language, string $branch)
     {
@@ -36,13 +36,17 @@ class DownloadService extends AbstractService
             $source = $sysExtDir . $extensionKey;
             $zipPath = $exportPath . sprintf('v9-%s-l10n-%s.zip', $extensionKey, $language);
 
-            $result = $this->zipDir($source, $zipPath);
+            $result = $this->zipDir($source, $zipPath, $extensionKey);
         }
     }
 
-    protected function zipDir($source, $destination)
+    protected function zipDir($source, $destination, $prefix = '')
     {
+        if (!empty($prefix)) {
+            $prefix = trim($prefix, '/') . '/';
+        }
         $zip = new \ZipArchive();
+        $zip->addEmptyDir($prefix);
         if (!$zip->open($destination, \ZipArchive::CREATE)) {
             return false;
         }
@@ -62,13 +66,13 @@ class DownloadService extends AbstractService
                 $file = realpath($file);
 
                 if (is_dir($file) === true) {
-                    $zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
+                    $zip->addEmptyDir($prefix . str_replace($source . '/', '', $file . '/'));
                 } elseif (is_file($file) === true) {
-                    $zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+                    $zip->addFromString($prefix . str_replace($source . '/', '', $file), file_get_contents($file));
                 }
             }
         } elseif (is_file($source) === true) {
-            $zip->addFromString(basename($source), file_get_contents($source));
+            $zip->addFromString($prefix . basename($source), file_get_contents($source));
         }
 
         return $zip->close();

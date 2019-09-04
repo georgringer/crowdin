@@ -11,16 +11,16 @@ return [
         'class' => \GeorgRinger\Crowdin\Command\SetApiCredentialsCommand::class,
         'schedulable' => false,
     ],
-    'crowdin:extractCoreTranslations' => [
-        'class' => \GeorgRinger\Crowdin\Command\ExtractCoreTranslationsCommand::class,
+    'crowdin:downloadPootleCoreTranslation' => [
+        'class' => \GeorgRinger\Crowdin\Command\DownloadPootleCoreTranslationsCommand::class,
         'schedulable' => true,
     ],
-    'crowdin:extractExtTranslations' => [
-        'class' => \GeorgRinger\Crowdin\Command\ExtractExtTranslationsCommand::class,
+    'crowdin:downloadPootleExtTranslation' => [
+        'class' => \GeorgRinger\Crowdin\Command\DownloadPootleExtTranslationsCommand::class,
         'schedulable' => true,
     ],
-    'crowdin:download' => [
-        'class' => \GeorgRinger\Crowdin\Command\DownloadCommand::class,
+    'crowdin:downloadCrowdinTranslations' => [
+        'class' => \GeorgRinger\Crowdin\Command\DownloadCrowdinTranslationsCommand::class,
         'schedulable' => false,
     ],
     'crowdin:export' => [

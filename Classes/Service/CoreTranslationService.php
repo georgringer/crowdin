@@ -19,7 +19,7 @@ class CoreTranslationService extends AbstractTranslationServerService
         $this->upload($absoluteLanguagePath, $language, true, $targetBranch);
     }
 
-    protected function getCoreExtensionUrl(string $key, string $language, int $version)
+    protected function getCoreExtensionUrl(string $key, string $language, int $version): string
     {
         return sprintf('https://typo3.org/fileadmin/ter/%s/%s/%s-l10n/%s-l10n-%s.v%s.zip',
             $key{0},

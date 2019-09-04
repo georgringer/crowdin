@@ -33,8 +33,6 @@ class ExportCommand extends Command
     }
 
     /**
-     * Geocode all records
-     *
      * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output)

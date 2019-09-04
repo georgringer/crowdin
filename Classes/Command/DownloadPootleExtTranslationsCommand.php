@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class ExtractExtTranslationsCommand extends Command
+class DownloadPootleExtTranslationsCommand extends Command
 {
 
     /**
@@ -31,12 +31,10 @@ class ExtractExtTranslationsCommand extends Command
             ->setDescription('Extract translations from translation server')
             ->addArgument('key', InputArgument::REQUIRED, 'Extension key')
             ->addArgument('language', InputArgument::REQUIRED, 'Language')
-            ->addArgument('branch', InputArgument::REQUIRED, 'Target branch', 'master');
+            ->addArgument('branch', InputArgument::OPTIONAL, 'Target branch', 'master');
     }
 
     /**
-     * Geocode all records
-     *
      * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output)

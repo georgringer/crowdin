@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class ExtractCoreTranslationsCommand extends Command
+class DownloadPootleCoreTranslationsCommand extends Command
 {
     private const LANGUAGE_LIST = ['de', 'hr', 'cs', 'da', 'nl', 'fr', 'el', 'hi', 'it', 'ja', 'km', 'ru', 'th'];
 
@@ -38,8 +38,6 @@ class ExtractCoreTranslationsCommand extends Command
     }
 
     /**
-     * Geocode all records
-     *
      * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output)
