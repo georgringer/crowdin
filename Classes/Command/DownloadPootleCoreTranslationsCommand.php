@@ -35,8 +35,7 @@ class DownloadPootleCoreTranslationsCommand extends Command
             ->setDescription('Extract translations from translation server')
             ->addArgument('key', InputArgument::REQUIRED, 'Extension key')
             ->addArgument('language', InputArgument::REQUIRED, 'Language')
-            ->addArgument('version', InputArgument::REQUIRED, 'Core version')
-            ->addArgument('branch', InputArgument::REQUIRED, 'Target branch');
+            ->addArgument('version', InputArgument::REQUIRED, 'Core version');
     }
 
     /**
@@ -76,7 +75,7 @@ class DownloadPootleCoreTranslationsCommand extends Command
 
             foreach ($keyList as $key) {
                 try {
-                    $service->getTranslation($key, $language, $version, $input->getArgument('branch'));
+                    $service->getTranslation($key, $language, $version);
                     $io->success(sprintf('Done with "%s" in "%s"', $key, $language));
                 } catch (\Exception $e) {
                     $io->warning(sprintf('Error with "%s" in "%s": %s', $key, $language, $e->getMessage()));

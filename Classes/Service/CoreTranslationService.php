@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace GeorgRinger\Crowdin\Service;
 
+use GeorgRinger\Crowdin\Info\CoreInformation;
 use TYPO3\CMS\Core\Core\Environment;
 
 class CoreTranslationService extends AbstractTranslationServerService
 {
-    public function getTranslation(string $key, string $language, int $version, string $targetBranch)
+    public function getTranslation(string $key, string $language, int $version)
     {
         $url = $this->getCoreExtensionUrl($key, $language, $version);
         $filePath = $this->downloadPackage($url, $key, $language, $version);
         $absoluteLanguagePath = Environment::getVarPath() . '/transient/crowdin/v' . $version . '-' . $key . '-l10n-' . $language . '/';
+        $targetBranch = CoreInformation::getBranchNameForVersion($version);
 
         $this->unzip($filePath, $absoluteLanguagePath);
         $this->processFiles($absoluteLanguagePath);
