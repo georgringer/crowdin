@@ -26,7 +26,7 @@
 	],
 	"require": {
 		"typo3/cms-core": "^9.5 || ^10",
-		"akeneo/crowdin-api": "dev-master"
+		"akeneo/crowdin-api": "1.0.0-alpha7"
 	},
 	"replace": {
 		"crowdin": "self.version",
