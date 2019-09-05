@@ -25,6 +25,10 @@ return [
     ],
     'crowdin:export' => [
         'class' => \GeorgRinger\Crowdin\Command\ExportCommand::class,
+        'schedulable' => true,
+    ],
+    'crowdin:clean' => [
+        'class' => \GeorgRinger\Crowdin\Command\CleanCommand::class,
         'schedulable' => false,
     ],
 ];

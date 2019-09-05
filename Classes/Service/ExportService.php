@@ -8,11 +8,13 @@ use Akeneo\Crowdin\Api\Export;
 
 class ExportService extends AbstractService
 {
-    public function export(string $branch)
+    public function export(string $branch = '')
     {
         /** @var Export $api */
         $api = $this->client->api('export');
-        $api->setBranch($branch);
+        if ($branch) {
+            $api->setBranch($branch);
+        }
         $api->execute();
     }
 }

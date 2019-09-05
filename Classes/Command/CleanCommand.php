@@ -16,9 +16,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class ExportCommand extends Command
+class CleanCommand extends Command
 {
 
     /**
@@ -29,8 +30,7 @@ class ExportCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Download translations')
-            ->addArgument('branch', InputArgument::OPTIONAL, 'Branch');
+            ->setDescription('Clean all temp files');
     }
 
     /**
@@ -40,8 +40,7 @@ class ExportCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $service = GeneralUtility::makeInstance(ExportService::class);
-
-        $service->export($input->getArgument('branch') ?? '');
+        GeneralUtility::rmdir(Environment::getVarPath() . '/transient/crowdin/', true);
+        $io->success('Successfully cleaned up!');
     }
 }
