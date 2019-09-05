@@ -12,24 +12,6 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 
 class AbstractTranslationServerService extends AbstractService
 {
-    public const CORE_EXTENSIONS = ['about', 'adminpanel',
-        'backend', 'beuser', 'belog', 'core', 'extbase', 'extensionmanager', 'felogin', 'filelist',
-        'filemetadata', 'fluid', 'frontend', 'fluid_styled_content', 'form', 'frontend', 'impexp',
-        'indexed_search', 'info', 'install', 'linkvalidator', 'lowlevel', 'opendocs', 'recordlist',
-        'recycler', 'redirects', 'reports', 'rte_ckeditor', 'scheduler', 'seo', 'setup', 'sys_note', 't3editor',
-        'tstemplate', 'viewpage', 'workspaces',
-    ];
-    public const OLD_CORE_EXTENSIONS = [
-        'info', 'rsaauth', 'sys_action', 'taskcenter' // removed in 10
-    ];
-
-    public function getCoreExtensions(int $version): array
-    {
-        if ($version >= 10) {
-            return self::CORE_EXTENSIONS;
-        }
-        return array_merge(self::CORE_EXTENSIONS, self::OLD_CORE_EXTENSIONS);
-    }
 
     public function upload($absoluteLanguagePath, string $language, bool $isSystemExtension, string $targetBranch)
     {

@@ -5,19 +5,89 @@ declare(strict_types=1);
 namespace GeorgRinger\Crowdin\Service;
 
 use Akeneo\Crowdin\Api\Download;
+use GeorgRinger\Crowdin\Info\CoreInformation;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DownloadCrowdinTranslationService extends AbstractService
 {
-    public function downloadPackage(string $language, string $branch)
+
+    private const FINAL_DIR = '/transient/crowdin/final/';
+    private const EXPORT_DIR = '/transient/crowdin/export/';
+    private const DOWNLOAD_DIR = '/transient/crowdin/download/';
+    private const RSYNC_DIR = '/transient/crowdin/rsync/';
+
+    /** @var ApiCredentialsService */
+    protected $apiCredentialsService;
+
+    public function __construct()
+    {
+        $this->apiCredentialsService = GeneralUtility::makeInstance(ApiCredentialsService::class);
+        parent::__construct();
+    }
+
+    public function downloadPackage(string $language, string $branch, bool $copyToL10n = false)
     {
         $zipFile = $this->downloadFromCrowdin($language, $branch);
 
-        $downloadTarget = Environment::getVarPath() . '/transient/crowdin/export/' . $language . '/';
+        $downloadTarget = Environment::getVarPath() . self::DOWNLOAD_DIR . $language . '/';
         $this->unzip($zipFile, $downloadTarget);
 
         $this->processDownloadDirectory($downloadTarget, $language, $branch);
+
+        $this->moveAllToRsyncDestination();
+        if ($copyToL10n) {
+            $this->copyToL10nDir($language);
+        }
+        $this->cleanup($downloadTarget);
+    }
+
+    /**
+     * Copy all translations to current l10n directory
+     *
+     * @param string $language
+     */
+    protected function copyToL10nDir(string $language): void
+    {
+        $path = Environment::getVarPath() . self::DOWNLOAD_DIR . $language . '/typo3/sysext/';
+
+        $coreExtensions = GeneralUtility::get_dirs($path);
+        $targetDir = Environment::getLabelsPath() . '/' . $language . '/';
+        GeneralUtility::mkdir_deep($targetDir);
+
+        foreach ($coreExtensions as $coreExtension) {
+            GeneralUtility::copyDirectory($path . $coreExtension, $targetDir . $coreExtension);
+        }
+    }
+
+    protected function cleanup($downloadDir)
+    {
+        GeneralUtility::rmdir($downloadTarget, true);
+
+        $exportDirs = GeneralUtility::get_dirs(Environment::getVarPath() . self::EXPORT_DIR);
+        foreach ($exportDirs as $dir) {
+            GeneralUtility::rmdir(Environment::getVarPath() . self::EXPORT_DIR . $dir, true);
+        }
+        $downloadDir = GeneralUtility::get_dirs(Environment::getVarPath() . self::DOWNLOAD_DIR);
+        foreach ($downloadDir as $dir) {
+            GeneralUtility::rmdir(Environment::getVarPath() . self::DOWNLOAD_DIR . $dir, true);
+        }
+    }
+
+    protected function moveAllToRsyncDestination()
+    {
+        $exportPath = Environment::getVarPath() . self::FINAL_DIR;
+        $allPackages = GeneralUtility::getFilesInDir($exportPath, 'zip', true);
+
+        foreach ($allPackages as $package) {
+            $info = pathinfo($package);
+            $split = explode('-', $info['basename']);
+            $extensionName = $split[0];
+
+            $projectSubDir = Environment::getVarPath() . self::RSYNC_DIR . sprintf('%s/%s/', $extensionName{0}, $extensionName{1});
+            GeneralUtility::mkdir_deep($projectSubDir);
+            rename($package, $projectSubDir . $info['basename']);
+        }
     }
 
     protected function processDownloadDirectory(string $directory, $language, $branch)
@@ -29,12 +99,16 @@ class DownloadCrowdinTranslationService extends AbstractService
             throw new \RuntimeException(sprintf('No sysext founds in: %s', $sysExtDir), 1566422270);
         }
 
-        $exportPath = Environment::getVarPath() . '/transient/crowdin/final/';
+        $exportPath = Environment::getVarPath() . self::FINAL_DIR;
         GeneralUtility::mkdir_deep($exportPath);
 
         foreach ($sysExtList as $extensionKey) {
             $source = $sysExtDir . $extensionKey;
-            $zipPath = $exportPath . sprintf('v9-%s-l10n-%s.zip', $extensionKey, $language);
+            if (in_array($extensionKey, CoreInformation::getAllCoreExtensionKeys(), true)) {
+                $zipPath = $exportPath . sprintf('%s-l10n-%s.v%s.zip', $extensionKey, $language, CoreInformation::getVersionForBranchName($branch));
+            } else {
+                $zipPath = $exportPath . sprintf('%s-l10n-%s.zip', $extensionKey, $language);
+            }
 
             $result = $this->zipDir($source, $zipPath, $extensionKey);
         }
@@ -98,10 +172,11 @@ class DownloadCrowdinTranslationService extends AbstractService
     {
         $fileName = sprintf('%s.zip', $langage);
 
-        $path = Environment::getVarPath() . '/transient/crowdin/export/';
+        $path = Environment::getVarPath() . self::EXPORT_DIR;
         GeneralUtility::mkdir_deep($path);
 
-        $finalName = $path . $fileName;
+        $downloadName = $path . $fileName;
+        $finalName = $path . $this->apiCredentialsService->getProjectName() . '-' . $fileName;
 
         if (!is_file($finalName)) {
             /** @var Download $api */
@@ -111,7 +186,10 @@ class DownloadCrowdinTranslationService extends AbstractService
             $api->setBranch($branch);
             $api->setCopyDestination($path);
             $api->execute();
+
+            rename($downloadName, $finalName);
         }
+
         return $finalName;
     }
 }

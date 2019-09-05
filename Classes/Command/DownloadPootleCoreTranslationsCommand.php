@@ -9,6 +9,8 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
+use GeorgRinger\Crowdin\Info\CoreInformation;
 use GeorgRinger\Crowdin\Service\CoreTranslationService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -45,7 +47,7 @@ class DownloadPootleCoreTranslationsCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $version = (int)$input->getArgument('version');
-        if (!in_array($version, [8, 9, 10], true)) {
+        if (!in_array($version, CoreInformation::getAllVersions(), true)) {
             $io->error('Provided version is invalid');
             return;
         }
@@ -54,11 +56,11 @@ class DownloadPootleCoreTranslationsCommand extends Command
         $key = $input->getArgument('key');
         $languages = $input->getArgument('language');
 
-        if ($key !== '*' && !in_array($key, $service->getCoreExtensions($version), true)) {
+        if ($key !== '*' && !in_array($key, CoreInformation::getCoreExtensionKeys($version), true)) {
             $io->error('No core ext provided');
         }
 
-        $keyList = $key === '*' ? $service->getCoreExtensions($version) : GeneralUtility::trimExplode(',', $key, true);
+        $keyList = $key === '*' ? CoreInformation::getCoreExtensionKeys($version) : GeneralUtility::trimExplode(',', $key, true);
         $languageList = $languages === '*' ? self::LANGUAGE_LIST : GeneralUtility::trimExplode(',', $languages, true);
 
         foreach ($languageList as $language) {

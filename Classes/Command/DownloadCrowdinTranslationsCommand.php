@@ -28,9 +28,10 @@ class DownloadCrowdinTranslationsCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Download translations')
+            ->setDescription('Download CORE translations')
             ->addArgument('language', InputArgument::REQUIRED, 'Language')
-            ->addArgument('branch', InputArgument::OPTIONAL, 'Branch', 'master');
+            ->addArgument('branch', InputArgument::OPTIONAL, 'Branch', 'master')
+            ->addArgument('copyToL10n', InputArgument::OPTIONAL, 'If set, the downloads are copied to l10n dir as well', false);
     }
 
     /**
@@ -44,7 +45,8 @@ class DownloadCrowdinTranslationsCommand extends Command
 
         $service->downloadPackage(
             $input->getArgument('language'),
-            $input->getArgument('branch') ?? '',
+            $input->getArgument('branch'),
+            (bool)$input->getArgument('copyToL10n')
         );
     }
 }

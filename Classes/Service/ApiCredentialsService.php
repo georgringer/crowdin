@@ -33,6 +33,16 @@ class ApiCredentialsService implements SingletonInterface
         return explode('|', $entry);
     }
 
+    /**
+     * @return string
+     * @throws NoApiCredentialsException
+     */
+    public function getProjectName(): string
+    {
+        $credentials = $this->get();
+        return $credentials[0];
+    }
+
     public function set(string $project, string $key): void
     {
         $this->registry->set('crowdin', 'credentials', implode('|', [$project, $key]));
