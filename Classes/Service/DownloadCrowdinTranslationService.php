@@ -11,7 +11,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DownloadCrowdinTranslationService extends AbstractService
 {
-
     private const FINAL_DIR = '/transient/crowdin/final/';
     private const EXPORT_DIR = '/transient/crowdin/export/';
     private const DOWNLOAD_DIR = '/transient/crowdin/download/';
