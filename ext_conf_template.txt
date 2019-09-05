@@ -1,2 +1,5 @@
 # cat=basic/enable/101; type=input; label=Inline translation project identifier
 inlineTranslationProjectIdentifier = typo3-cms
+
+# cat=basic/enable/101; type=boolean; label=Use new translation server
+useNewTranslationServer = 0

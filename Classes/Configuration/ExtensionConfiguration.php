@@ -19,6 +19,9 @@ class ExtensionConfiguration implements SingletonInterface
     /** @var string */
     protected $inlineTranslationProjectIdentifier = 'typo3-cms';
 
+    /** @var bool */
+    protected $useNewTranslationServer = false;
+
     public function __construct()
     {
         try {
@@ -27,6 +30,8 @@ class ExtensionConfiguration implements SingletonInterface
             if ($settings['inlineTranslationProjectIdentifier']) {
                 $this->inlineTranslationProjectIdentifier = (string)$settings['inlineTranslationProjectIdentifier'];
             }
+
+            $this->useNewTranslationServer = (bool)$settings['useNewTranslationServer'];
         } catch (\Exception $e) {
             // do nothing
         }
@@ -38,5 +43,13 @@ class ExtensionConfiguration implements SingletonInterface
     public function getInlineTranslationProjectIdentifier(): string
     {
         return $this->inlineTranslationProjectIdentifier;
+    }
+
+    /**
+     * @return bool
+     */
+    public function useNewTranslationServer(): bool
+    {
+        return $this->useNewTranslationServer;
     }
 }
