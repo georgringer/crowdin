@@ -23,7 +23,7 @@ To enable in-context localization, follow this steps:
 3.) In the extensions settings define the project identifier you want to localize.
 4.) Switch your user to Language *Crowdin In-Context Localization*
 
-## Commands
+## API-Reference / Commands
 
 ### Set API Key
 
@@ -61,5 +61,44 @@ Download language packs from Crowdin and create single zip packages
 ```
 # Arguments: language branch copyToL10n
 ./bin/typo3 crowdin:downloadCrowdinTranslations de master 0
+```
+
+### Status
+
+Get translation status
+
+```bash
+./bin/typo3 crowdin:status
+```
+
+Result
+```
+ ------------------------------- --------------
+  name                            Progress (%)
+ ------------------------------- --------------
+  Croatian - hr                   69
+  Czech - cs                      22
+  Danish - da                     94
+  Dutch - nl                      82
+  French - fr                     50 / 49
+  German - de                     92
+  Greek - el                      5
+  Hindi - hi                      50
+  Italian - it                    46
+  Japanese - ja                   8
+  Khmer - km                      40
+  Portuguese, Brazilian - pt-BR   0
+  Russian - ru                    75
+  Spanish - es-ES                 0
+  Thai - th                       43
+ ------------------------------- --------------
+```
+
+### Cleanup
+
+Cleanup the temporary files
+
+```
+./bin/typo3 crowdin:clean
 ```
 

@@ -97,13 +97,12 @@ class AbstractTranslationServerService extends AbstractService
     {
         $httpOptions = $GLOBALS['TYPO3_CONF_VARS']['HTTP'];
         $httpOptions['verify'] = filter_var($httpOptions['verify'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $httpOptions['verify'];
-
-        $client = GeneralUtility::makeInstance(Client::class, $httpOptions);
+        $client = GeneralUtility::makeInstance(Client::class);
         $response = $client->request('get', $url, ['force_ip_resolve' => 'v4']);
-
         if ($response->getStatusCode() !== 200) {
             throw new \UnexpectedValueException('Download failed', 1566267706);
         }
+
         return $response->getBody()->getContents();
     }
 }

@@ -31,4 +31,8 @@ return [
         'class' => \GeorgRinger\Crowdin\Command\CleanCommand::class,
         'schedulable' => false,
     ],
+    'crowdin:status' => [
+        'class' => \GeorgRinger\Crowdin\Command\StatusCommand::class,
+        'schedulable' => false,
+    ],
 ];
