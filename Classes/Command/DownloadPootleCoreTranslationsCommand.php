@@ -9,7 +9,6 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
-
 use GeorgRinger\Crowdin\Info\CoreInformation;
 use GeorgRinger\Crowdin\Service\CoreTranslationService;
 use Symfony\Component\Console\Command\Command;

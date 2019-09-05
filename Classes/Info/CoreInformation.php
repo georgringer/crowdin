@@ -40,7 +40,6 @@ class CoreInformation
         'info', 'rsaauth', 'sys_action', 'taskcenter'
     ];
 
-
     /**
      * @return int[]
      */
@@ -90,5 +89,4 @@ class CoreInformation
     {
         return array_merge(self::CORE_EXTENSIONS, self::CORE_EXTENSIONS_9);
     }
-
 }
