@@ -41,8 +41,8 @@ This command will download translations from translation server and upload those
 Instead of a single extension name, also `'*'` can be used!
 
 ```
-# Arguments: extension-key language version targetBranch
-./bin/typo3 crowdin:extractCoreTranslations about de 9 9.5
+# Arguments: extension-key language version
+./bin/typo3 crowdin:downloadPootleCoreTranslation about de 9
 ```
 
 ### Extract extension translations + upload to Crowdin
@@ -51,7 +51,7 @@ This command will download translations from translation server and upload those
 
 ```
 # Arguments: extension-key language
-./bin/typo3 crowdin:extractExtTranslations news de
+./bin/typo3 crowdin:downloadPootleExtTranslation news de
 ```
 
 ### Download languages from Crowdin
@@ -59,7 +59,7 @@ This command will download translations from translation server and upload those
 Download language packs from Crowdin and create single zip packages
 
 ```
-# Arguments: language branch
-./bin/typo3 crowdin:extractExtTranslations de master
+# Arguments: language branch copyToL10n
+./bin/typo3 crowdin:downloadCrowdinTranslations de master 0
 ```
 
