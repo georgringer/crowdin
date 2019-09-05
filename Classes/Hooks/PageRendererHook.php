@@ -10,21 +10,21 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PageRendererHook
 {
-    private const LANGUAGE_KEY = 'kdh';
+    private const LANGUAGE_KEY = 't3';
 
     public function run(array &$params)
     {
-//        if ($this->getBackendUser()->uc['lang'] === self::LANGUAGE_KEY
-//            && $projectIdentifier = $this->getProjectIdentifier()) {
-//            $crowdinCode = '
-//                <script type="text/javascript">
-//                      var _jipt = [];
-//                      _jipt.push(["project", ' . GeneralUtility::quoteJSvalue($projectIdentifier) . ']);
-//                </script>
-//                <script type="text/javascript" src="//cdn.crowdin.com/jipt/jipt.js"></script>';
-//
-//            $params['jsLibs'] = $crowdinCode . $params['jsLibs'];
-//        }
+        if ($this->getBackendUser()->uc['lang'] === self::LANGUAGE_KEY
+            && $projectIdentifier = $this->getProjectIdentifier()) {
+            $crowdinCode = '
+                <script type="text/javascript">
+                      var _jipt = [];
+                      _jipt.push(["project", ' . GeneralUtility::quoteJSvalue($projectIdentifier) . ']);
+                </script>
+                <script type="text/javascript" src="//cdn.crowdin.com/jipt/jipt.js"></script>';
+
+            $params['jsLibs'] = $crowdinCode . $params['jsLibs'];
+        }
     }
 
     protected function getProjectIdentifier(): string
