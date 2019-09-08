@@ -3,10 +3,6 @@ declare(strict_types=1);
 
 namespace GeorgRinger\Crowdin\Configuration;
 
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration as ExtensionConfigurationService;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 /**
  * This file is part of the "crowdin" Extension for TYPO3 CMS.
  *
