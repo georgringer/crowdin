@@ -7,7 +7,7 @@ namespace GeorgRinger\Crowdin\Service;
 use GeorgRinger\Crowdin\Info\CoreInformation;
 use TYPO3\CMS\Core\Core\Environment;
 
-class CoreTranslationService extends AbstractTranslationServerService
+class CoreTranslationService extends BaseTranslationServerService
 {
     public function getTranslation(string $key, string $language, int $version)
     {

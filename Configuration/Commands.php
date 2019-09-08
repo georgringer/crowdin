@@ -11,6 +11,10 @@ return [
         'class' => \GeorgRinger\Crowdin\Command\SetApiCredentialsCommand::class,
         'schedulable' => false,
     ],
+    'crowdin:switchApiCredentials' => [
+        'class' => \GeorgRinger\Crowdin\Command\SwitchApiCredentialsCommand::class,
+        'schedulable' => false,
+    ],
     'crowdin:downloadPootleCoreTranslation' => [
         'class' => \GeorgRinger\Crowdin\Command\DownloadPootleCoreTranslationsCommand::class,
         'schedulable' => true,

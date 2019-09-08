@@ -6,7 +6,7 @@ namespace GeorgRinger\Crowdin\Service;
 
 use TYPO3\CMS\Core\Core\Environment;
 
-class ExtTranslationService extends AbstractTranslationServerService
+class ExtTranslationService extends BaseTranslationServerService
 {
     public function getTranslation(string $key, string $language, string $targetBranch)
     {

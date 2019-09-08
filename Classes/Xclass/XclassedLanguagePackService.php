@@ -11,14 +11,16 @@ use TYPO3\CMS\Install\Service\LanguagePackService;
 class XclassedLanguagePackService extends LanguagePackService
 {
 
+    private const URL = 'https://media.githubusercontent.com/media/georgringer/crowdin-files/master/fileadmin/ter/';
+
     /**
      * @inheritDoc
      */
     public function updateMirrorBaseUrl(): string
     {
         if ($this->newLanguageServerIsEnabled()) {
-            $this->registry->set('languagePacks', 'baseUrl', 'https://typo3.org/fileadmin/ter/');
-            return 'https://typo3.org/fileadmin/ter/';
+            $this->registry->set('languagePacks', 'baseUrl', self::URL);
+            return self::URL;
         } else {
             return parent::updateMirrorBaseUrl();
         }
@@ -26,6 +28,7 @@ class XclassedLanguagePackService extends LanguagePackService
 
     protected function newLanguageServerIsEnabled(): bool
     {
+        return false;
         return GeneralUtility::makeInstance(ExtensionConfiguration::class)
             ->useNewTranslationServer();
     }

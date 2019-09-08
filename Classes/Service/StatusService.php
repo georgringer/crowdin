@@ -6,7 +6,7 @@ namespace GeorgRinger\Crowdin\Service;
 
 use Akeneo\Crowdin\Api\Status;
 
-class StatusService extends AbstractService
+class StatusService extends BaseService
 {
     public function get()
     {

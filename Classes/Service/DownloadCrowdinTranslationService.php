@@ -9,7 +9,7 @@ use GeorgRinger\Crowdin\Info\CoreInformation;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class DownloadCrowdinTranslationService extends AbstractService
+class DownloadCrowdinTranslationService extends BaseService
 {
     private const FINAL_DIR = '/transient/crowdin/final/';
     private const EXPORT_DIR = '/transient/crowdin/export/';
@@ -83,7 +83,7 @@ class DownloadCrowdinTranslationService extends AbstractService
             $split = explode('-', $info['basename']);
             $extensionName = $split[0];
 
-            $projectSubDir = Environment::getVarPath() . self::RSYNC_DIR . sprintf('%s/%s/', $extensionName{0}, $extensionName{1});
+            $projectSubDir = Environment::getVarPath() . self::RSYNC_DIR . sprintf('%s/%s/%s-l10n/', $extensionName{0}, $extensionName{1}, $extensionName);
             GeneralUtility::mkdir_deep($projectSubDir);
             rename($package, $projectSubDir . $info['basename']);
         }
@@ -175,7 +175,7 @@ class DownloadCrowdinTranslationService extends AbstractService
         GeneralUtility::mkdir_deep($path);
 
         $downloadName = $path . $fileName;
-        $finalName = $path . $this->apiCredentialsService->getProjectName() . '-' . $fileName;
+        $finalName = $path . $this->apiCredentialsService->getCurrentProjectName() . '-' . $fileName;
 
         if (!is_file($finalName)) {
             /** @var Download $api */

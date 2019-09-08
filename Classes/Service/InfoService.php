@@ -6,7 +6,7 @@ namespace GeorgRinger\Crowdin\Service;
 
 use Akeneo\Crowdin\Api\Info;
 
-class InfoService extends AbstractService
+class InfoService extends BaseService
 {
     public function get()
     {

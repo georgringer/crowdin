@@ -6,7 +6,7 @@ namespace GeorgRinger\Crowdin\Service;
 
 use Akeneo\Crowdin\Api\Export;
 
-class ExportService extends AbstractService
+class ExportService extends BaseService
 {
     public function export(string $branch = '')
     {

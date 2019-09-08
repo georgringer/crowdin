@@ -10,7 +10,7 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 
-class AbstractTranslationServerService extends AbstractService
+class BaseTranslationServerService extends BaseService
 {
     public function upload($absoluteLanguagePath, string $language, bool $isSystemExtension, string $targetBranch)
     {

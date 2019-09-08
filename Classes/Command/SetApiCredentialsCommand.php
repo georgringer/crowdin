@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class SetApiCredentialsCommand extends Command
+class SetApiCredentialsCommand extends BaseCommand
 {
 
     /**

@@ -34,6 +34,13 @@ The API key is added to the registry, so it must only be set once.
 ./bin/typo3 crowdin:setApiCredentials typo3-cms 123456
 ```
 
+By using the following command you can switch between projects without readding the API key again
+
+```
+# Arguments: project-identifier
+./bin/typo3 crowdin:switchApiCredentials another-project
+```
+
 ### Extract core translations + upload to Crowdin
 
 This command will download translations from translation server and upload those to Crowdin

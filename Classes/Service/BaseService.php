@@ -7,20 +7,17 @@ namespace GeorgRinger\Crowdin\Service;
 use Akeneo\Crowdin\Client;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class AbstractService
+class BaseService
 {
 
     /** @var Client */
     protected $client;
 
-    /**
-     * @todo: no hardcoding ;)
-     */
     public function __construct()
     {
         $apiService = GeneralUtility::makeInstance(ApiCredentialsService::class);
-        $credentials = $apiService->get();
-        $this->client = new Client($credentials[0], $credentials[1]);
+        $project = $apiService->get();
+        $this->client = new Client($project->getIdentifier(), $project->getPassword());
     }
 
     /**
@@ -66,5 +63,10 @@ class AbstractService
         } else {
             throw new \RuntimeException('Unable to open zip file ' . $file, 1520170848);
         }
+    }
+
+    public function getProjectIdentifier(): string
+    {
+        return $this->client->getProjectIdentifier();
     }
 }

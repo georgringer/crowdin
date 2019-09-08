@@ -9,7 +9,9 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
-use GeorgRinger\Crowdin\Service\DownloadCrowdinTranslationService;
+
+use GeorgRinger\Crowdin\Service\ApiCredentialsService;
+use GeorgRinger\Crowdin\Service\InfoService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class DownloadCrowdinTranslationsCommand extends BaseCommand
+class SwitchApiCredentialsCommand extends BaseCommand
 {
 
     /**
@@ -28,10 +30,8 @@ class DownloadCrowdinTranslationsCommand extends BaseCommand
     protected function configure()
     {
         $this
-            ->setDescription('Download CORE translations')
-            ->addArgument('language', InputArgument::REQUIRED, 'Language')
-            ->addArgument('branch', InputArgument::OPTIONAL, 'Branch', 'master')
-            ->addArgument('copyToL10n', InputArgument::OPTIONAL, 'If set, the downloads are copied to l10n dir as well', false);
+            ->setDescription('Switch API credentials to specific project')
+            ->addArgument('project', InputArgument::REQUIRED, 'Project Identifier');
     }
 
     /**
@@ -41,12 +41,9 @@ class DownloadCrowdinTranslationsCommand extends BaseCommand
     {
         $io = new SymfonyStyle($input, $output);
 
-        $service = GeneralUtility::makeInstance(DownloadCrowdinTranslationService::class);
+        $apiCredentialsService = GeneralUtility::makeInstance(ApiCredentialsService::class);
+        $apiCredentialsService->switchTo($input->getArgument('project'));
 
-        $service->downloadPackage(
-            $input->getArgument('language'),
-            $input->getArgument('branch'),
-            (bool)$input->getArgument('copyToL10n')
-        );
+        $io->success('API credentials have been successfully switched!');
     }
 }

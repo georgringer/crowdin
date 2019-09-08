@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class DownloadPootleCoreTranslationsCommand extends Command
+class DownloadPootleCoreTranslationsCommand extends BaseCommand
 {
     private const LANGUAGE_LIST = ['de', 'hr', 'cs', 'da', 'nl', 'fr', 'el', 'hi', 'it', 'ja', 'km', 'ru', 'th'];
 
