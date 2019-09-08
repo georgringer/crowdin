@@ -10,7 +10,6 @@ use TYPO3\CMS\Install\Service\LanguagePackService;
 
 class XclassedLanguagePackService extends LanguagePackService
 {
-
     private const URL = 'https://media.githubusercontent.com/media/georgringer/crowdin-files/master/fileadmin/ter/';
 
     /**
