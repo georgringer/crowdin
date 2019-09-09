@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GeorgRinger\Crowdin\Hooks;
 
-
 use TYPO3\CMS\Core\Configuration\ConfigurationManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extensionmanager\Utility\InstallUtility;

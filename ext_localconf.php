@@ -18,14 +18,12 @@ $boot = function () {
         \GeorgRinger\Crowdin\Hooks\InstallSlot::class,
         'setupCrowdinAfterInstall'
     );
-     $signalSlotDispatcher->connect(
+    $signalSlotDispatcher->connect(
         \TYPO3\CMS\Extensionmanager\Utility\InstallUtility::class,
         'afterExtensionUninstall',
         \GeorgRinger\Crowdin\Hooks\InstallSlot::class,
         'removeCrowdinAfterInstall'
     );
-
-
 };
 
 $boot();
