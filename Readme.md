@@ -16,11 +16,7 @@ Install this extension + `akeneo/crowdin-api` (dev-master)
 
 ![In-Context Localization](Resources/Public/Screenshots/crowdin-inline-localization.png)
 
-To enable in-context localization, follow this steps:
-
-1.) Download the [t3 language](https://github.com/georgringer/crowdin/blob/master/Resources/Private/LanguageExport/t3.zip) and place it in your language directory. 
-2.) In the extensions settings define the project identifier you want to localize.
-3.) Switch your user to Language *Crowdin In-Context Localization*
+To enable in-context localization: Switch your user to Language *Crowdin In-Context Localization*
 
 ## API-Reference / Commands
 
