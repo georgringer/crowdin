@@ -18,10 +18,9 @@ Install this extension + `akeneo/crowdin-api` (dev-master)
 
 To enable in-context localization, follow this steps:
 
-1.) Add `$GLOBALS['TYPO3_CONF_VARS']['SYS']['localization']['locales']['user']['t3'] = 'Crowdin In-Context Localization';` to your `typo3conf/AdditionalConfiguration.php`
-2.) Download the [t3 language](https://github.com/georgringer/crowdin/blob/master/Resources/Private/LanguageExport/t3.zip) and place it in your language directory. 
-3.) In the extensions settings define the project identifier you want to localize.
-4.) Switch your user to Language *Crowdin In-Context Localization*
+1.) Download the [t3 language](https://github.com/georgringer/crowdin/blob/master/Resources/Private/LanguageExport/t3.zip) and place it in your language directory. 
+2.) In the extensions settings define the project identifier you want to localize.
+3.) Switch your user to Language *Crowdin In-Context Localization*
 
 ## API-Reference / Commands
 
