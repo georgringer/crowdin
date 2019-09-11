@@ -12,13 +12,12 @@ namespace GeorgRinger\Crowdin\Command;
 use GeorgRinger\Crowdin\Service\BaseService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BaseCommand extends Command
 {
     protected function showProjectIdentifiere(SymfonyStyle $io): void
     {
-        $baseService = GeneralUtility::makeInstance(BaseService::class);
+        $baseService = new BaseService();
         $io->title(sprintf('Project %s', $baseService->getProjectIdentifier()));
     }
 }

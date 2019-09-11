@@ -11,12 +11,10 @@ namespace GeorgRinger\Crowdin\Command;
  */
 use GeorgRinger\Crowdin\Service\ApiCredentialsService;
 use GeorgRinger\Crowdin\Service\InfoService;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class SetApiCredentialsCommand extends BaseCommand
 {
@@ -41,13 +39,13 @@ class SetApiCredentialsCommand extends BaseCommand
     {
         $io = new SymfonyStyle($input, $output);
 
-        $apiCredentialsService = GeneralUtility::makeInstance(ApiCredentialsService::class);
+        $apiCredentialsService = new ApiCredentialsService();
         $apiCredentialsService->set($input->getArgument('project'), $input->getArgument('key'));
 
         $io->success('API credentials have been successfully set!');
         $io->caution('However... hold on and wait for a 1st test!');
 
-        $infoService = GeneralUtility::makeInstance(InfoService::class);
+        $infoService = new InfoService();
         try {
             $data = $infoService->get();
             $data->getContents();

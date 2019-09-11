@@ -21,7 +21,7 @@ class DownloadCrowdinTranslationService extends BaseService
 
     public function __construct()
     {
-        $this->apiCredentialsService = GeneralUtility::makeInstance(ApiCredentialsService::class);
+        $this->apiCredentialsService = new ApiCredentialsService();
         parent::__construct();
     }
 

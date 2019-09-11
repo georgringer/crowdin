@@ -10,11 +10,9 @@ namespace GeorgRinger\Crowdin\Command;
  * LICENSE.txt file that was distributed with this source code.
  */
 use GeorgRinger\Crowdin\Service\StatusService;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class StatusCommand extends BaseCommand
 {
@@ -38,7 +36,7 @@ class StatusCommand extends BaseCommand
         $io = new SymfonyStyle($input, $output);
         $this->showProjectIdentifiere($io);
 
-        $service = GeneralUtility::makeInstance(StatusService::class);
+        $service = new StatusService();
 
         $response = $service->get();
         if ($response) {

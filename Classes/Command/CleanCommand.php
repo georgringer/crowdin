@@ -9,12 +9,13 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
+use GeorgRinger\Crowdin\Utility\FileHandling;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class CleanCommand extends Command
 {
@@ -37,7 +38,7 @@ class CleanCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        GeneralUtility::rmdir(Environment::getVarPath() . '/transient/crowdin/', true);
+        FileHandling::rmdir(Environment::getVarPath() . '/transient/crowdin/', true);
         $io->success('Successfully cleaned up!');
     }
 }

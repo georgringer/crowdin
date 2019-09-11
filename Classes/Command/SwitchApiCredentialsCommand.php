@@ -10,12 +10,10 @@ namespace GeorgRinger\Crowdin\Command;
  * LICENSE.txt file that was distributed with this source code.
  */
 use GeorgRinger\Crowdin\Service\ApiCredentialsService;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class SwitchApiCredentialsCommand extends BaseCommand
 {
@@ -39,7 +37,7 @@ class SwitchApiCredentialsCommand extends BaseCommand
     {
         $io = new SymfonyStyle($input, $output);
 
-        $apiCredentialsService = GeneralUtility::makeInstance(ApiCredentialsService::class);
+        $apiCredentialsService = new ApiCredentialsService();
         $apiCredentialsService->switchTo($input->getArgument('project'));
 
         $io->success('API credentials have been successfully switched!');

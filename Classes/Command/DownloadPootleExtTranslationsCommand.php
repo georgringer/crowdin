@@ -42,7 +42,7 @@ class DownloadPootleExtTranslationsCommand extends BaseCommand
         $extensionKey = $input->getArgument('key');
         $io = new SymfonyStyle($input, $output);
 
-        $service = GeneralUtility::makeInstance(ExtTranslationService::class);
+        $service = new ExtTranslationService();
 
         $languages = GeneralUtility::trimExplode(',', $input->getArgument('language'), true);
         foreach ($languages as $language) {

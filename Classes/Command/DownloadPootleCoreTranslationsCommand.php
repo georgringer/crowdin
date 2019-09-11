@@ -11,7 +11,6 @@ namespace GeorgRinger\Crowdin\Command;
  */
 use GeorgRinger\Crowdin\Info\CoreInformation;
 use GeorgRinger\Crowdin\Service\CoreTranslationService;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -50,7 +49,7 @@ class DownloadPootleCoreTranslationsCommand extends BaseCommand
             return;
         }
 
-        $service = GeneralUtility::makeInstance(CoreTranslationService::class);
+        $service = new CoreTranslationService();
         $key = $input->getArgument('key');
         $languages = $input->getArgument('language');
 
