@@ -34,7 +34,7 @@ class StatusCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $this->showProjectIdentifiere($io);
+        $this->showProjectIdentifier($io);
 
         $service = new StatusService();
 

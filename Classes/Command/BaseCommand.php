@@ -15,7 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class BaseCommand extends Command
 {
-    protected function showProjectIdentifiere(SymfonyStyle $io): void
+    protected function showProjectIdentifier(SymfonyStyle $io): void
     {
         $baseService = new BaseService();
         $io->title(sprintf('Project %s', $baseService->getProjectIdentifier()));

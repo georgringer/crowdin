@@ -9,6 +9,7 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
 use GeorgRinger\Crowdin\Service\DownloadCrowdinTranslationService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,6 +39,7 @@ class DownloadCrowdinTranslationsCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
+        $this->showProjectIdentifier($io);
 
         $service = new DownloadCrowdinTranslationService();
 
@@ -46,5 +48,7 @@ class DownloadCrowdinTranslationsCommand extends BaseCommand
             $input->getArgument('branch'),
             (bool)$input->getArgument('copyToL10n')
         );
+
+        $io->success('Data has been downloaded');
     }
 }

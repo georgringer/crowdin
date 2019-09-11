@@ -27,8 +27,7 @@ class CleanCommand extends Command
      */
     protected function configure()
     {
-        $this
-            ->setDescription('Clean all temp files');
+        $this->setDescription('Clean all temp files');
     }
 
     /**

@@ -9,6 +9,7 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
 use GeorgRinger\Crowdin\Service\ExportService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,8 +27,9 @@ class ExportCommand extends BaseCommand
     protected function configure()
     {
         $this
-            ->setDescription('Download translations')
-            ->addArgument('branch', InputArgument::OPTIONAL, 'Branch');
+            ->setDescription('Export a project which means that the project is being built at Crowdin.')
+            ->setHelp('Only if a project has been exported it is possible to get the latest translations. ')
+            ->addArgument('branch', InputArgument::OPTIONAL, 'If a branch is specified, only this branch is being built');
     }
 
     /**
@@ -35,10 +37,17 @@ class ExportCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $branchName = $input->getArgument('branch') ?? '';
         $io = new SymfonyStyle($input, $output);
+        $this->showProjectIdentifier($io);
 
         $service = new ExportService();
+        $service->export($branchName);
 
-        $service->export($input->getArgument('branch') ?? '');
+        if ($branchName) {
+            $io->success(sprintf('Project has been exported, limited to the branch *"%s"*!', $branchName));
+        } else {
+            $io->success('Project has been exported with *all branches*!');
+        }
     }
 }
