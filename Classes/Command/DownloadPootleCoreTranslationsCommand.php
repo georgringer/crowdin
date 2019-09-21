@@ -68,7 +68,7 @@ class DownloadPootleCoreTranslationsCommand extends BaseCommand
                 continue;
             }
 
-            $io->title(sprintf('Working on language "%s"', $language));
+            $io->title(sprintf('Working on language "%s" for version %s', $language, $version));
 
             $progress = new ProgressBar($output, count($keyList));
             $progress->start();
@@ -76,9 +76,9 @@ class DownloadPootleCoreTranslationsCommand extends BaseCommand
             foreach ($keyList as $key) {
                 try {
                     $service->getTranslation($key, $language, $version);
-                    $io->success(sprintf('Done with "%s" in "%s"', $key, $language));
+                    $io->success(sprintf('Done with "%s" in "%s" for version %s!', $key, $language, $version));
                 } catch (\Exception $e) {
-                    $io->warning(sprintf('Error with "%s" in "%s": %s', $key, $language, $e->getMessage()));
+                    $io->warning(sprintf('Error with "%s" in "%s": %s!', $key, $language, $e->getMessage()));
                 }
                 $progress->advance();
             }

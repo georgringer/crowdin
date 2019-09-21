@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GeorgRinger\Crowdin\Service;
 
 use Akeneo\Crowdin\Api\UploadTranslation;
+use GeorgRinger\Crowdin\Utility\FileHandling;
 use GuzzleHttp\Client;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -12,6 +13,21 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 
 class BaseTranslationServerService extends BaseService
 {
+
+    public const IGNORED_PATHS = [
+        '/master/typo3/sysext/beuser/mod/',
+        '/master/typo3/sysext/belog/mod/',
+        '/master/typo3/sysext/linkvalidator/modfuncreport/',
+        '/master/typo3/sysext/reports/mod/',
+        '/master/typo3/sysext/form/Tests/',
+        '/master/typo3/sysext/impexp/modfunc1/',
+        '/master/typo3/sysext/install/mod/',
+        '/master/typo3/sysext/install/report/',
+        '/master/typo3/sysext/opendocs/',
+        '/master/typo3/sysext/redirects/Resources/Private/Language/locallang_reports.xlf', // @todo remove when master is fetched again
+        '/master/typo3/sysext/viewpage/view/'
+    ];
+
     public function upload($absoluteLanguagePath, string $language, bool $isSystemExtension, string $targetBranch)
     {
         $translations = GeneralUtility::getAllFilesAndFoldersInPath([],
@@ -29,6 +45,13 @@ class BaseTranslationServerService extends BaseService
                 if (!StringUtility::beginsWith($fileInfo['filename'], $language . '.')) {
                     continue;
                 }
+                $splittedFileName = explode('.', $fileInfo['filename']);
+                $last = end($splittedFileName);
+                // skip bogus files like pl.locallang.1415814894.xlf
+                if (is_numeric($last)) {
+                    continue;
+                }
+
                 $key = str_replace('/' . $language . '.', '/', $translation);
                 if ($isSystemExtension) {
                     $originalFile = str_replace($absoluteLanguagePath, Environment::getBackendPath() . '/sysext/', $key);
@@ -39,9 +62,24 @@ class BaseTranslationServerService extends BaseService
                     }
                 }
                 $key = sprintf('/%s/', $targetBranch) . $key;
+
+                $skipped = false;
+                // skip files which don't exist anymore but are still exported
+                foreach (self::IGNORED_PATHS as $ignoredPath) {
+                    if (FileHandling::beginsWith($key, $ignoredPath)) {
+                        $skipped = true;
+                    }
+                }
+
+                if ($skipped) {
+                    continue;
+                }
+
+
                 $finalFiles[$key] = $translation;
             }
         }
+
         if (!empty($finalFiles)) {
             $chunks = array_chunk($finalFiles, 15, true);
 
@@ -52,14 +90,19 @@ class BaseTranslationServerService extends BaseService
                 $api->setEqualSuggestionsImported(true);
                 $api->setImportsAutoApproved(true);
 
+//                try {
                 foreach ($chunk as $crowdinFile => $localFile) {
                     $api->addTranslation($localFile, $crowdinFile);
                 }
                 $result = $api->execute();
+//                } catch (\Exception $e) {
+//                    print_r($chunk);
+//                }
             }
         }
     }
 
+///app/web/typo3temp/var/transient/crowdin/v10-linkvalidator-l10n-pl/linkvalidator/modfuncreport/pl.locallang.xlf
     protected function processFiles(string $absolutePathToFile): void
     {
         $deprecatedFiles = GeneralUtility::getAllFilesAndFoldersInPath([],
