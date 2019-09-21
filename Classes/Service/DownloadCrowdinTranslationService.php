@@ -6,6 +6,7 @@ namespace GeorgRinger\Crowdin\Service;
 
 use Akeneo\Crowdin\Api\Download;
 use GeorgRinger\Crowdin\Info\CoreInformation;
+use GeorgRinger\Crowdin\Utility\FileHandling;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -50,7 +51,7 @@ class DownloadCrowdinTranslationService extends BaseService
     {
         $path = Environment::getVarPath() . self::DOWNLOAD_DIR . $language . '/typo3/sysext/';
 
-        $coreExtensions = GeneralUtility::get_dirs($path);
+        $coreExtensions = FileHandling::get_dirs($path);
         $targetDir = Environment::getLabelsPath() . '/' . $language . '/';
         GeneralUtility::mkdir_deep($targetDir);
 
@@ -61,15 +62,15 @@ class DownloadCrowdinTranslationService extends BaseService
 
     protected function cleanup($downloadDir)
     {
-        GeneralUtility::rmdir($downloadTarget, true);
+        FileHandling::rmdir($downloadTarget, true);
 
-        $exportDirs = GeneralUtility::get_dirs(Environment::getVarPath() . self::EXPORT_DIR);
+        $exportDirs = FileHandling::get_dirs(Environment::getVarPath() . self::EXPORT_DIR);
         foreach ($exportDirs as $dir) {
-            GeneralUtility::rmdir(Environment::getVarPath() . self::EXPORT_DIR . $dir, true);
+            FileHandling::rmdir(Environment::getVarPath() . self::EXPORT_DIR . $dir, true);
         }
-        $downloadDir = GeneralUtility::get_dirs(Environment::getVarPath() . self::DOWNLOAD_DIR);
+        $downloadDir = FileHandling::get_dirs(Environment::getVarPath() . self::DOWNLOAD_DIR);
         foreach ($downloadDir as $dir) {
-            GeneralUtility::rmdir(Environment::getVarPath() . self::DOWNLOAD_DIR . $dir, true);
+            FileHandling::rmdir(Environment::getVarPath() . self::DOWNLOAD_DIR . $dir, true);
         }
     }
 
@@ -93,7 +94,7 @@ class DownloadCrowdinTranslationService extends BaseService
     {
         $sysExtDir = $directory . 'typo3/sysext/';
 
-        $sysExtList = GeneralUtility::get_dirs($sysExtDir);
+        $sysExtList = FileHandling::get_dirs($sysExtDir);
         if (!is_array($sysExtList) || empty($sysExtList)) {
             throw new \RuntimeException(sprintf('No sysext founds in: %s', $sysExtDir), 1566422270);
         }

@@ -29,11 +29,12 @@ class CoreInformation
         8 => '8.7'
     ];
 
+    // rte_ckeditor got no translations
     private const CORE_EXTENSIONS = ['about', 'adminpanel',
         'backend', 'beuser', 'belog', 'core', 'extbase', 'extensionmanager', 'felogin', 'filelist',
         'filemetadata', 'fluid', 'frontend', 'fluid_styled_content', 'form', 'frontend', 'impexp',
         'indexed_search', 'info', 'install', 'linkvalidator', 'lowlevel', 'opendocs', 'recordlist',
-        'recycler', 'redirects', 'reports', 'rte_ckeditor', 'scheduler', 'seo', 'setup', 'sys_note', 't3editor',
+        'recycler', 'redirects', 'reports', 'scheduler', 'seo', 'setup', 'sys_note', 't3editor',
         'tstemplate', 'viewpage', 'workspaces',
     ];
     private const CORE_EXTENSIONS_9 = [

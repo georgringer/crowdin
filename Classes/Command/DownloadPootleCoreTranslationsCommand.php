@@ -9,6 +9,7 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
 use GeorgRinger\Crowdin\Info\CoreInformation;
 use GeorgRinger\Crowdin\Service\CoreTranslationService;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -20,7 +21,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DownloadPootleCoreTranslationsCommand extends BaseCommand
 {
-    private const LANGUAGE_LIST = ['de', 'hr', 'cs', 'da', 'nl', 'fr', 'el', 'hi', 'it', 'ja', 'km', 'ru', 'th'];
+    // not 'am',
+    private const LANGUAGE_LIST = ['gl', 'ro', 'sk', 'sl', 'es', 'sv', 'tr', 'uk', 'hu', 'is', 'lv', 'no', 'fa','fi', 'pl', 'ar', 'bg', 'de', 'hr', 'cs', 'da', 'nl', 'fr', 'el', 'hi', 'it', 'ja', 'km', 'ru', 'th'];
 
     /**
      * Defines the allowed options for this command

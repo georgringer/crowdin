@@ -59,4 +59,30 @@ class FileHandling {
         }
         return $OK;
     }
+
+    /**
+     * Returns an array with the names of folders in a specific path
+     * Will return 'error' (string) if there were an error with reading directory content.
+     *
+     * @param string $path Path to list directories from
+     * @return array Returns an array with the directory entries as values. If no path, the return value is nothing.
+     */
+    public static function get_dirs($path)
+    {
+        $dirs = null;
+        if ($path) {
+            if (is_dir($path)) {
+                $dir = scandir($path);
+                $dirs = [];
+                foreach ($dir as $entry) {
+                    if (is_dir($path . '/' . $entry) && $entry !== '..' && $entry !== '.') {
+                        $dirs[] = $entry;
+                    }
+                }
+            } else {
+                $dirs = 'error';
+            }
+        }
+        return $dirs;
+    }
 }
