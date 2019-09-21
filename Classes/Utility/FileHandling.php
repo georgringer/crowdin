@@ -2,7 +2,8 @@
 declare(strict_types=1);
 namespace GeorgRinger\Crowdin\Utility;
 
-class FileHandling {
+class FileHandling
+{
 
     /**
      * Wrapper function for rmdir, allowing recursive deletion of folders and files
