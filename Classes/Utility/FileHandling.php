@@ -35,7 +35,6 @@ class FileHandling
         return $needle !== '' && strpos($haystack, $needle) === 0;
     }
 
-
     /**
      * Wrapper function for rmdir, allowing recursive deletion of folders and files
      *
