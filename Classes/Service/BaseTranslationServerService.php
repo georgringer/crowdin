@@ -13,7 +13,6 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 
 class BaseTranslationServerService extends BaseService
 {
-
     public const IGNORED_PATHS = [
         '/master/typo3/sysext/beuser/mod/',
         '/master/typo3/sysext/belog/mod/',
@@ -75,7 +74,6 @@ class BaseTranslationServerService extends BaseService
                     continue;
                 }
 
-
                 $finalFiles[$key] = $translation;
             }
         }
@@ -102,7 +100,7 @@ class BaseTranslationServerService extends BaseService
         }
     }
 
-///app/web/typo3temp/var/transient/crowdin/v10-linkvalidator-l10n-pl/linkvalidator/modfuncreport/pl.locallang.xlf
+    ///app/web/typo3temp/var/transient/crowdin/v10-linkvalidator-l10n-pl/linkvalidator/modfuncreport/pl.locallang.xlf
     protected function processFiles(string $absolutePathToFile): void
     {
         $deprecatedFiles = GeneralUtility::getAllFilesAndFoldersInPath([],
