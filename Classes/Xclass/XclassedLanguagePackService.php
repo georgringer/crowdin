@@ -27,7 +27,6 @@ class XclassedLanguagePackService extends LanguagePackService
 
     protected function newLanguageServerIsEnabled(): bool
     {
-        return false;
         return GeneralUtility::makeInstance(ExtensionConfiguration::class)
             ->useNewTranslationServer();
     }
