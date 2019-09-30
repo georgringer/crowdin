@@ -20,6 +20,13 @@ To enable in-context localization: Switch your user to Language *Crowdin In-Cont
 
 ## API-Reference / Commands
 
+### Convert XML to XLF
+
+```
+# Arguments: file name
+./bin/typo3 crowdin:convertXml2Xlf ./path-to-a-xml-file.xml
+```
+
 ### Set API Key
 
 The API key is added to the registry, so it must only be set once. 

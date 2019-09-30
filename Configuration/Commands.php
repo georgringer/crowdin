@@ -7,6 +7,10 @@
  */
 
 return [
+    'crowdin:convertXml2Xlf' => [
+        'class' => \GeorgRinger\Crowdin\Command\ConvertXmlToXlfCommand::class,
+        'schedulable' => false,
+    ],
     'crowdin:setApiCredentials' => [
         'class' => \GeorgRinger\Crowdin\Command\SetApiCredentialsCommand::class,
         'schedulable' => false,
