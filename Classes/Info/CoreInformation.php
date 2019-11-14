@@ -30,7 +30,8 @@ class CoreInformation
     ];
 
     // rte_ckeditor got no translations
-    private const CORE_EXTENSIONS = ['about', 'adminpanel',
+    private const CORE_EXTENSIONS = [
+        'about', 'adminpanel',
         'backend', 'beuser', 'belog', 'core', 'extbase', 'extensionmanager', 'felogin', 'filelist',
         'filemetadata', 'fluid', 'frontend', 'fluid_styled_content', 'form', 'frontend', 'impexp',
         'indexed_search', 'info', 'install', 'linkvalidator', 'lowlevel', 'opendocs', 'recordlist',

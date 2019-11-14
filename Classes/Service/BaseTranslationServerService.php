@@ -24,8 +24,48 @@ class BaseTranslationServerService extends BaseService
         '/master/typo3/sysext/install/mod/',
         '/master/typo3/sysext/install/report/',
         '/master/typo3/sysext/opendocs/',
-        '/master/typo3/sysext/redirects/Resources/Private/Language/locallang_reports.xlf', // @todo remove when master is fetched again
-        '/master/typo3/sysext/viewpage/view/'
+//        '/master/typo3/sysext/redirects/Resources/Private/Language/locallang_reports.xlf', // @todo remove when master is fetched again
+        '/master/typo3/sysext/viewpage/view/',
+        '/9.5/typo3/sysext/reports/mod/locallang.xlf',
+        '/9.5/typo3/sysext/viewpage/view/locallang_mod.xlf',
+        '/9.5/typo3/sysext/linkvalidator/modfuncreport/',
+        '/9.5/typo3/sysext/opendocs/mod/locallang_mod.xlf',
+        '/9.5/typo3/sysext/install/mod/locallang_mod.xlf',
+        '/9.5/typo3/sysext/install/report/locallang.xlf',
+        '/9.5/typo3/sysext/form/Tests/',
+        '/9.5/typo3/sysext/impexp/modfunc1/',
+        '/9.5/typo3/sysext/belog/mod/',
+        '/9.5/typo3/sysext/beuser/mod/',
+        '/master/typo3/sysext/indexed_search/pi/',
+        '/master/typo3/sysext/indexed_search/modfunc2/', // ru
+        '/master/typo3/sysext/indexed_search/modfunc1/',
+        '/master/typo3/sysext/indexed_search/mod/',
+
+        '/9.5/typo3/sysext/indexed_search/pi/',
+        '/9.5/typo3/sysext/indexed_search/modfunc2/', // ru
+        '/9.5/typo3/sysext/indexed_search/modfunc1/',
+        '/9.5/typo3/sysext/indexed_search/mod/',
+    ];
+
+    public const SKIPPED_MAPPINGS = [
+        '1415814894' => 'File sv.locallang.1415814894 for language sv, branch 9.5',
+        '1415814893' => 'File sv.locallang.1415814893 for language sv, branch 9.5',
+        '1415814895' => 'File sv.locallang.1415814893 for language sv, branch 9.5',
+        '1415814896' => 'File sv.locallang.1415814893 for language sv, branch 9.5',
+        '1415814897' => 'File sv.locallang.1415814893 for language sv, branch 9.5',
+        '1415814898' => 'File sv.locallang.1415814893 for language sv, branch 9.5',
+        '1415814899' => 'File sv.locallang.1415814893 for language sv, branch 9.5',
+        '1415814900' => 'lowlevel sv',
+        '1415815011' => 'view sv',
+        '1415815012' => 'view sv',
+        '1415814901' => 'opendocs lv',
+        'v9-reports-l10n-pt_BR' => '1',
+        'v9-reports-l10n-lv' => 1,
+        'v9-scheduler-l10n-pt_BR' => 1,
+        'v10-reports-l10n-pt_BR' => 1,
+        'v10-reports-l10n-nl' => 1,
+        'v10-scheduler-l10n-nl' => 1,
+        'v10-scheduler-l10n-nl' => 1,
     ];
 
     public function upload($absoluteLanguagePath, string $language, bool $isSystemExtension, string $targetBranch)
@@ -36,6 +76,7 @@ class BaseTranslationServerService extends BaseService
             5);
 
         $finalFiles = [];
+
         foreach ($translations as $translation) {
             if (is_dir($translation)) {
                 continue;
@@ -49,7 +90,18 @@ class BaseTranslationServerService extends BaseService
                 $last = end($splittedFileName);
                 // skip bogus files like pl.locallang.1415814894.xlf
                 if (is_numeric($last)) {
-                    continue;
+                    if (!isset(self::SKIPPED_MAPPINGS[$last])) {
+//                        var_dump($last);
+                        $split = explode('/', $translation);
+
+                        if (!isset(self::SKIPPED_MAPPINGS[$split[7]])) {
+                            die(sprintf('xxxFile %s for language %s, branch %s.', $translation, $language, $targetBranch));
+                        } else {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
                 }
 
                 $key = str_replace('/' . $language . '.', '/', $translation);
@@ -60,8 +112,16 @@ class BaseTranslationServerService extends BaseService
                     if (!is_file($originalFile)) {
 //                        continue;
                     }
+                } else {
+                    $originalFile = str_replace($absoluteLanguagePath, Environment::getBackendPath() . '/sysext/', $key);
+                    $key = str_replace($absoluteLanguagePath, '', $key);
+                    $key = str_replace('/master/news/', '/', $key);
+
+
                 }
                 $key = sprintf('/%s/', $targetBranch) . $key;
+
+                $key = str_replace('/master/news/', '/master/', $key);
 
                 $skipped = false;
                 // skip files which don't exist anymore but are still exported
@@ -79,9 +139,19 @@ class BaseTranslationServerService extends BaseService
                 $finalFiles[$key] = $translation;
             }
         }
-
+//print_r($finalFiles);die;
         if (!empty($finalFiles)) {
             $chunks = array_chunk($finalFiles, 15, true);
+
+            if ($language === 'es') {
+                $language = 'es-ES';
+            } elseif ($language === 'sv') {
+                $language = 'sv-SE';
+            } elseif ($language === 'fr_CA') {
+                $language = 'fr-CA';
+            }elseif ($language === 'pt_BR') {
+                $language = 'pt-BR';
+            }
 
             foreach ($chunks as $chunk) {
                 /** @var UploadTranslation $api */
@@ -90,19 +160,19 @@ class BaseTranslationServerService extends BaseService
                 $api->setEqualSuggestionsImported(true);
                 $api->setImportsAutoApproved(true);
 
-//                try {
-                foreach ($chunk as $crowdinFile => $localFile) {
-                    $api->addTranslation($localFile, $crowdinFile);
+                try {
+                    foreach ($chunk as $crowdinFile => $localFile) {
+                        $api->addTranslation($localFile, $crowdinFile);
+                    }
+                    $result = $api->execute();
+                } catch (\Exception $e) {
+                    print_r($chunk);
+                    echo $e->getMessage();
                 }
-                $result = $api->execute();
-//                } catch (\Exception $e) {
-//                    print_r($chunk);
-//                }
             }
         }
     }
 
-///app/web/typo3temp/var/transient/crowdin/v10-linkvalidator-l10n-pl/linkvalidator/modfuncreport/pl.locallang.xlf
     protected function processFiles(string $absolutePathToFile): void
     {
         $deprecatedFiles = GeneralUtility::getAllFilesAndFoldersInPath([],

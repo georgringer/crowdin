@@ -10,12 +10,11 @@ namespace GeorgRinger\Crowdin\Command;
  * LICENSE.txt file that was distributed with this source code.
  */
 use GeorgRinger\Crowdin\Service\ExtTranslationService;
-use Symfony\Component\Console\Command\Command;
+use GeorgRinger\Crowdin\Utility\FileHandling;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DownloadPootleExtTranslationsCommand extends BaseCommand
 {
@@ -44,7 +43,7 @@ class DownloadPootleExtTranslationsCommand extends BaseCommand
 
         $service = new ExtTranslationService();
 
-        $languages = GeneralUtility::trimExplode(',', $input->getArgument('language'), true);
+        $languages = FileHandling::trimExplode(',', $input->getArgument('language'), true);
         foreach ($languages as $language) {
             try {
                 $service->getTranslation($extensionKey, $language, $input->getArgument('branch'));

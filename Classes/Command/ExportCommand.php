@@ -29,7 +29,7 @@ class ExportCommand extends BaseCommand
         $this
             ->setDescription('Export a project which means that the project is being built at Crowdin.')
             ->setHelp('Only if a project has been exported it is possible to get the latest translations. ')
-            ->addArgument('branch', InputArgument::OPTIONAL, 'If a branch is specified, only this branch is being built');
+            ->addArgument('branch', InputArgument::REQUIRED, 'If a branch is specified, only this branch is being built');
     }
 
     /**

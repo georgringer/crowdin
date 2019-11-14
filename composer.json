@@ -28,6 +28,7 @@
 		"typo3/cms-core": "^9.5 || ^10"
 	},
 	"replace": {
+		"ext-json": "*",
 		"crowdin": "self.version",
 		"typo3-ter/crowdin": "self.version"
 	},

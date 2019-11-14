@@ -45,6 +45,11 @@ final class Project
         return $this->password;
     }
 
+    public static function initializeByArray(string $identifier, $data)
+    {
+        return new self($identifier, $data['key']);
+    }
+
     public static function initializeByJson(string $json)
     {
         $decoded = json_decode($json, true);

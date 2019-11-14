@@ -29,7 +29,7 @@ To enable in-context localization: Switch your user to Language *Crowdin In-Cont
 
 ### Set API Key
 
-The API key is added to the registry, so it must only be set once. 
+The API key is added to the registry, so it must only be set once.
 
 ```
 # Arguments: project-identifier api-key
@@ -68,8 +68,8 @@ This command will download translations from translation server and upload those
 Download language packs from Crowdin and create single zip packages
 
 ```
-# Arguments: language branch copyToL10n
-./bin/typo3 crowdin:downloadCrowdinTranslations de master 0
+# Arguments: language branch
+./bin/typo3 crowdin:downloadCrowdinTranslations de master
 ```
 
 ### Status

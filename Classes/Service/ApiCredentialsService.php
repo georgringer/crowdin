@@ -6,32 +6,26 @@ namespace GeorgRinger\Crowdin\Service;
 
 use GeorgRinger\Crowdin\Configuration\Project;
 use GeorgRinger\Crowdin\Exception\NoApiCredentialsException;
-use TYPO3\CMS\Core\Registry;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class ApiCredentialsService implements SingletonInterface
+class ApiCredentialsService extends ConfigurationService
 {
-    /** @var Registry */
-    protected $registry;
-
-    public function __construct()
-    {
-        $this->registry = GeneralUtility::makeInstance(Registry::class);
-    }
-
     /**
      * @return Project
      * @throws NoApiCredentialsException
      */
     public function get(): Project
     {
-        $entry = $this->registry->get('crowdin', 'credentials-current');
-        if ($entry === null) {
+        $projectName = $this->configuration['current'] ?? null;
+        if ($projectName === null) {
             throw new NoApiCredentialsException('No api credentials provided', 1566643810);
         }
 
-        return Project::initializeByJson($entry);
+        $data = $this->configuration['projects'][$projectName] ?? null;
+        if ($data === null) {
+            throw new NoApiCredentialsException(sprintf('No configuration found for "%s"', $projectName), 1566643811);
+        }
+
+        return Project::initializeByArray($projectName, $data);
     }
 
     /**
@@ -46,9 +40,11 @@ class ApiCredentialsService implements SingletonInterface
 
     public function set(string $project, string $key): void
     {
-        $project = GeneralUtility::makeInstance(Project::class, $project, $key);
-        $this->registry->set('crowdin', 'credentials-current', $project->__toString());
-        $this->registry->set('crowdin', 'credentials-' . $project->getIdentifier(), $project->__toString());
+        $this->configuration['current'] = $project;
+        $this->configuration['projects'][$project] = [
+            'key' => $key
+        ];
+        $this->persistConfiguration();
     }
 
     /**
@@ -58,19 +54,16 @@ class ApiCredentialsService implements SingletonInterface
      */
     public function switchTo(string $identifier): Project
     {
-        $entry = $this->registry->get('crowdin', 'credentials-' . $identifier);
+        $entry = $this->configuration['projects'][$identifier] ?? null;
         if ($entry === null) {
             throw new NoApiCredentialsException('No project found', 1567968195);
         }
 
-        $project = Project::initializeByJson($entry);
-        $this->registry->set('crowdin', 'credentials-current', $project->__toString());
+        $project = Project::initializeByArray($identifier, $entry);
+        $this->configuration['current'] = $identifier;
+        $this->persistConfiguration();
 
         return $project;
     }
 
-    public function reset(): void
-    {
-        $this->registry->remove('crowdin', 'credentials');
-    }
 }

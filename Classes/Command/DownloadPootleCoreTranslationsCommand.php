@@ -12,17 +12,17 @@ namespace GeorgRinger\Crowdin\Command;
 
 use GeorgRinger\Crowdin\Info\CoreInformation;
 use GeorgRinger\Crowdin\Service\CoreTranslationService;
+use GeorgRinger\Crowdin\Utility\FileHandling;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DownloadPootleCoreTranslationsCommand extends BaseCommand
 {
     // not 'am',
-    private const LANGUAGE_LIST = ['gl', 'ro', 'sk', 'sl', 'es', 'sv', 'tr', 'uk', 'hu', 'is', 'lv', 'no', 'fa','fi', 'pl', 'ar', 'bg', 'de', 'hr', 'cs', 'da', 'nl', 'fr', 'el', 'hi', 'it', 'ja', 'km', 'ru', 'th'];
+    public const LANGUAGE_LIST = ['bs', 'et', 'he', 'pt_BR', 'fr_CA', 'gl', 'ro', 'sk', 'sl', 'es', 'sv', 'tr', 'uk', 'hu', 'is', 'lv', 'no', 'fa','fi', 'pl', 'ar', 'bg', 'de', 'hr', 'cs', 'da', 'nl', 'fr', 'el', 'hi', 'it', 'ja', 'km', 'ru', 'th', 'zh'];
 
     /**
      * Defines the allowed options for this command
@@ -59,8 +59,8 @@ class DownloadPootleCoreTranslationsCommand extends BaseCommand
             $io->error('No core ext provided');
         }
 
-        $keyList = $key === '*' ? CoreInformation::getCoreExtensionKeys($version) : GeneralUtility::trimExplode(',', $key, true);
-        $languageList = $languages === '*' ? self::LANGUAGE_LIST : GeneralUtility::trimExplode(',', $languages, true);
+        $keyList = $key === '*' ? CoreInformation::getCoreExtensionKeys($version) : FileHandling::trimExplode(',', $key, true);
+        $languageList = $languages === '*' ? self::LANGUAGE_LIST : FileHandling::trimExplode(',', $languages, true);
 
         foreach ($languageList as $language) {
             if (!in_array($language, self::LANGUAGE_LIST, true)) {

@@ -11,6 +11,7 @@ namespace GeorgRinger\Crowdin\Command;
  */
 
 use GeorgRinger\Crowdin\Service\DownloadCrowdinTranslationService;
+use GeorgRinger\Crowdin\Utility\FileHandling;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,8 +30,7 @@ class DownloadCrowdinTranslationsCommand extends BaseCommand
         $this
             ->setDescription('Download CORE translations')
             ->addArgument('language', InputArgument::REQUIRED, 'Language')
-            ->addArgument('branch', InputArgument::OPTIONAL, 'Branch', 'master')
-            ->addArgument('copyToL10n', InputArgument::OPTIONAL, 'If set, the downloads are copied to l10n dir as well', false);
+            ->addArgument('branch', InputArgument::REQUIRED, 'Branch');
     }
 
     /**
@@ -41,14 +41,23 @@ class DownloadCrowdinTranslationsCommand extends BaseCommand
         $io = new SymfonyStyle($input, $output);
         $this->showProjectIdentifier($io);
 
-        $service = new DownloadCrowdinTranslationService();
+        $languages = $input->getArgument('language');
+        $languageList = $languages === '*' ? DownloadPootleCoreTranslationsCommand::LANGUAGE_LIST : FileHandling::trimExplode(',', $languages, true);
 
-        $service->downloadPackage(
-            $input->getArgument('language'),
-            $input->getArgument('branch'),
-            (bool)$input->getArgument('copyToL10n')
-        );
+        foreach ($languageList as $language) {
 
-        $io->success('Data has been downloaded');
+            try {
+                $service = new DownloadCrowdinTranslationService();
+
+                $service->downloadPackage(
+                    $language,
+                    $input->getArgument('branch') ?? ''
+                );
+
+                $io->success(sprintf('Data has been downloaded for %s!', $language));
+            } catch (\Exception $e) {
+                $io->error($e->getMessage());
+            }
+        }
     }
 }

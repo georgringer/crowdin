@@ -11,6 +11,10 @@ return [
         'class' => \GeorgRinger\Crowdin\Command\ConvertXmlToXlfCommand::class,
         'schedulable' => false,
     ],
+    'crowdin:addOriginalAttribute' => [
+        'class' => \GeorgRinger\Crowdin\Command\Cleanup\OriginalAttributeCommand::class,
+        'schedulable' => false,
+    ],
     'crowdin:setApiCredentials' => [
         'class' => \GeorgRinger\Crowdin\Command\SetApiCredentialsCommand::class,
         'schedulable' => false,

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GeorgRinger\Crowdin\Service;
 
 use Akeneo\Crowdin\Client;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use GeorgRinger\Crowdin\Utility\FileHandling;
 
 class BaseService
 {
@@ -13,11 +13,15 @@ class BaseService
     /** @var Client */
     protected $client;
 
+    /** @var ConfigurationService */
+    protected $configurationService;
+
     public function __construct()
     {
-        $apiService = GeneralUtility::makeInstance(ApiCredentialsService::class);
+        $apiService = new ApiCredentialsService();
         $project = $apiService->get();
         $this->client = new Client($project->getIdentifier(), $project->getPassword());
+        $this->configurationService = new ConfigurationService();
     }
 
     /**
@@ -32,7 +36,7 @@ class BaseService
         $zip = zip_open($file);
         if (is_resource($zip)) {
             if (!is_dir($path)) {
-                GeneralUtility::mkdir_deep($path);
+                FileHandling::mkdir_deep($path);
             }
             while (($zipEntry = zip_read($zip)) !== false) {
                 $zipEntryName = zip_entry_name($zipEntry);
@@ -41,11 +45,12 @@ class BaseService
                     $fileName = array_pop($zipEntryPathSegments);
                     // It is a folder, because the last segment is empty, let's create it
                     if (empty($fileName)) {
-                        GeneralUtility::mkdir_deep($path . implode('/', $zipEntryPathSegments));
+                        FileHandling::mkdir_deep($path . implode('/', $zipEntryPathSegments));
                     } else {
-                        $absoluteTargetPath = GeneralUtility::getFileAbsFileName($path . implode('/', $zipEntryPathSegments) . '/' . $fileName);
+                        $absoluteTargetPath = $path . implode('/', $zipEntryPathSegments) . '/' . $fileName;
+//                        $absoluteTargetPath = GeneralUtility::getFileAbsFileName($path . implode('/', $zipEntryPathSegments) . '/' . $fileName);
                         if (trim($absoluteTargetPath) !== '') {
-                            $return = GeneralUtility::writeFile(
+                            $return = FileHandling::writeFile(
                                 $absoluteTargetPath,
                                 zip_entry_read($zipEntry, zip_entry_filesize($zipEntry))
                             );
