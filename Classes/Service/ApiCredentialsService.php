@@ -65,5 +65,4 @@ class ApiCredentialsService extends ConfigurationService
 
         return $project;
     }
-
 }

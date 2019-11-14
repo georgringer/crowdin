@@ -81,5 +81,4 @@ class InstallSlot
             throw new \RuntimeException(sprintf('Could not extract zip "%s"', $file), 1566421924);
         }
     }
-
 }

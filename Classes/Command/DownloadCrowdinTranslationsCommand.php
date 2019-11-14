@@ -9,7 +9,6 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
-
 use GeorgRinger\Crowdin\Service\DownloadCrowdinTranslationService;
 use GeorgRinger\Crowdin\Utility\FileHandling;
 use Symfony\Component\Console\Input\InputArgument;
@@ -45,7 +44,6 @@ class DownloadCrowdinTranslationsCommand extends BaseCommand
         $languageList = $languages === '*' ? DownloadPootleCoreTranslationsCommand::LANGUAGE_LIST : FileHandling::trimExplode(',', $languages, true);
 
         foreach ($languageList as $language) {
-
             try {
                 $service = new DownloadCrowdinTranslationService();
 
