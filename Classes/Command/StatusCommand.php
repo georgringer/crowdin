@@ -9,6 +9,7 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
 use GeorgRinger\Crowdin\Service\StatusService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -33,13 +34,15 @@ class StatusCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $configurationService = $this->getConfigurationService();
         $io = new SymfonyStyle($input, $output);
-        $this->showProjectIdentifier($io);
+        $io->title(sprintf('Project %s', $configurationService->getProject()->getIdentifier()));
 
         $service = new StatusService();
 
         $response = $service->get();
         if ($response) {
+            $languageCodes = [];
             $status = json_decode($response->getContents(), true);
 //            $io->table(array_keys($status[0]), $status);
             $headers = [
@@ -50,6 +53,7 @@ class StatusCommand extends BaseCommand
             ];
             $items = [];
             foreach ($status as $s) {
+                $languageCodes[] = $s['code'];
                 $items[] = [
                     sprintf('%s - %s', $s['name'], $s['code']),
 //                    $s['phrases'],
@@ -59,7 +63,10 @@ class StatusCommand extends BaseCommand
             }
             $io->table($headers, $items);
 
-//
+            if (!empty(array_diff($languageCodes, $configurationService->getProject()->getLanguages()))) {
+                sort($languageCodes);
+                $configurationService->updateSingleConfiguration('languages', implode(',', $languageCodes));
+            }
         }
     }
 }

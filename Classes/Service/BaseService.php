@@ -19,8 +19,8 @@ class BaseService
     public function __construct()
     {
         $apiService = new ApiCredentialsService();
-        $project = $apiService->get();
-        $this->client = new Client($project->getIdentifier(), $project->getPassword());
+        $project = $apiService->getProject();
+        $this->client = new Client($project->getIdentifier(), $project->getKey());
         $this->configurationService = new ConfigurationService();
     }
 

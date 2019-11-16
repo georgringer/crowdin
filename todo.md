@@ -1,3 +1,13 @@
+
+- download > no limit to language, handle all languages always
+- extensions: branch versioning
+- add language mapping of all exts
+- general language mapping of crowdin
+- 
+
+docs:
+- language list
+
 # errors
 
 ```
@@ -8,7 +18,7 @@
            <error>
              <code>17</code>
              <message>The specified directory was not found</messa (truncated...)
-``` 
+```
 
 
 ```

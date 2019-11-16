@@ -248,7 +248,7 @@ class FileHandling
         }
         if (!empty($targetPermissions)) {
             // make sure it's always 4 digits
-            $targetPermissions = str_pad($targetPermissions, 4, 0, STR_PAD_LEFT);
+            $targetPermissions = str_pad($targetPermissions, 4, '0', STR_PAD_LEFT);
             $targetPermissions = octdec($targetPermissions);
             // "@" is there because file is not necessarily OWNED by the user
             $result = @chmod($path, $targetPermissions);

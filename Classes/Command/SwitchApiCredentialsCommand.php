@@ -9,6 +9,8 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
+use GeorgRinger\Crowdin\Exception\NoApiCredentialsException;
 use GeorgRinger\Crowdin\Service\ApiCredentialsService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,8 +40,11 @@ class SwitchApiCredentialsCommand extends BaseCommand
         $io = new SymfonyStyle($input, $output);
 
         $apiCredentialsService = new ApiCredentialsService();
-        $apiCredentialsService->switchTo($input->getArgument('project'));
-
-        $io->success('API credentials have been successfully switched!');
+        try {
+            $apiCredentialsService->switchTo($input->getArgument('project'));
+            $io->success('API credentials have been successfully switched!');
+        } catch (NoApiCredentialsException $e) {
+            $io->error(sprintf('No configuration found for "%s"', $input->getArgument('project')));
+        }
     }
 }

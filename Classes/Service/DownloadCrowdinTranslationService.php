@@ -27,10 +27,13 @@ class DownloadCrowdinTranslationService extends BaseService
     public function downloadPackage(string $language, string $branch = '')
     {
         $zipFile = $this->downloadFromCrowdin($language, $branch);
-
-        $downloadTarget = $this->configurationService->getPathDownloads() . $language . '/';
+        $downloadTarget = $this->configurationService->getPathDownloads() . $this->configurationService->getCurrentProjectName() . '/' . $language . '/';
         $this->unzip($zipFile, $downloadTarget);
-        $this->processDownloadDirectory($downloadTarget, $language, $branch);
+        if ($this->configurationService->isCoreProject()) {
+            $this->processDownloadDirectoryCore($downloadTarget, $language, $branch);
+        } else {
+            $this->processDownloadDirectoryExtension($downloadTarget, $language, $branch);
+        }
 
         $this->moveAllToRsyncDestination();
         $this->cleanup($downloadTarget);
@@ -67,7 +70,7 @@ class DownloadCrowdinTranslationService extends BaseService
         }
     }
 
-    protected function processDownloadDirectory(string $directory, $language, $branch)
+    protected function processDownloadDirectoryCore(string $directory, $language, $branch)
     {
         $sysExtDir = $directory . $branch . '/typo3/sysext/';
         $sysExtList = FileHandling::get_dirs($sysExtDir);
@@ -90,7 +93,22 @@ class DownloadCrowdinTranslationService extends BaseService
         }
     }
 
-    protected function zipDir($source, $destination, $prefix = '')
+    protected function processDownloadDirectoryExtension(string $directory, $language, $branch)
+    {
+        $project = $this->configurationService->getProject();
+        $dir = $directory . $branch;
+        $extensionKey = $project->getExtensionkey();
+
+
+        $exportPath = $this->configurationService->getPathFinal();
+        FileHandling::mkdir_deep($exportPath);
+
+        $source = $dir;
+        $zipPath = $exportPath . sprintf('%s-l10n-%s.zip', $extensionKey, $language);
+        $result = $this->zipDir($source, $zipPath, $extensionKey);
+    }
+
+    protected function  zipDir($source, $destination, $prefix = '')
     {
         if (!empty($prefix)) {
             $prefix = trim($prefix, '/') . '/';

@@ -29,7 +29,8 @@ class ExportCommand extends BaseCommand
         $this
             ->setDescription('Export a project which means that the project is being built at Crowdin.')
             ->setHelp('Only if a project has been exported it is possible to get the latest translations. ')
-            ->addArgument('branch', InputArgument::REQUIRED, 'If a branch is specified, only this branch is being built');
+            ->addArgument('branch', InputArgument::OPTIONAL, 'If a branch is specified, only this branch is being built', '')
+            ->addArgument('async', InputArgument::OPTIONAL, 'Don\'t wait for feedback', false);
     }
 
     /**
@@ -38,11 +39,12 @@ class ExportCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $branchName = $input->getArgument('branch') ?? '';
+        $async = (bool)$input->getArgument('async');
         $io = new SymfonyStyle($input, $output);
-        $this->showProjectIdentifier($io);
+        $io->title(sprintf('Project %s', $this->getProject()->getIdentifier()));
 
         $service = new ExportService();
-        $service->export($branchName);
+        $service->export($branchName, $async);
 
         if ($branchName) {
             $io->success(sprintf('Project has been exported, limited to the branch *"%s"*!', $branchName));

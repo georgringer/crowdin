@@ -9,15 +9,21 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
-use GeorgRinger\Crowdin\Service\BaseService;
+
+use GeorgRinger\Crowdin\Configuration\Project;
+use GeorgRinger\Crowdin\Service\ConfigurationService;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 class BaseCommand extends Command
 {
-    protected function showProjectIdentifier(SymfonyStyle $io): void
+    protected function getConfigurationService(): ConfigurationService
     {
-        $baseService = new BaseService();
-        $io->title(sprintf('Project %s', $baseService->getProjectIdentifier()));
+        return new ConfigurationService();
+    }
+
+    protected function getProject(): Project
+    {
+        $apiService = new ConfigurationService();
+        return $apiService->getProject();
     }
 }

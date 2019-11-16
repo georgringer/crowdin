@@ -39,13 +39,13 @@ class DownloadCrowdinTranslationsCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $this->showProjectIdentifier($io);
+        $project = $this->getProject();
+        $io->title(sprintf('Project %s', $project->getIdentifier()));
 
-        $languages = $input->getArgument('language');
-        $languageList = $languages === '*' ? DownloadPootleCoreTranslationsCommand::LANGUAGE_LIST : FileHandling::trimExplode(',', $languages, true);
+        $languages = $input->getArgument('language') ?? '*';
+        $languageList = $languages === '*' ? $project->getLanguages() : FileHandling::trimExplode(',', $languages, true);
 
         foreach ($languageList as $language) {
-
             try {
                 $service = new DownloadCrowdinTranslationService();
 

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace GeorgRinger\Crowdin\Configuration;
 
+use GeorgRinger\Crowdin\Utility\FileHandling;
+
 /**
  * This file is part of the "crowdin" Extension for TYPO3 CMS.
  *
@@ -16,17 +18,25 @@ final class Project
     protected $identifier = '';
 
     /** @var string */
-    protected $password = '';
+    protected $key = '';
+
+    /** @var string */
+    protected $extensionkey = '';
+
+    /** @var array */
+    protected $languages = [];
 
     /**
      * Project constructor.
      * @param string $identifier
-     * @param string $password
+     * @param array $configuration
      */
-    public function __construct(string $identifier, string $password)
+    public function __construct(string $identifier, array $configuration)
     {
         $this->identifier = $identifier;
-        $this->password = $password;
+        $this->key = $configuration['key'];
+        $this->extensionkey = $configuration['extensionKey'] ?? '';
+        $this->languages = FileHandling::trimExplode(',', $configuration['languages'], true);
     }
 
     /**
@@ -40,27 +50,44 @@ final class Project
     /**
      * @return string
      */
-    public function getPassword(): string
+    public function getKey(): string
     {
-        return $this->password;
+        return $this->key;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExtensionkey(): string
+    {
+        return $this->extensionkey;
+    }
+
+    public function getBranch()
+    {
+        // todo configuration
+
+        return 'master';
+    }
+
+    /**
+     * @return array
+     */
+    public function getLanguages(): array
+    {
+        return $this->languages;
     }
 
     public static function initializeByArray(string $identifier, $data)
     {
-        return new self($identifier, $data['key']);
-    }
-
-    public static function initializeByJson(string $json)
-    {
-        $decoded = json_decode($json, true);
-        return new self($decoded['identifier'], $decoded['password']);
+        return new self($identifier, $data);
     }
 
     public function __toString()
     {
         return json_encode([
             'identifier' => $this->identifier,
-            'password' => $this->password
+            'password' => $this->key
         ]);
     }
 }
