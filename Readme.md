@@ -33,7 +33,7 @@ The API key is added to the registry, so it must only be set once.
 
 ```
 # Arguments: project-identifier api-key
-./bin/typo3 crowdin:setApiCredentials typo3-cms 123456
+./bin/typo3 crowdin:api:set typo3-cms 123456
 ```
 
 By using the following command you can switch between projects without readding the API key again
@@ -60,7 +60,7 @@ Instead of a single extension name, also `'*'` can be used!
 
 ```
 # Arguments: extension-key language version
-./bin/typo3 crowdin:downloadPootleCoreTranslation about de 9
+./bin/typo3 crowdin:pootle:core about de 9
 ```
 
 ### Extract extension translations + upload to Crowdin
@@ -69,7 +69,7 @@ This command will download translations from translation server and upload those
 
 ```
 # Arguments: extension-key language
-./bin/typo3 crowdin:downloadPootleExtTranslation news de
+./bin/typo3 crowdin:pootle:ext news de
 ```
 
 ### Extract languages from Crowdin of core
@@ -78,7 +78,7 @@ Download language packs from Crowdin and create single zip packages
 
 ```
 # Arguments: language branch
-./bin/typo3 crowdin:crowdin:extractCore de master
+./bin/typo3 crowdin:extract:core de master
 ```
 
 ### Extract languages from Crowdin of extension
@@ -86,7 +86,7 @@ Download language packs from Crowdin and create single zip packages
 Download language packs from Crowdin and create single zip packages
 
 ```
-./bin/typo3 crowdin:crowdin:extractExt
+./bin/typo3 crowdin:extract:ext
 ```
 
 ### Status

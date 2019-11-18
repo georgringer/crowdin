@@ -15,7 +15,7 @@ return [
         'class' => \GeorgRinger\Crowdin\Command\Cleanup\OriginalAttributeCommand::class,
         'schedulable' => false,
     ],
-    'crowdin:setApiCredentials' => [
+    'crowdin:api:set' => [
         'class' => \GeorgRinger\Crowdin\Command\SetApiCredentialsCommand::class,
         'schedulable' => false,
     ],
@@ -23,19 +23,19 @@ return [
         'class' => \GeorgRinger\Crowdin\Command\SwitchApiCredentialsCommand::class,
         'schedulable' => false,
     ],
-    'crowdin:downloadPootleCoreTranslation' => [
+    'crowdin:pootle:core' => [
         'class' => \GeorgRinger\Crowdin\Command\DownloadPootleCoreTranslationsCommand::class,
         'schedulable' => true,
     ],
-    'crowdin:downloadPootleExtTranslation' => [
+    'crowdin:pootle:ext' => [
         'class' => \GeorgRinger\Crowdin\Command\DownloadPootleExtTranslationsCommand::class,
         'schedulable' => true,
     ],
-    'crowdin:extractCore' => [
+    'crowdin:extract:core' => [
         'class' => \GeorgRinger\Crowdin\Command\CrowdinExtractCoreCommand::class,
         'schedulable' => true,
     ],
-    'crowdin:extractExt' => [
+    'crowdin:extract:ext' => [
         'class' => \GeorgRinger\Crowdin\Command\CrowdinExtractExtCommand::class,
         'schedulable' => true,
     ],
