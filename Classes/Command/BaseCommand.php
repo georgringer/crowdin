@@ -9,7 +9,6 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
-
 use GeorgRinger\Crowdin\Configuration\Project;
 use GeorgRinger\Crowdin\Service\ConfigurationService;
 use Symfony\Component\Console\Command\Command;
