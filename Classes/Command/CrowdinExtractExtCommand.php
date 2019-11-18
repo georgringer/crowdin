@@ -17,20 +17,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class DownloadCrowdinTranslationsCommand extends BaseCommand
+class CrowdinExtractExtCommand extends BaseCommand
 {
 
     /**
-     * Defines the allowed options for this command
-     *
      * @inheritdoc
      */
     protected function configure()
     {
         $this
-            ->setDescription('Download CORE translations')
-            ->addArgument('language', InputArgument::REQUIRED, 'Language')
-            ->addArgument('branch', InputArgument::REQUIRED, 'Branch');
+            ->setDescription('Download Extension translations');
     }
 
     /**
@@ -42,17 +38,13 @@ class DownloadCrowdinTranslationsCommand extends BaseCommand
         $project = $this->getProject();
         $io->title(sprintf('Project %s', $project->getIdentifier()));
 
-        $languages = $input->getArgument('language') ?? '*';
-        $languageList = $languages === '*' ? $project->getLanguages() : FileHandling::trimExplode(',', $languages, true);
+        $languageList = $project->getLanguages();
+        $branch = $project->getBranch();
 
         foreach ($languageList as $language) {
             try {
                 $service = new DownloadCrowdinTranslationService();
-
-                $service->downloadPackage(
-                    $language,
-                    $input->getArgument('branch') ?? ''
-                );
+                $service->downloadPackage($language, $branch);
 
                 $io->success(sprintf('Data has been downloaded for %s!', $language));
             } catch (\Exception $e) {

@@ -31,12 +31,16 @@ return [
         'class' => \GeorgRinger\Crowdin\Command\DownloadPootleExtTranslationsCommand::class,
         'schedulable' => true,
     ],
-    'crowdin:downloadCrowdinTranslations' => [
-        'class' => \GeorgRinger\Crowdin\Command\DownloadCrowdinTranslationsCommand::class,
-        'schedulable' => false,
+    'crowdin:extractCore' => [
+        'class' => \GeorgRinger\Crowdin\Command\CrowdinExtractCoreCommand::class,
+        'schedulable' => true,
     ],
-    'crowdin:export' => [
-        'class' => \GeorgRinger\Crowdin\Command\ExportCommand::class,
+    'crowdin:extractExt' => [
+        'class' => \GeorgRinger\Crowdin\Command\CrowdinExtractExtCommand::class,
+        'schedulable' => true,
+    ],
+    'crowdin:build' => [
+        'class' => \GeorgRinger\Crowdin\Command\BuildCommand::class,
         'schedulable' => true,
     ],
     'crowdin:clean' => [

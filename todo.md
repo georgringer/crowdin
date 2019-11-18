@@ -1,10 +1,9 @@
 
-- download > no limit to language, handle all languages always
 - extensions: branch versioning
 - add language mapping of all exts
 - general language mapping of crowdin
-- 
-
+- maori
+- building: skip branch?
 docs:
 - language list
 

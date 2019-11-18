@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ExportCommand extends BaseCommand
+class BuildCommand extends BaseCommand
 {
 
     /**
@@ -27,7 +27,7 @@ class ExportCommand extends BaseCommand
     protected function configure()
     {
         $this
-            ->setDescription('Export a project which means that the project is being built at Crowdin.')
+            ->setDescription('Trigger build of a project')
             ->setHelp('Only if a project has been exported it is possible to get the latest translations. ')
             ->addArgument('branch', InputArgument::OPTIONAL, 'If a branch is specified, only this branch is being built', '')
             ->addArgument('async', InputArgument::OPTIONAL, 'Don\'t wait for feedback', false);

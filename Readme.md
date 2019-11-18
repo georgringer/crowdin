@@ -43,6 +43,15 @@ By using the following command you can switch between projects without readding 
 ./bin/typo3 crowdin:switchApiCredentials another-project
 ```
 
+### Trigger build a project
+
+This triggers the build of a project. Only if a project has been built, it can be exported later
+
+```
+# Arguments: branch
+./bin/typo3 crowdin:build master
+```
+
 ### Extract core translations + upload to Crowdin
 
 This command will download translations from translation server and upload those to Crowdin
@@ -63,13 +72,21 @@ This command will download translations from translation server and upload those
 ./bin/typo3 crowdin:downloadPootleExtTranslation news de
 ```
 
-### Download languages from Crowdin
+### Extract languages from Crowdin of core
 
 Download language packs from Crowdin and create single zip packages
 
 ```
 # Arguments: language branch
-./bin/typo3 crowdin:downloadCrowdinTranslations de master
+./bin/typo3 crowdin:crowdin:extractCore de master
+```
+
+### Extract languages from Crowdin of extension
+
+Download language packs from Crowdin and create single zip packages
+
+```
+./bin/typo3 crowdin:crowdin:extractExt
 ```
 
 ### Status
