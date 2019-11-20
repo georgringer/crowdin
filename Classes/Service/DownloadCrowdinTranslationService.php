@@ -15,7 +15,6 @@ class DownloadCrowdinTranslationService extends BaseService
     private const DOWNLOAD_DIR = '/transient/crowdin/download/';
     private const RSYNC_DIR = '/transient/crowdin/rsync/';
 
-
     public function downloadPackage(string $language, string $branch = '')
     {
         $zipFile = $this->downloadFromCrowdin($language, $branch);
@@ -91,7 +90,6 @@ class DownloadCrowdinTranslationService extends BaseService
         $dir = $directory . $branch;
         $extensionKey = $project->getExtensionkey();
 
-
         $exportPath = $this->configurationService->getPathFinal();
         FileHandling::mkdir_deep($exportPath);
 
@@ -100,7 +98,7 @@ class DownloadCrowdinTranslationService extends BaseService
         $result = $this->zipDir($source, $zipPath, $extensionKey);
     }
 
-    protected function  zipDir($source, $destination, $prefix = '')
+    protected function zipDir($source, $destination, $prefix = '')
     {
         if (!empty($prefix)) {
             $prefix = trim($prefix, '/') . '/';

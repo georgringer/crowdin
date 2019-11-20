@@ -13,7 +13,6 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 
 class BaseTranslationServerService extends BaseService
 {
-
     public const IGNORED_PATHS = [
         '/master/typo3/sysext/beuser/mod/',
         '/master/typo3/sysext/belog/mod/',
@@ -116,8 +115,6 @@ class BaseTranslationServerService extends BaseService
                     $originalFile = str_replace($absoluteLanguagePath, Environment::getBackendPath() . '/sysext/', $key);
                     $key = str_replace($absoluteLanguagePath, '', $key);
                     $key = str_replace('/master/news/', '/', $key);
-
-
                 }
                 $key = sprintf('/%s/', $targetBranch) . $key;
 
@@ -135,11 +132,10 @@ class BaseTranslationServerService extends BaseService
                     continue;
                 }
 
-
                 $finalFiles[$key] = $translation;
             }
         }
-//print_r($finalFiles);die;
+        //print_r($finalFiles);die;
         if (!empty($finalFiles)) {
             $chunks = array_chunk($finalFiles, 15, true);
 
@@ -149,7 +145,7 @@ class BaseTranslationServerService extends BaseService
                 $language = 'sv-SE';
             } elseif ($language === 'fr_CA') {
                 $language = 'fr-CA';
-            }elseif ($language === 'pt_BR') {
+            } elseif ($language === 'pt_BR') {
                 $language = 'pt-BR';
             }
 
