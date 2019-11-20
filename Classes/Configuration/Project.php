@@ -36,7 +36,7 @@ final class Project
         $this->identifier = $identifier;
         $this->key = $configuration['key'];
         $this->extensionkey = $configuration['extensionKey'] ?? '';
-        $this->languages = FileHandling::trimExplode(',', $configuration['languages'], true);
+        $this->languages = FileHandling::trimExplode(',', $configuration['languages'] ?? '', true);
     }
 
     /**

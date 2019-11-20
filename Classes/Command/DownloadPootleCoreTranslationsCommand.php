@@ -33,6 +33,7 @@ class DownloadPootleCoreTranslationsCommand extends BaseCommand
     {
         $this
             ->setDescription('Extract translations from translation server')
+            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier')
             ->addArgument('key', InputArgument::REQUIRED, 'Extension key')
             ->addArgument('language', InputArgument::REQUIRED, 'Language')
             ->addArgument('version', InputArgument::REQUIRED, 'Core version');
@@ -43,6 +44,7 @@ class DownloadPootleCoreTranslationsCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->setupConfigurationService($input->getArgument('project'));
         $io = new SymfonyStyle($input, $output);
 
         $version = (int)$input->getArgument('version');
@@ -51,7 +53,7 @@ class DownloadPootleCoreTranslationsCommand extends BaseCommand
             return;
         }
 
-        $service = new CoreTranslationService();
+        $service = new CoreTranslationService($this->getProject()->getIdentifier());
         $key = $input->getArgument('key');
         $languages = $input->getArgument('language');
 

@@ -13,7 +13,10 @@ class ConfigurationService
     private $configurationFile = '';
     protected $configuration = [];
 
-    public function __construct()
+    /** @var string */
+    protected $projectIdentifier;
+
+    public function __construct(string $project)
     {
         $this->configurationFile = __DIR__ . '/../../configuration.json';
         if (!is_file($this->configurationFile)) {
@@ -21,6 +24,7 @@ class ConfigurationService
         }
 
         $this->configuration = json_decode(file_get_contents($this->configurationFile), true);
+        $this->projectIdentifier = $project;
     }
 
     /**
@@ -29,11 +33,7 @@ class ConfigurationService
      */
     public function getProject(): Project
     {
-        $projectName = $this->configuration['current'] ?? null;
-        if ($projectName === null) {
-            throw new NoApiCredentialsException('No api credentials provided', 1566643810);
-        }
-
+        $projectName = $this->projectIdentifier;
         $data = $this->configuration['projects'][$projectName] ?? null;
         if ($data === null) {
             throw new NoApiCredentialsException(sprintf('No configuration found for "%s"', $projectName), 1566643811);
@@ -42,9 +42,8 @@ class ConfigurationService
         return Project::initializeByArray($projectName, $data);
     }
 
-    public function set(string $project, string $key): void
+    public function add(string $project, string $key): void
     {
-        $this->configuration['current'] = $project;
         $this->configuration['projects'][$project] = [
             'key' => $key
         ];
@@ -54,7 +53,7 @@ class ConfigurationService
     public function updateSingleConfiguration(string $key, $value): bool
     {
         try {
-            $projectIdentifier = $this->getProject()->getIdentifier();
+            $projectIdentifier = $this->projectIdentifier;
             if ($value === null) {
                 unset($this->configuration['projects'][$projectIdentifier][$key]);
             } else {
@@ -74,8 +73,7 @@ class ConfigurationService
      */
     public function getCurrentProjectName(): string
     {
-        $project = $this->getProject();
-        return $project->getIdentifier();
+        return $this->projectIdentifier;
     }
 
     /**
@@ -84,7 +82,7 @@ class ConfigurationService
      */
     public function isCoreProject(): bool
     {
-        return $this->getCurrentProjectName() === 'typ3-cms';
+        return $this->projectIdentifier === 'typ3-cms';
     }
 
     public function getPathDownloads(): string

@@ -9,7 +9,8 @@ namespace GeorgRinger\Crowdin\Command;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
-use GeorgRinger\Crowdin\Service\ApiCredentialsService;
+
+use GeorgRinger\Crowdin\Service\ConfigurationService;
 use GeorgRinger\Crowdin\Service\InfoService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,15 +38,16 @@ class SetApiCredentialsCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $projectIdentifier = $input->getArgument('project');
         $io = new SymfonyStyle($input, $output);
 
-        $apiCredentialsService = new ApiCredentialsService();
-        $apiCredentialsService->set($input->getArgument('project'), $input->getArgument('key'));
+        $apiCredentialsService = new ConfigurationService('');
+        $apiCredentialsService->add($projectIdentifier, $input->getArgument('key'));
 
         $io->success('API credentials have been successfully set!');
         $io->caution('However... hold on and wait for a 1st test!');
 
-        $infoService = new InfoService();
+        $infoService = new InfoService($projectIdentifier);
         try {
             $data = $infoService->get();
             $data->getContents();

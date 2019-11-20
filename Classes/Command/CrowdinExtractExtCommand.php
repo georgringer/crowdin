@@ -26,6 +26,7 @@ class CrowdinExtractExtCommand extends BaseCommand
     protected function configure()
     {
         $this
+            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier')
             ->setDescription('Download Extension translations');
     }
 
@@ -34,6 +35,8 @@ class CrowdinExtractExtCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->setupConfigurationService($input->getArgument('project'));
+
         $io = new SymfonyStyle($input, $output);
         $project = $this->getProject();
         $io->title(sprintf('Project %s', $project->getIdentifier()));

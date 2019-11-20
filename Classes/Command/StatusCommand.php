@@ -11,6 +11,7 @@ namespace GeorgRinger\Crowdin\Command;
  */
 
 use GeorgRinger\Crowdin\Service\StatusService;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -19,13 +20,12 @@ class StatusCommand extends BaseCommand
 {
 
     /**
-     * Defines the allowed options for this command
-     *
      * @inheritdoc
      */
     protected function configure()
     {
         $this
+            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier')
             ->setDescription('Get status');
     }
 
@@ -34,11 +34,11 @@ class StatusCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configurationService = $this->getConfigurationService();
+        $this->setupConfigurationService($input->getArgument('project'));
         $io = new SymfonyStyle($input, $output);
-        $io->title(sprintf('Project %s', $configurationService->getProject()->getIdentifier()));
+        $io->title(sprintf('Project %s', $this->getProject()->getIdentifier()));
 
-        $service = new StatusService();
+        $service = new StatusService($this->getProject()->getIdentifier());
 
         $response = $service->get();
         if ($response) {
@@ -63,9 +63,9 @@ class StatusCommand extends BaseCommand
             }
             $io->table($headers, $items);
 
-            if (!empty(array_diff($languageCodes, $configurationService->getProject()->getLanguages()))) {
+            if (!empty(array_diff($languageCodes, $this->configurationService->getProject()->getLanguages()))) {
                 sort($languageCodes);
-                $configurationService->updateSingleConfiguration('languages', implode(',', $languageCodes));
+                $this->configurationService->updateSingleConfiguration('languages', implode(',', $languageCodes));
             }
         }
     }

@@ -29,6 +29,7 @@ class BuildCommand extends BaseCommand
         $this
             ->setDescription('Trigger build of a project')
             ->setHelp('Only if a project has been exported it is possible to get the latest translations. ')
+            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier')
             ->addArgument('branch', InputArgument::OPTIONAL, 'If a branch is specified, only this branch is being built', '')
             ->addArgument('async', InputArgument::OPTIONAL, 'Don\'t wait for feedback', false);
     }
@@ -38,12 +39,13 @@ class BuildCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->setupConfigurationService($input->getArgument('project'));
         $branchName = $input->getArgument('branch') ?? '';
         $async = (bool)$input->getArgument('async');
         $io = new SymfonyStyle($input, $output);
         $io->title(sprintf('Project %s', $this->getProject()->getIdentifier()));
 
-        $service = new ExportService();
+        $service = new ExportService($input->getArgument('project'));
         $service->export($branchName, $async);
 
         if ($branchName) {

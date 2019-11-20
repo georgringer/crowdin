@@ -15,14 +15,6 @@ class DownloadCrowdinTranslationService extends BaseService
     private const DOWNLOAD_DIR = '/transient/crowdin/download/';
     private const RSYNC_DIR = '/transient/crowdin/rsync/';
 
-    /** @var ApiCredentialsService */
-    protected $apiCredentialsService;
-
-    public function __construct()
-    {
-        $this->apiCredentialsService = new ApiCredentialsService();
-        parent::__construct();
-    }
 
     public function downloadPackage(string $language, string $branch = '')
     {
@@ -170,7 +162,7 @@ class DownloadCrowdinTranslationService extends BaseService
         FileHandling::mkdir_deep($path);
 
         $downloadName = $path . $fileName;
-        $finalName = $path . $this->apiCredentialsService->getCurrentProjectName() . '-' . $fileName;
+        $finalName = $path . $this->configurationService->getCurrentProjectName() . '-' . $fileName;
 
         if (!is_file($finalName)) {
             /** @var Download $api */

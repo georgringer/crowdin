@@ -16,14 +16,21 @@ use Symfony\Component\Console\Command\Command;
 
 class BaseCommand extends Command
 {
+    /** @var ConfigurationService */
+    protected $configurationService;
+
+    public function setupConfigurationService(string $projectIdentifier): void
+    {
+        $this->configurationService = new ConfigurationService($projectIdentifier);
+    }
+
     protected function getConfigurationService(): ConfigurationService
     {
-        return new ConfigurationService();
+        return $this->configurationService;
     }
 
     protected function getProject(): Project
     {
-        $apiService = new ConfigurationService();
-        return $apiService->getProject();
+        return $this->configurationService->getProject();
     }
 }

@@ -276,6 +276,7 @@ class FileHandling
         }
         return $result;
     }
+
     /**
      * Writes $content to the file $file
      *
@@ -303,6 +304,7 @@ class FileHandling
         }
         return false;
     }
+
     /**
      * Fixes a path for windows-backslashes and reduces double-slashes to single slashes
      *

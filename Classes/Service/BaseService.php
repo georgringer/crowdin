@@ -16,12 +16,11 @@ class BaseService
     /** @var ConfigurationService */
     protected $configurationService;
 
-    public function __construct()
+    public function __construct(string $projectIdentifier)
     {
-        $apiService = new ApiCredentialsService();
-        $project = $apiService->getProject();
+        $this->configurationService = new ConfigurationService($projectIdentifier);
+        $project = $this->configurationService->getProject();
         $this->client = new Client($project->getIdentifier(), $project->getKey());
-        $this->configurationService = new ConfigurationService();
     }
 
     /**

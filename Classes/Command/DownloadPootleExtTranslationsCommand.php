@@ -28,6 +28,7 @@ class DownloadPootleExtTranslationsCommand extends BaseCommand
     {
         $this
             ->setDescription('Extract translations from translation server')
+            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier')
             ->addArgument('key', InputArgument::REQUIRED, 'Extension key')
             ->addArgument('language', InputArgument::REQUIRED, 'Language')
             ->addArgument('branch', InputArgument::OPTIONAL, 'Target branch', 'master');
@@ -38,10 +39,12 @@ class DownloadPootleExtTranslationsCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->setupConfigurationService($input->getArgument('project'));
+
         $extensionKey = $input->getArgument('key');
         $io = new SymfonyStyle($input, $output);
 
-        $service = new ExtTranslationService();
+        $service = new ExtTranslationService($this->getProject()->getIdentifier());
 
         $languages = FileHandling::trimExplode(',', $input->getArgument('language'), true);
         foreach ($languages as $language) {

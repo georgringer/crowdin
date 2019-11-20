@@ -19,10 +19,6 @@ return [
         'class' => \GeorgRinger\Crowdin\Command\SetApiCredentialsCommand::class,
         'schedulable' => false,
     ],
-    'crowdin:switchApiCredentials' => [
-        'class' => \GeorgRinger\Crowdin\Command\SwitchApiCredentialsCommand::class,
-        'schedulable' => false,
-    ],
     'crowdin:pootle:core' => [
         'class' => \GeorgRinger\Crowdin\Command\DownloadPootleCoreTranslationsCommand::class,
         'schedulable' => true,
@@ -50,5 +46,9 @@ return [
     'crowdin:status' => [
         'class' => \GeorgRinger\Crowdin\Command\StatusCommand::class,
         'schedulable' => false,
+    ],
+    'crowdin:meta:build' => [
+        'class' => \GeorgRinger\Crowdin\Command\Meta\MetaBuildCommand::class,
+        'schedulable' => true,
     ],
 ];

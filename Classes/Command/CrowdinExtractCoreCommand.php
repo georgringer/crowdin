@@ -27,6 +27,7 @@ class CrowdinExtractCoreCommand extends BaseCommand
     {
         $this
             ->setDescription('Download CORE translations')
+            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier')
             ->addArgument('language', InputArgument::REQUIRED, 'Language')
             ->addArgument('branch', InputArgument::REQUIRED, 'Branch');
     }
@@ -36,6 +37,8 @@ class CrowdinExtractCoreCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->setupConfigurationService($input->getArgument('project'));
+
         $io = new SymfonyStyle($input, $output);
         $project = $this->getProject();
         $io->title(sprintf('Project %s', $project->getIdentifier()));
@@ -43,10 +46,9 @@ class CrowdinExtractCoreCommand extends BaseCommand
         $languages = $input->getArgument('language') ?? '*';
         $languageList = $languages === '*' ? $project->getLanguages() : FileHandling::trimExplode(',', $languages, true);
 
+        $service = new DownloadCrowdinTranslationService($this->getProject()->getIdentifier());
         foreach ($languageList as $language) {
             try {
-                $service = new DownloadCrowdinTranslationService();
-
                 $service->downloadPackage(
                     $language,
                     $input->getArgument('branch') ?? ''
