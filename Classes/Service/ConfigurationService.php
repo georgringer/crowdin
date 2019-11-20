@@ -129,5 +129,4 @@ class ConfigurationService
     {
         file_put_contents($this->configurationFile, json_encode($this->configuration));
     }
-
 }
