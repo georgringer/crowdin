@@ -27,7 +27,6 @@ class CrowdinExtractCoreCommand extends BaseCommand
     {
         $this
             ->setDescription('Download CORE translations')
-            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier')
             ->addArgument('language', InputArgument::REQUIRED, 'Language')
             ->addArgument('branch', InputArgument::REQUIRED, 'Branch');
     }
@@ -37,7 +36,7 @@ class CrowdinExtractCoreCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->setupConfigurationService($input->getArgument('project'));
+        $this->setupConfigurationService('typo3-cms');
 
         $io = new SymfonyStyle($input, $output);
         $project = $this->getProject();

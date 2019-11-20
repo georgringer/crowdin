@@ -100,7 +100,7 @@ class ConfigurationService
      */
     public function isCoreProject(): bool
     {
-        return $this->projectIdentifier === 'typ3-cms';
+        return $this->projectIdentifier === 'typo3-cms';
     }
 
     public function getPathDownloads(): string

@@ -6,21 +6,19 @@ namespace GeorgRinger\Crowdin\Service;
 
 use Akeneo\Crowdin\Api\Download;
 use GeorgRinger\Crowdin\Info\CoreInformation;
+use GeorgRinger\Crowdin\Info\LanguageInformation;
 use GeorgRinger\Crowdin\Utility\FileHandling;
 
 class DownloadCrowdinTranslationService extends BaseService
 {
-    private const FINAL_DIR = '/transient/crowdin/final/';
-    private const EXPORT_DIR = '/transient/crowdin/export/';
-    private const DOWNLOAD_DIR = '/transient/crowdin/download/';
-    private const RSYNC_DIR = '/transient/crowdin/rsync/';
-
 
     public function downloadPackage(string $language, string $branch = '')
     {
         $zipFile = $this->downloadFromCrowdin($language, $branch);
         $downloadTarget = $this->configurationService->getPathDownloads() . $this->configurationService->getCurrentProjectName() . '/' . $language . '/';
         $this->unzip($zipFile, $downloadTarget);
+        $language = LanguageInformation::getLanguageForTypo3($language);
+
         if ($this->configurationService->isCoreProject()) {
             $this->processDownloadDirectoryCore($downloadTarget, $language, $branch);
         } else {

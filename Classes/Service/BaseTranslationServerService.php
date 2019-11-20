@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GeorgRinger\Crowdin\Service;
 
 use Akeneo\Crowdin\Api\UploadTranslation;
+use GeorgRinger\Crowdin\Info\LanguageInformation;
 use GeorgRinger\Crowdin\Utility\FileHandling;
 use GuzzleHttp\Client;
 use TYPO3\CMS\Core\Core\Environment;
@@ -143,15 +144,7 @@ class BaseTranslationServerService extends BaseService
         if (!empty($finalFiles)) {
             $chunks = array_chunk($finalFiles, 15, true);
 
-            if ($language === 'es') {
-                $language = 'es-ES';
-            } elseif ($language === 'sv') {
-                $language = 'sv-SE';
-            } elseif ($language === 'fr_CA') {
-                $language = 'fr-CA';
-            }elseif ($language === 'pt_BR') {
-                $language = 'pt-BR';
-            }
+            $language = LanguageInformation::getLanguageForCrowdin($language);
 
             foreach ($chunks as $chunk) {
                 /** @var UploadTranslation $api */

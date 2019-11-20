@@ -8,6 +8,7 @@ docs:
 - language list
 - language list in core
 - should the language configuration fetched always before updating?
+- finish meta tasks
 # errors
 
 ```
