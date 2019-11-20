@@ -9,7 +9,6 @@ namespace GeorgRinger\Crowdin\Command\Cleanup;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,7 +37,6 @@ class OriginalAttributeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-
 
         $this->runParser($input->getArgument('path'));
     }

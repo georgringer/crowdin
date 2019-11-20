@@ -11,7 +11,6 @@ use GeorgRinger\Crowdin\Utility\FileHandling;
 
 class DownloadCrowdinTranslationService extends BaseService
 {
-
     protected $originalLanguageKey = '';
     protected $finalLanguageKey = '';
 
@@ -98,7 +97,6 @@ class DownloadCrowdinTranslationService extends BaseService
         $project = $this->configurationService->getProject();
         $dir = $directory . $branch;
         $extensionKey = $project->getExtensionkey();
-
 
         $exportPath = $this->configurationService->getPathFinal();
         FileHandling::mkdir_deep($exportPath);

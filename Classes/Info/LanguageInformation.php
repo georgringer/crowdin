@@ -42,5 +42,4 @@ class LanguageInformation
         }
         return $found;
     }
-
 }

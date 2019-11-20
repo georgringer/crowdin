@@ -35,7 +35,6 @@ class FileHandling
         return $needle !== '' && strpos($haystack, $needle) === 0;
     }
 
-
     /**
      * Wrapper function for rmdir, allowing recursive deletion of folders and files
      *
@@ -118,7 +117,6 @@ class FileHandling
         return $dirs;
     }
 
-
     /**
      * Low level utility function to copy directories and content recursive
      *
@@ -142,7 +140,6 @@ class FileHandling
             }
         }
     }
-
 
     /**
      * Explodes a string and trims all values for whitespace in the end.
@@ -193,7 +190,6 @@ class FileHandling
         }
     }
 
-
     /**
      * Creates directories for the specified paths if they do not exist. This
      * functions sets proper permission mask but does not set proper user and
@@ -225,7 +221,6 @@ class FileHandling
         return $firstCreatedPath;
     }
 
-
     /**
      * Sets the file system mode and group ownership of a file or a folder.
      *
@@ -235,7 +230,6 @@ class FileHandling
      */
     public static function fixPermissions($path, $recursive = false)
     {
-
         $result = false;
         // Make path absolute
         if ($path[0] !== '/') {
@@ -315,7 +309,6 @@ class FileHandling
     {
         return str_replace(['\\', '//'], '/', $theFile);
     }
-
 
     /**
      * Finds all files in a given path and returns them as an array. Each
