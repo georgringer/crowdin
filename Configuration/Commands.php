@@ -51,4 +51,8 @@ return [
         'class' => \GeorgRinger\Crowdin\Command\Meta\MetaBuildCommand::class,
         'schedulable' => true,
     ],
+    'crowdin:meta:status' => [
+        'class' => \GeorgRinger\Crowdin\Command\Meta\MetaStatusCommand::class,
+        'schedulable' => true,
+    ],
 ];

@@ -16,7 +16,7 @@ class ConfigurationService
     /** @var string */
     protected $projectIdentifier;
 
-    public function __construct(string $project)
+    public function __construct(string $project = '')
     {
         $this->configurationFile = __DIR__ . '/../../configuration.json';
         if (!is_file($this->configurationFile)) {
@@ -34,6 +34,9 @@ class ConfigurationService
     public function getProject(): Project
     {
         $projectName = $this->projectIdentifier;
+        if (!$projectName) {
+            throw new NoApiCredentialsException('No project defined', 1566643810);
+        }
         $data = $this->configuration['projects'][$projectName] ?? null;
         if ($data === null) {
             throw new NoApiCredentialsException(sprintf('No configuration found for "%s"', $projectName), 1566643811);
@@ -54,6 +57,9 @@ class ConfigurationService
     {
         try {
             $projectIdentifier = $this->projectIdentifier;
+            if (!$projectIdentifier) {
+                throw new NoApiCredentialsException('No project defined', 1574261451);
+            }
             if ($value === null) {
                 unset($this->configuration['projects'][$projectIdentifier][$key]);
             } else {
@@ -74,6 +80,18 @@ class ConfigurationService
     public function getCurrentProjectName(): string
     {
         return $this->projectIdentifier;
+    }
+
+    /**
+     * @return Project[]
+     */
+    public function getAllProjects(): array
+    {
+        $list = [];
+        foreach ($this->configuration['projects'] as $identifier => $projectConfiguration) {
+            $list[] = Project::initializeByArray($identifier, $projectConfiguration);
+        }
+        return $list;
     }
 
     /**

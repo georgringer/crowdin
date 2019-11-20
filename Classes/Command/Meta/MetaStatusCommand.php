@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class MetaBuildCommand extends BaseCommand
+class MetaStatusCommand extends BaseCommand
 {
 
     /**
@@ -28,7 +28,7 @@ class MetaBuildCommand extends BaseCommand
     protected function configure()
     {
         $this
-            ->setDescription('Meta :: Trigger build of a project')
+            ->setDescription('Meta :: Status of projects')
             ->setHelp('Only if a project has been exported it is possible to get the latest translations. ');
     }
 
@@ -39,15 +39,14 @@ class MetaBuildCommand extends BaseCommand
     {
         $this->setupConfigurationService('');
 
-        $command = $this->getApplication()->find('crowdin:build');
+        $command = $this->getApplication()->find('crowdin:status');
         foreach ($this->configurationService->getAllProjects() as $project) {
             $arguments = [
-                'command' => 'crowdin:build',
-                'project' => $project->getIdentifier(),
-                'async' => true,
+                'command' => 'crowdin:status',
+                'project' => $project->getIdentifier()
             ];
             $input = new ArrayInput($arguments);
-            $command->run($input, $output);
+            $returnCode = $command->run($input, $output);
         }
     }
 }
