@@ -12,15 +12,19 @@ use GeorgRinger\Crowdin\Utility\FileHandling;
 class DownloadCrowdinTranslationService extends BaseService
 {
 
+    protected $originalLanguageKey = '';
+    protected $finalLanguageKey = '';
+
     public function downloadPackage(string $language, string $branch = '')
     {
         $zipFile = $this->downloadFromCrowdin($language, $branch);
         $downloadTarget = $this->configurationService->getPathDownloads() . $this->configurationService->getCurrentProjectName() . '/' . $language . '/';
         $this->unzip($zipFile, $downloadTarget);
-        $language = LanguageInformation::getLanguageForTypo3($language);
+        $this->originalLanguageKey = $language;
+        $language = $this->finalLanguageKey = LanguageInformation::getLanguageForTypo3($language);
 
         if ($this->configurationService->isCoreProject()) {
-            $this->processDownloadDirectoryCore($downloadTarget, $language, $branch);
+            $this->processDownloadDirectoryCore($downloadTarget, $language);
         } else {
             $this->processDownloadDirectoryExtension($downloadTarget, $language, $branch);
         }
@@ -60,26 +64,32 @@ class DownloadCrowdinTranslationService extends BaseService
         }
     }
 
-    protected function processDownloadDirectoryCore(string $directory, $language, $branch)
+    protected function processDownloadDirectoryCore(string $directory, $language)
     {
-        $sysExtDir = $directory . $branch . '/typo3/sysext/';
-        $sysExtList = FileHandling::get_dirs($sysExtDir);
-        if (!is_array($sysExtList) || empty($sysExtList)) {
-            throw new \RuntimeException(sprintf('No sysext founds in: %s', $sysExtDir), 1566422270);
-        }
-
-        $exportPath = $this->configurationService->getPathFinal();
-        FileHandling::mkdir_deep($exportPath);
-
-        foreach ($sysExtList as $extensionKey) {
-            $source = $sysExtDir . $extensionKey;
-            if (in_array($extensionKey, CoreInformation::getAllCoreExtensionKeys(), true)) {
-                $zipPath = $exportPath . sprintf('%s-l10n-%s.v%s.zip', $extensionKey, $language, CoreInformation::getVersionForBranchName($branch));
-            } else {
-                $zipPath = $exportPath . sprintf('%s-l10n-%s.zip', $extensionKey, $language);
+        $branches = CoreInformation::getAllCoreBranches();
+        foreach ($branches as $branch) {
+            $sysExtDir = $directory . $branch . '/typo3/sysext/';
+            if (!is_dir($sysExtDir)) {
+                continue;
+            }
+            $sysExtList = FileHandling::get_dirs($sysExtDir);
+            if (!is_array($sysExtList) || empty($sysExtList)) {
+                throw new \RuntimeException(sprintf('No sysext founds in: %s', $sysExtDir), 1566422270);
             }
 
-            $result = $this->zipDir($source, $zipPath, $extensionKey);
+            $exportPath = $this->configurationService->getPathFinal();
+            FileHandling::mkdir_deep($exportPath);
+
+            foreach ($sysExtList as $extensionKey) {
+                $source = $sysExtDir . $extensionKey;
+                if (in_array($extensionKey, CoreInformation::getAllCoreExtensionKeys(), true)) {
+                    $zipPath = $exportPath . sprintf('%s-l10n-%s.v%s.zip', $extensionKey, $language, CoreInformation::getVersionForBranchName($branch));
+                } else {
+                    $zipPath = $exportPath . sprintf('%s-l10n-%s.zip', $extensionKey, $language);
+                }
+
+                $result = $this->zipDir($source, $zipPath, $extensionKey);
+            }
         }
     }
 
@@ -98,7 +108,7 @@ class DownloadCrowdinTranslationService extends BaseService
         $result = $this->zipDir($source, $zipPath, $extensionKey);
     }
 
-    protected function  zipDir($source, $destination, $prefix = '')
+    protected function zipDir($source, $destination, $prefix = '')
     {
         if (!empty($prefix)) {
             $prefix = trim($prefix, '/') . '/';
@@ -122,6 +132,7 @@ class DownloadCrowdinTranslationService extends BaseService
                 }
 
                 $file = realpath($file);
+                $this->modifyFile($file);
 
                 if (is_dir($file) === true) {
                     $zip->addEmptyDir($prefix . str_replace($source . '/', '', $file . '/'));
@@ -177,5 +188,23 @@ class DownloadCrowdinTranslationService extends BaseService
         }
 
         return $finalName;
+    }
+
+    /**
+     * Modify file's content
+     * @see https://github.com/TYPO3-Initiatives/crowdin/issues/32
+     *
+     * @param string $file
+     */
+    protected function modifyFile(string $file)
+    {
+        if (is_file($file)) {
+            if ($this->finalLanguageKey !== $this->originalLanguageKey) {
+                $content = file_get_contents($file);
+                $content = str_replace(' target-language="' . $this->originalLanguageKey . '"', ' target-language="' . $this->finalLanguageKey . '"', $content);
+
+                $result = file_put_contents($file, $content);
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace GeorgRinger\Crowdin\Command;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use GeorgRinger\Crowdin\Info\LanguageInformation;
 use GeorgRinger\Crowdin\Service\DownloadCrowdinTranslationService;
 use GeorgRinger\Crowdin\Utility\FileHandling;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,8 +28,7 @@ class CrowdinExtractCoreCommand extends BaseCommand
     {
         $this
             ->setDescription('Download CORE translations')
-            ->addArgument('language', InputArgument::REQUIRED, 'Language')
-            ->addArgument('branch', InputArgument::REQUIRED, 'Branch');
+            ->addArgument('language', InputArgument::REQUIRED, 'Language');
     }
 
     /**
@@ -48,12 +48,15 @@ class CrowdinExtractCoreCommand extends BaseCommand
         $service = new DownloadCrowdinTranslationService($this->getProject()->getIdentifier());
         foreach ($languageList as $language) {
             try {
-                $service->downloadPackage(
-                    $language,
-                    $input->getArgument('branch') ?? ''
-                );
+                $service->downloadPackage($language);
 
-                $io->success(sprintf('Data has been downloaded for %s!', $language));
+                $message = sprintf('Data has been downloaded for %s!', $language);
+
+                $typo3LanguageIdentifier = LanguageInformation::getLanguageForTypo3($language);
+                if ($typo3LanguageIdentifier !== $language) {
+                    $message .= sprintf("\nTYPO3 language identifier is %s.", $typo3LanguageIdentifier);
+                }
+                $io->success($message);
             } catch (\Exception $e) {
                 $io->error($e->getMessage());
             }

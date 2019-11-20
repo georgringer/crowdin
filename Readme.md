@@ -74,11 +74,11 @@ This command will download translations from translation server and upload those
 
 ### Extract languages from Crowdin of core
 
-Download language packs from Crowdin and create single zip packages
+Download language packs from Crowdin and create single zip packages, always all branches are considered
 
 ```
-# Arguments: language branch
-./bin/typo3 crowdin:extract:core de master
+# Arguments: language
+./bin/typo3 crowdin:extract:core de
 ```
 
 ### Extract languages from Crowdin of extension

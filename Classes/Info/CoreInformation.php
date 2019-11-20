@@ -91,4 +91,12 @@ class CoreInformation
     {
         return array_merge(self::CORE_EXTENSIONS, self::CORE_EXTENSIONS_9);
     }
+
+    public static function getAllCoreBranches(): array
+    {
+        $branches = array_values(self::BRANCHMAPPING);
+        $branches[] = 'master';
+
+        return $branches;
+    }
 }
