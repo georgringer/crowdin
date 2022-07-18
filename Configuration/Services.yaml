@@ -1,0 +1,20 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  GeorgRinger\Crowdin\:
+    resource: '../Classes/*'
+
+  GeorgRinger\Crowdin\EventListener\AfterPackageActivation:
+    tags:
+      - name: event.listener
+        identifier: 'core-afterpackageactivation-crowdin'
+        event: TYPO3\CMS\Core\Package\Event\AfterPackageActivationEvent
+
+  GeorgRinger\Crowdin\EventListener\AfterPackageDeactivation:
+    tags:
+      - name: event.listener
+        identifier: 'core-afterpackagedeactivation-crowdin'
+        event: TYPO3\CMS\Core\Package\Event\AfterPackageDeactivationEvent
