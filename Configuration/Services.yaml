@@ -18,3 +18,17 @@ services:
       - name: event.listener
         identifier: 'core-afterpackagedeactivation-crowdin'
         event: TYPO3\CMS\Core\Package\Event\AfterPackageDeactivationEvent
+
+  GeorgRinger\Crowdin\Command\EnableCommand:
+    tags:
+      - name: 'console.command'
+        command: 'crowdin:enable'
+        schedulable: false
+        description: 'Enable Crowdin'
+
+  GeorgRinger\Crowdin\Command\DisableCommand:
+    tags:
+      - name: 'console.command'
+        command: 'crowdin:disable'
+        schedulable: false
+        description: 'Disable Crowdin'
