@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace GeorgRinger\Crowdin\EventListener;
@@ -9,7 +10,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class AfterPackageDeactivation
 {
-
     public function __invoke(AfterPackageDeactivationEvent $event)
     {
         if ($event->getPackageKey() !== 'crowdin') {
@@ -38,5 +38,4 @@ class AfterPackageDeactivation
             $configurationManager->writeLocalConfiguration($localConfiguration);
         }
     }
-
 }
