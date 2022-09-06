@@ -31,5 +31,10 @@
 		"psr-4": {
 			"GeorgRinger\\Crowdin\\": "Classes/"
 		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "crowdin"
+		}
 	}
 }
