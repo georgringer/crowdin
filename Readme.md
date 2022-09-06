@@ -1,113 +1,59 @@
 # TYPO3 Extension `crowdin`
 
-Integration of crowdin into TYPO3 with the following features:
-
-- Inplace editing
-- Fill Crowdin with all translation provided by the translation server
-- Package translations to follow the structure required by TYPO3 sites
-
-## Install
-
-Install this extension + `akeneo/crowdin-api` (dev-master)
-
-## Usage
-
-### Crowdin In-Context Localization
+This extensions integrates the inplace editing of Crowdin into TYPO3.
+Using this features makes it fast and simple to add translations of XLF files used in the backend.
 
 ![In-Context Localization](Resources/Public/Screenshots/crowdin-inline-localization.png)
 
+**Important:** This extensions can **not** be used to translate content but "static" translations saved in `xlf` files.
+
+## 1. Install
+
+### Using composer
+
+1. `composer req georgringer/crowdin`.
+2. `./typo3cms crowdin:enable`
+
+### Non composer
+
+1. Download the extension from TER
+2. `./typo3/sysext/core/bin/typo3 crowdin:enable`
+
+### Additional information
+
+The enable command writes the following information to `LocalConfiguration.php`:
+
+```php
+$GLOBALS['TYPO3_CONF_VARS']
+    ['SYS']['localization']['locales']['user']['t3'] = 'Crowdin In-Context Localization';
+    ['SYS']['fluid']['namespaces'] => [
+            'f' => [
+                'TYPO3\\CMS\\Fluid\\ViewHelpers',
+                'TYPO3Fluid\\Fluid\\ViewHelpers',
+                'GeorgRinger\\Crowdin\\ViewHelpers\\Override',
+            ],
+        ],
+    ];
+```
+
+## Usage
+
+Follow the next steps to be able to use Crowdin in the backend:
+
+1. Switch to *Install Tool* => *Maintenance* => **Manage Language Packs**
+2. Click **+  Add language** and select **Crowdin In-Context Localization [t3]**, click **Update all**.
+3. Switch to the **User settings**
+3. Select *Crowdin In-Context Localization*.
+4. Click save button.
+
+After the automatic reload, a Crowdin will be shown to login with your Crowdin account and to select the language you want to translate to.
+
 To enable in-context localization: Switch your user to Language *Crowdin In-Context Localization*
 
-## API-Reference / Commands
+## Extension Configuration
 
-### Convert XML to XLF
+This extensions can be configured in the Install Tool using *Settings* => *Extension Configuration* => *Crowdin*.
 
-```
-# Arguments: file name
-./bin/typo3 crowdin:convertXml2Xlf ./path-to-a-xml-file.xml
-```
-
-### Set API Key
-
-The API key is added to the registry, so it must only be set once. 
-
-```
-# Arguments: project-identifier api-key
-./bin/typo3 crowdin:setApiCredentials typo3-cms 123456
-```
-
-By using the following command you can switch between projects without readding the API key again
-
-```
-# Arguments: project-identifier
-./bin/typo3 crowdin:switchApiCredentials another-project
-```
-
-### Extract core translations + upload to Crowdin
-
-This command will download translations from translation server and upload those to Crowdin
-
-Instead of a single extension name, also `'*'` can be used!
-
-```
-# Arguments: extension-key language version
-./bin/typo3 crowdin:downloadPootleCoreTranslation about de 9
-```
-
-### Extract extension translations + upload to Crowdin
-
-This command will download translations from translation server and upload those to Crowdin
-
-```
-# Arguments: extension-key language
-./bin/typo3 crowdin:downloadPootleExtTranslation news de
-```
-
-### Download languages from Crowdin
-
-Download language packs from Crowdin and create single zip packages
-
-```
-# Arguments: language branch copyToL10n
-./bin/typo3 crowdin:downloadCrowdinTranslations de master 0
-```
-
-### Status
-
-Get translation status
-
-```bash
-./bin/typo3 crowdin:status
-```
-
-Result
-```
- ------------------------------- --------------
-  name                            Progress (%)
- ------------------------------- --------------
-  Croatian - hr                   69
-  Czech - cs                      22
-  Danish - da                     94
-  Dutch - nl                      82
-  French - fr                     50 / 49
-  German - de                     92
-  Greek - el                      5
-  Hindi - hi                      50
-  Italian - it                    46
-  Japanese - ja                   8
-  Khmer - km                      40
-  Portuguese, Brazilian - pt-BR   0
-  Russian - ru                    75
-  Spanish - es-ES                 0
-  Thai - th                       43
- ------------------------------- --------------
-```
-
-### Cleanup
-
-Cleanup the temporary files
-
-```
-./bin/typo3 crowdin:clean
-```
+- `Enable to translate TYPO3 core`: Enable this checkbox to translate TYPO3 and its system extensions.
+- `Extension key`: If the checkbox above is **NOT** set, an extension key can be provided which can be translated. A full list of available extensions on Crowdin is available at [localize.typo3.org/xliff/status.html](https://localize.typo3.org/xliff/status.html). e.g. `news`.
 
