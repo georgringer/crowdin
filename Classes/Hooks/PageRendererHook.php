@@ -20,11 +20,11 @@ class PageRendererHook
                 $js = '
                 <script type="text/javascript">
                       var _jipt = [];
-                      _jipt.push(["project", ' . GeneralUtility::quoteJSvalue($projectIdentifier) . ']);
+                      _jipt.push(["project", '.GeneralUtility::quoteJSvalue($projectIdentifier).']);
                 </script>
                 <script type="text/javascript" src="https://cdn.crowdin.com/jipt/jipt.js"></script>';
 
-                $params['jsLibs'] = $js . $params['jsLibs'];
+                $params['jsLibs'] = $js.$params['jsLibs'];
             }
         }
     }
@@ -35,6 +35,7 @@ class PageRendererHook
         if ($extensionConfiguration->isUsedForCore()) {
             return 'typo3-cms';
         }
+
         return $extensionConfiguration->getCrowdinIdentifier();
     }
 
