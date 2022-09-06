@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace GeorgRinger\Crowdin;
@@ -15,7 +16,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ConfigurationLoader
 {
-
     /**
      * @return string[]
      */
@@ -26,7 +26,7 @@ class ConfigurationLoader
         $cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('assets');
         $data = $cache->get($identifier);
         if (!$data) {
-            $list = json_decode((string)GeneralUtility::getUrl('https://localize.typo3.org/xliff/status.json'), true);
+            $list = json_decode((string) GeneralUtility::getUrl('https://localize.typo3.org/xliff/status.json'), true);
             foreach ($list['projects'] ?? [] as $project) {
                 if ($project['extensionKey'] === 'typo3-cms' || !($project['usable'] ?? false)) {
                     continue;
@@ -40,5 +40,4 @@ class ConfigurationLoader
 
         return $data;
     }
-
 }

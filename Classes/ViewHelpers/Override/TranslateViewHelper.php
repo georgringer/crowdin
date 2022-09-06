@@ -12,19 +12,18 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 class TranslateViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\TranslateViewHelper
 {
-
-
     /** @var ExtensionConfiguration */
     protected static $extensionConfiguration;
-
 
     /**
      * Return array element by key.
      *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
+     * @param array                     $arguments
+     * @param \Closure                  $renderChildrenClosure
      * @param RenderingContextInterface $renderingContext
+     *
      * @throws Exception
+     *
      * @return string
      */
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
@@ -40,12 +39,13 @@ class TranslateViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\TranslateViewHelp
             $id = $key;
         }
 
-        if ((string)$id === '') {
+        if ((string) $id === '') {
             throw new Exception('An argument "key" or "id" has to be provided', 1351584844);
         }
 
         $request = $renderingContext->getRequest();
         $extensionName = $extensionName ?? $request->getControllerExtensionName();
+
         try {
             $value = static::translate($id, $extensionName, $translateArguments, $arguments['languageKey'], $arguments['alternativeLanguageKeys']);
         } catch (\InvalidArgumentException $e) {
@@ -57,9 +57,9 @@ class TranslateViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\TranslateViewHelp
                 $value = vsprintf($value, $translateArguments);
             }
         }
+
         return $value;
     }
-
 
     protected static function translate($id, $extensionName, $arguments, $languageKey, $alternativeLanguageKeys)
     {
@@ -70,7 +70,7 @@ class TranslateViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\TranslateViewHelp
         if (self::$extensionConfiguration->isUsedForCore()) {
             $isCoreExt = false;
             foreach (LanguageServiceXclassed::CORE_EXTENSIONS as $extension) {
-                if (str_contains($id, 'EXT:' . $extension)) {
+                if (str_contains($id, 'EXT:'.$extension)) {
                     $isCoreExt = true;
                 }
             }
@@ -80,7 +80,7 @@ class TranslateViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\TranslateViewHelp
                 $languageKey = 'default';
             }
         } elseif (self::$extensionConfiguration->getCrowdinIdentifier()) {
-            if (str_contains($id, 'EXT:' . self::$extensionConfiguration->getExtensionKey())) {
+            if (str_contains($id, 'EXT:'.self::$extensionConfiguration->getExtensionKey())) {
                 $languageKey = 't3';
             } else {
                 $languageKey = 'default';
@@ -89,5 +89,4 @@ class TranslateViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\TranslateViewHelp
 
         return parent::translate($id, $extensionName, $arguments, $languageKey, $alternativeLanguageKeys);
     }
-
 }

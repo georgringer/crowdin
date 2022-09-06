@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace GeorgRinger\Crowdin;
@@ -16,7 +17,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ExtensionConfiguration
 {
-
     protected string $crowdinIdentifier = '';
     protected string $extensionKey = '';
     protected bool $usedForCore = false;
@@ -25,15 +25,15 @@ class ExtensionConfiguration
     {
         $config = GeneralUtility::makeInstance(ConfigurationLoader::class);
         $config->get();
-        try {
 
+        try {
             $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfigurationService::class)->get('crowdin');
             if ($extensionConfiguration['core'] ?? false) {
                 $this->usedForCore = true;
             } else {
                 $crowdinConfiguration = GeneralUtility::makeInstance(ConfigurationLoader::class)->get();
 
-                $extensionKey = (string)($extensionConfiguration['extensionKey'] ?? '');
+                $extensionKey = (string) ($extensionConfiguration['extensionKey'] ?? '');
                 if (!isset($crowdinConfiguration[$extensionKey])) {
                     // todo logging?
                 } else {

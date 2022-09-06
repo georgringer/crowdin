@@ -10,7 +10,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class LanguageServiceXclassed extends LanguageService
 {
-
     /** @var ExtensionConfiguration */
     protected $extensionConfiguration;
 
@@ -22,24 +21,27 @@ class LanguageServiceXclassed extends LanguageService
         'recycler', 'redirects', 'reports', 'scheduler', 'seo', 'setup', 'sys_note', 't3editor',
         'tstemplate', 'viewpage', 'workspaces',
         'info', 'rsaauth', 'sys_action', 'taskcenter',
-        'dashboard'
+        'dashboard',
     ];
 
     public function sL($input): string
     {
         $this->reinitLanguage($input);
+
         return parent::sL($input);
     }
 
     protected function includeLanguageFileRaw($fileRef)
     {
         $this->reinitLanguage($fileRef);
+
         return parent::includeLanguageFileRaw($fileRef);
     }
 
     protected function readLLfile($fileRef): array
     {
         $this->reinitLanguage($fileRef);
+
         return parent::readLLfile($fileRef);
     }
 
@@ -52,7 +54,7 @@ class LanguageServiceXclassed extends LanguageService
         if ($this->extensionConfiguration->isUsedForCore()) {
             $isCoreExt = false;
             foreach (self::CORE_EXTENSIONS as $extension) {
-                if (str_contains($path, 'EXT:' . $extension)) {
+                if (str_contains($path, 'EXT:'.$extension)) {
                     $isCoreExt = true;
                 }
             }
@@ -62,7 +64,7 @@ class LanguageServiceXclassed extends LanguageService
                 $this->lang = 'default';
             }
         } elseif ($this->extensionConfiguration->getCrowdinIdentifier()) {
-            if (str_contains($path, 'EXT:' . $this->extensionConfiguration->getExtensionKey())) {
+            if (str_contains($path, 'EXT:'.$this->extensionConfiguration->getExtensionKey())) {
                 $this->lang = 't3';
             } else {
                 $this->lang = 'default';
