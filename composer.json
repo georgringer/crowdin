@@ -22,14 +22,10 @@
 		}
 	],
 	"license": [
-		"GPL-2.0+"
+		"GPL-2.0-or-later"
 	],
 	"require": {
-		"typo3/cms-core": "^9.5 || ^10"
-	},
-	"replace": {
-		"crowdin": "self.version",
-		"typo3-ter/crowdin": "self.version"
+		"typo3/cms-core": "^10 || ^11"
 	},
 	"autoload": {
 		"psr-4": {
