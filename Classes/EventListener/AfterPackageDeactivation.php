@@ -15,6 +15,5 @@ class AfterPackageDeactivation
         if ($event->getPackageKey() === 'crowdin') {
             GeneralUtility::makeInstance(Setup::class)->disable();
         }
-
     }
 }
