@@ -14,17 +14,17 @@ class PageRendererHook
 
     public function run(array &$params): void
     {
-        if ($this->getBackendUser()->user['lang'] === self::LANGUAGE_KEY) {
+        if ($this->getBackendUser()->user['uid'] ?? 0 && ($this->getBackendUser()->user['lang'] ?? '') === self::LANGUAGE_KEY) {
             $projectIdentifier = $this->getProjectIdentifier();
             if ($projectIdentifier) {
                 $js = '
                 <script type="text/javascript">
                       var _jipt = [];
-                      _jipt.push(["project", '.GeneralUtility::quoteJSvalue($projectIdentifier).']);
+                      _jipt.push(["project", ' . GeneralUtility::quoteJSvalue($projectIdentifier) . ']);
                 </script>
                 <script type="text/javascript" src="https://cdn.crowdin.com/jipt/jipt.js"></script>';
 
-                $params['jsLibs'] = $js.$params['jsLibs'];
+                $params['jsLibs'] = $js . $params['jsLibs'];
             }
         }
     }
