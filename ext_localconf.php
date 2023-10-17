@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3_MODE') or exit();
+defined('TYPO3') or exit();
 
 $boot = static function () {
     if (TYPO3_MODE === 'BE') {
