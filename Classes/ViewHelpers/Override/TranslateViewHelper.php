@@ -11,6 +11,7 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Extbase\Mvc\Request;
 
 class TranslateViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
@@ -54,7 +55,7 @@ class TranslateViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractView
         $key = $arguments['key'];
         $id = $arguments['id'];
         $default = $arguments['default'];
-        $extensionName = $arguments['extensionName'];
+        $extensionName = $arguments['extensionName'] ?? '';
         $translateArguments = $arguments['arguments'];
 
         // Use key if id is empty.
@@ -66,8 +67,13 @@ class TranslateViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractView
             throw new Exception('An argument "key" or "id" has to be provided', 1351584844);
         }
 
+        /** @var RenderingContext $renderingContext */
         $request = $renderingContext->getRequest();
-        $extensionName = $extensionName ?? $request->getControllerExtensionName();
+
+        // @TODO Better way to get request controller extensionName 
+        if(!$extensionName && $request instanceof Request) {
+            $extensionName =$request->getControllerExtensionName();
+        }
 
         try {
             $value = static::translate($id, $extensionName, $translateArguments, $arguments['languageKey'], $arguments['alternativeLanguageKeys']);
