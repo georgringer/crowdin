@@ -9,11 +9,34 @@ use GeorgRinger\Crowdin\Xclass\LanguageServiceXclassed;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
-class TranslateViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\TranslateViewHelper
+class TranslateViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    use CompileWithRenderStatic;
+
     /** @var ExtensionConfiguration */
     protected static $extensionConfiguration;
+
+    /**
+     * Output is escaped already. We must not escape children, to avoid double encoding.
+     *
+     * @var bool
+     */
+    protected $escapeChildren = false;
+
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('key', 'string', 'Translation Key');
+        $this->registerArgument('id', 'string', 'Translation ID. Same as key.');
+        $this->registerArgument('default', 'string', 'If the given locallang key could not be found, this value is used. If this argument is not set, child nodes will be used to render the default');
+        $this->registerArgument('arguments', 'array', 'Arguments to be replaced in the resulting string');
+        $this->registerArgument('extensionName', 'string', 'UpperCamelCased extension key (for example BlogExample)');
+        $this->registerArgument('languageKey', 'string', 'Language key ("da" for example) or "default" to use. If empty, use current language.');
+        // @deprecated will be removed in TYPO3 v13.0. Deprecation is triggered in LocalizationUtility
+        $this->registerArgument('alternativeLanguageKeys', 'array', 'Alternative language keys if no translation does exist. Ignored in non-extbase context. Deprecated, will be removed in TYPO3 v13.0');
+    }
 
     /**
      * Return array element by key.
@@ -87,6 +110,6 @@ class TranslateViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\TranslateViewHelp
             }
         }
 
-        return parent::translate($id, $extensionName, $arguments, $languageKey, $alternativeLanguageKeys);
+        return LocalizationUtility::translate($id, $extensionName, $arguments, $languageKey, $alternativeLanguageKeys);
     }
 }
