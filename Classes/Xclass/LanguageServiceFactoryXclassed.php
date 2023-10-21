@@ -7,17 +7,16 @@ namespace GeorgRinger\Crowdin\Xclass;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Localization\Locale;
 
 class LanguageServiceFactoryXclassed extends LanguageServiceFactory
 {
-    /**
+     /**
      * Factory method to create a language service object.
      *
-     * @param string $locale the locale (= the TYPO3-internal locale given)
-     *
-     * @return LanguageService
+     * @param Locale|string $locale the locale
      */
-    public function create(string $locale): LanguageService
+    public function create(Locale|string $locale): LanguageService
     {
         $obj = GeneralUtility::makeInstance(LanguageServiceXclassed::class, $this->locales, $this->localizationFactory, $this->runtimeCache);
         $obj->init($locale);

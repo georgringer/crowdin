@@ -31,11 +31,11 @@ class LanguageServiceXclassed extends LanguageService
         return parent::sL($input);
     }
 
-    protected function includeLanguageFileRaw($fileRef)
+    public function includeLLFile(string $fileRef): array
     {
         $this->reinitLanguage($fileRef);
 
-        return parent::includeLanguageFileRaw($fileRef);
+        return parent::includeLLFile($fileRef);
     }
 
     protected function readLLfile($fileRef): array
