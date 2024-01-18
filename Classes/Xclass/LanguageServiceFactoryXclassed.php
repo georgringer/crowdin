@@ -7,16 +7,13 @@ namespace GeorgRinger\Crowdin\Xclass;
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Localization\Locale;
 use TYPO3\CMS\Core\Localization\Locales;
 use TYPO3\CMS\Core\Localization\LocalizationFactory;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class LanguageServiceFactoryXclassed
 {
-
     protected Locales $locales;
     protected LocalizationFactory $localizationFactory;
     protected FrontendInterface $runtimeCache;
@@ -40,6 +37,7 @@ class LanguageServiceFactoryXclassed
     {
         $obj = new LanguageServiceXclassed($this->locales, $this->localizationFactory, $this->runtimeCache);
         $obj->init($locale instanceof Locale ? $locale : $this->locales->createLocale($locale));
+
         return $obj;
     }
 
@@ -48,6 +46,7 @@ class LanguageServiceFactoryXclassed
         if ($user && ($user->user['lang'] ?? false)) {
             return $this->create($this->locales->createLocale($user->user['lang']));
         }
+
         return $this->create('en');
     }
 
@@ -56,6 +55,7 @@ class LanguageServiceFactoryXclassed
         $languageService = $this->create($language->getLocale() ?: $language->getTypo3Language());
         // Always disable debugging for frontend
         $languageService->debugKey = false;
+
         return $languageService;
     }
 }
