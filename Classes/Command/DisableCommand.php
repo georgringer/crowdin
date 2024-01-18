@@ -18,6 +18,7 @@ class DisableCommand extends Command
         GeneralUtility::makeInstance(Setup::class)->disable();
         $io = new SymfonyStyle($input, $output);
         $io->success('Crowdin disabled');
+
         return 0;
     }
 }

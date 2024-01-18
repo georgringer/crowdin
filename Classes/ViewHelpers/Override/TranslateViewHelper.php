@@ -20,7 +20,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class TranslateViewHelper extends AbstractViewHelper
 {
-
     use CompileWithRenderStatic;
 
     /**
@@ -82,13 +81,13 @@ class TranslateViewHelper extends AbstractViewHelper
                 if (empty($extensionName)) {
                     throw new \RuntimeException(
                         'ViewHelper f:translate in non-extbase context needs attribute "extensionName" to resolve'
-                        . ' key="' . $id . '" without path. Either set attribute "extensionName" together with the short'
-                        . ' key "yourKey" to result in a lookup "LLL:EXT:your_extension/Resources/Private/Language/locallang.xlf:yourKey",'
-                        . ' or (better) use a full LLL reference like key="LLL:EXT:your_extension/Resources/Private/Language/yourFile.xlf:yourKey"',
+                        .' key="'.$id.'" without path. Either set attribute "extensionName" together with the short'
+                        .' key "yourKey" to result in a lookup "LLL:EXT:your_extension/Resources/Private/Language/locallang.xlf:yourKey",'
+                        .' or (better) use a full LLL reference like key="LLL:EXT:your_extension/Resources/Private/Language/yourFile.xlf:yourKey"',
                         1639828178
                     );
                 }
-                $id = 'LLL:EXT:' . GeneralUtility::camelCaseToLowerCaseUnderscored($extensionName) . '/Resources/Private/Language/locallang.xlf:' . $id;
+                $id = 'LLL:EXT:'.GeneralUtility::camelCaseToLowerCaseUnderscored($extensionName).'/Resources/Private/Language/locallang.xlf:'.$id;
             }
             $value = self::getLanguageService($request)->sL($id);
             if (empty($value) || (!str_starts_with($id, 'LLL:EXT:') && $value === $id)) {
@@ -99,11 +98,13 @@ class TranslateViewHelper extends AbstractViewHelper
             if (!empty($translateArguments)) {
                 $value = vsprintf($value, $translateArguments);
             }
+
             return $value;
         }
 
         /** @var ExtbaseRequestInterface $request */
         $extensionName = $extensionName ?? $request->getControllerExtensionName();
+
         try {
             // Trigger full extbase magic: "<f:translate key="key1" />" will look up
             // "LLL:EXT:current_extension/Resources/Private/Language/locallang.xlf:key1" AND
@@ -121,6 +122,7 @@ class TranslateViewHelper extends AbstractViewHelper
                 $value = vsprintf($value, $translateArguments);
             }
         }
+
         return $value;
     }
 
@@ -153,7 +155,6 @@ class TranslateViewHelper extends AbstractViewHelper
         return parent::translate($id, $extensionName, $arguments, $languageKey, $alternativeLanguageKeys);
     }
 
-
     protected static function getLanguageService(ServerRequestInterface $request = null): LanguageService
     {
         if (isset($GLOBALS['LANG'])) {
@@ -163,9 +164,11 @@ class TranslateViewHelper extends AbstractViewHelper
         if ($request !== null && ApplicationType::fromRequest($request)->isFrontend()) {
             $GLOBALS['LANG'] = $languageServiceFactory->createFromSiteLanguage($request->getAttribute('language')
                 ?? $request->getAttribute('site')->getDefaultLanguage());
+
             return $GLOBALS['LANG'];
         }
         $GLOBALS['LANG'] = $languageServiceFactory->createFromUserPreferences($GLOBALS['BE_USER'] ?? null);
+
         return $GLOBALS['LANG'];
     }
 }
