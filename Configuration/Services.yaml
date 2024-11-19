@@ -6,6 +6,10 @@ services:
 
   GeorgRinger\Crowdin\:
     resource: '../Classes/*'
+    # glob for services that have been previously available as
+    # container entries and have been removed in the mean time
+    # (e.g. because factories are to be used instead)
+    exclude: '../Classes/{Xclass/LanguageServiceXclassed.php}'
 
   GeorgRinger\Crowdin\EventListener\AfterPackageActivation:
     tags:
@@ -32,3 +36,13 @@ services:
         command: 'crowdin:disable'
         schedulable: false
         description: 'Disable Crowdin'
+
+  GeorgRinger\Crowdin\Xclass\LanguageServiceFactoryXclassed:
+    public: true
+    arguments:
+      $runtimeCache: '@cache.runtime'
+
+  cache.runtime:
+    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
+    factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
+    arguments: ['runtime']

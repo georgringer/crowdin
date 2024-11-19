@@ -13,11 +13,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DisableCommand extends Command
 {
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         GeneralUtility::makeInstance(Setup::class)->disable();
         $io = new SymfonyStyle($input, $output);
         $io->success('Crowdin disabled');
-        return 0;
+        return Command::SUCCESS;
     }
 }
