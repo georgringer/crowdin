@@ -103,7 +103,7 @@ class TranslateViewHelper extends AbstractViewHelper
         }
 
         /** @var ExtbaseRequestInterface $request */
-        $extensionName = $extensionName ?? $request->getControllerExtensionName();
+        $extensionName = $extensionName ?? GeneralUtility::camelCaseToLowerCaseUnderscored($request->getControllerExtensionName());
         try {
             // Trigger full extbase magic: "<f:translate key="key1" />" will look up
             // "LLL:EXT:current_extension/Resources/Private/Language/locallang.xlf:key1" AND
@@ -143,7 +143,8 @@ class TranslateViewHelper extends AbstractViewHelper
                 $languageKey = 'default';
             }
         } elseif (self::$extensionConfiguration->getCrowdinIdentifier()) {
-            if (str_contains($id, 'EXT:'.self::$extensionConfiguration->getExtensionKey())) {
+            if (str_contains($id, 'EXT:'.self::$extensionConfiguration->getExtensionKey())
+                || $extensionName === self::$extensionConfiguration->getExtensionKey()) {
                 $languageKey = 't3';
             } else {
                 $languageKey = 'default';
