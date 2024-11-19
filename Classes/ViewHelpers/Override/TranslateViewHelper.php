@@ -108,9 +108,9 @@ class TranslateViewHelper extends AbstractViewHelper
             // Trigger full extbase magic: "<f:translate key="key1" />" will look up
             // "LLL:EXT:current_extension/Resources/Private/Language/locallang.xlf:key1" AND
             // overloads from _LOCAL_LANG extbase TypoScript settings if specified.
-            // Not this triggers TypoScript parsing via extbase ConfigurationManager
+            // Note this triggers TypoScript parsing via extbase ConfigurationManager
             // and should be avoided in backend context!
-            $value = LocalizationUtility::translate($id, $extensionName, $translateArguments, $arguments['languageKey'], $arguments['alternativeLanguageKeys'] ?? []);
+            $value = static::translate($id, $extensionName, $translateArguments, $arguments['languageKey'], $arguments['alternativeLanguageKeys'] ?? []);
         } catch (\InvalidArgumentException $e) {
             // @todo: Switch to more specific Exceptions here - for instance those thrown when a package was not found, see #95957
             $value = null;
@@ -150,11 +150,11 @@ class TranslateViewHelper extends AbstractViewHelper
             }
         }
 
-        return parent::translate($id, $extensionName, $arguments, $languageKey, $alternativeLanguageKeys);
+        return LocalizationUtility::translate($id, $extensionName, $arguments, $languageKey, $alternativeLanguageKeys);
     }
 
 
-    protected static function getLanguageService(ServerRequestInterface $request = null): LanguageService
+    protected static function getLanguageService(?ServerRequestInterface $request = null): LanguageService
     {
         if (isset($GLOBALS['LANG'])) {
             return $GLOBALS['LANG'];
