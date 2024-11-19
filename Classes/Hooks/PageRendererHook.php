@@ -16,7 +16,7 @@ class PageRendererHook
 
     public function run(array &$params): void
     {
-        if ($this->getBackendUser()->user['uid'] ?? 0 && ($this->getBackendUser()->user['lang'] ?? '') === self::LANGUAGE_KEY) {
+        if (($this->getBackendUser()->user['uid'] ?? 0) && ($this->getBackendUser()->user['lang'] ?? '') === self::LANGUAGE_KEY) {
             $projectIdentifier = $this->getProjectIdentifier();
             if ($projectIdentifier) {
                 $out = [];
