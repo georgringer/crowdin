@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3') or die();
+defined('TYPO3') or exit;
 
 $boot = static function () {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-postProcess']['crowdin-inline-translation']

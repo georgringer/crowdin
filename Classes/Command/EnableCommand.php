@@ -18,6 +18,7 @@ class EnableCommand extends Command
         GeneralUtility::makeInstance(Setup::class)->enable();
         $io = new SymfonyStyle($input, $output);
         $io->success('Crowdin enabled');
+
         return Command::SUCCESS;
     }
 }
