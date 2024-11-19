@@ -154,7 +154,7 @@ class TranslateViewHelper extends AbstractViewHelper
     }
 
 
-    protected static function getLanguageService(ServerRequestInterface $request = null): LanguageService
+    protected static function getLanguageService(?ServerRequestInterface $request = null): LanguageService
     {
         if (isset($GLOBALS['LANG'])) {
             return $GLOBALS['LANG'];
