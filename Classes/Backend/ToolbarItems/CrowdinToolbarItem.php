@@ -77,7 +77,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
                 $entries[] = '  </a>';
                 $entries[] = '</li>';
             } else {
-                $entries[] = '<div class="dropdown-table-row">';
+                $entries[] = '<div class="dropdown-table-row' . ($extension['active'] ? ' bg-primary' : '') . '">';
                 $entries[] = '  <div class="dropdown-table-column dropdown-table-column-top dropdown-table-icon">';
                 $entries[] = $icon;
                 $entries[] = '  </div>';
@@ -160,6 +160,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
             'key' => 'typo3',
             'name' => 'TYPO3 Core Extensions',  // TODO: translate!
             'iconIdentifier' => 'actions-brand-typo3',
+            'active' => true,   // TODO: check if Core is active
         ];
 
         $labelsDirectory = Environment::getVarPath() . '/labels/t3';
@@ -177,6 +178,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
                         'key' => $extension['key'],
                         'name' => $extension['title'],
                         'icon' => $extension['icon'],
+                        'active' => false,  // TODO: check if extension is active
                     ];
                 }
             }
