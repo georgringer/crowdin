@@ -53,8 +53,10 @@ class LanguageServiceFactoryXclassed extends LanguageServiceFactory
         // allowed language keys)
         $languageService = $this->create((string)$language->getLocale() ?: $language->getTypo3Language());
         // Always disable debugging for frontend
-        // @deprecated since TYPO3 v12.4. will be removed in TYPO3 v13.0. Remove together with code in LanguageService
-        $languageService->debugKey = false;
+        if ((new Typo3Version())->getMajorVersion() < 13) {
+            // @deprecated since TYPO3 v12.4. will be removed in TYPO3 v13.0. Remove together with code in LanguageService
+            $languageService->debugKey = false;
+        }
         return $languageService;
     }
 }
