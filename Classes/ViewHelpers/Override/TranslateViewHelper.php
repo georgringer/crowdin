@@ -103,7 +103,8 @@ class TranslateViewHelper extends AbstractViewHelper
         }
 
         /** @var ExtbaseRequestInterface $request */
-        $extensionName = $extensionName ?? GeneralUtility::camelCaseToLowerCaseUnderscored($request->getControllerExtensionName());
+        $controllerExtensionName = $request->getControllerExtensionName() ?? '';
+        $extensionName = $extensionName ?? GeneralUtility::camelCaseToLowerCaseUnderscored($controllerExtensionName);
         try {
             // Trigger full extbase magic: "<f:translate key="key1" />" will look up
             // "LLL:EXT:current_extension/Resources/Private/Language/locallang.xlf:key1" AND

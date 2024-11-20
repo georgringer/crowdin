@@ -6,6 +6,7 @@ namespace FriendsOfTYPO3\Crowdin\Xclass;
 
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Localization\Locale;
@@ -25,14 +26,22 @@ class LanguageServiceFactoryXclassed extends LanguageServiceFactory
     public function create(Locale|string $locale): LanguageService
     {
         $obj = new LanguageServiceXclassed($this->locales, $this->localizationFactory, $this->runtimeCache);
-        $obj->init($locale instanceof Locale ? $locale : $this->locales->createLocale($locale));
+        if ((new Typo3Version())->getMajorVersion() >= 12) {
+            $obj->init($locale instanceof Locale ? $locale : $this->locales->createLocale($locale));
+        } else {
+            $obj->init($locale);
+        }
         return $obj;
     }
 
     public function createFromUserPreferences(?AbstractUserAuthentication $user): LanguageService
     {
         if ($user && ($user->user['lang'] ?? false)) {
-            return $this->create($this->locales->createLocale($user->user['lang']));
+            if ((new Typo3Version())->getMajorVersion() >= 12) {
+                return $this->create($this->locales->createLocale($user->user['lang']));
+            } else {
+                return $this->create($user->user['lang']);
+            }
         }
         return $this->create('en');
     }
