@@ -13,6 +13,7 @@ use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extensionmanager\Utility\ListUtility;
 
 class CrowdinToolbarItem implements ToolbarItemInterface
 {
@@ -59,22 +60,24 @@ class CrowdinToolbarItem implements ToolbarItemInterface
         $extensions = $this->getExtensionsCompatibleWithCrowdin();
 
         foreach ($extensions as $extension) {
+            $icon = isset($extension['icon'])
+                ? '<img src="' . htmlspecialchars($extension['icon']) . '" alt="' . htmlspecialchars($extension['name']) . '" style="width:16px">'
+                : $this->getSpriteIcon($extension['iconIdentifier']);
             if ($this->typo3Version >= 12) {
                 $entries[] = '<li>';
-                $entries[] = '  <a href="#" class="dropdown-item" role="menuitem">';
+                $entries[] = '  <a href="#" class="dropdown-item" role="menuitem" data-extension="' . $extension['key'] . '">';
                 $entries[] = '    <span class="dropdown-item-columns">';
                 $entries[] = '      <span class="dropdown-item-column dropdown-item-column-icon" aria-hidden="true">' .
-                    $this->getSpriteIcon($extension['iconIdentifier']) . '</span>';
+                    $icon . '</span>';
                 $entries[] = '      <span class="dropdown-item-column dropdown-item-column-title">' .
                     htmlspecialchars($extension['name']) . '</span>';
                 $entries[] = '    </span>';
                 $entries[] = '  </a>';
                 $entries[] = '</li>';
             } else {
-                // TODO
-                $entries[] = '<div class="dropdown-table-row">';
+                $entries[] = '<div class="dropdown-table-row" data-extension="' . $extension['key'] . '">';
                 $entries[] = '  <div class="dropdown-table-column dropdown-table-column-top dropdown-table-icon">';
-                $entries[] = $this->getSpriteIcon($extension['iconIdentifier']);
+                $entries[] = $icon;
                 $entries[] = '  </div>';
                 $entries[] = '  <div class="dropdown-table-column">';
                 $entries[] = htmlspecialchars($extension['name']);
@@ -106,23 +109,34 @@ class CrowdinToolbarItem implements ToolbarItemInterface
         $extensions = [];
 
         // TYPO3 Core is always compatible with Crowdin
-        $extensions[] = [
-            'name' => 'TYPO3 Core Extensions',
+        $extensions['_'] = [
+            'key' => 'typo3',
+            'name' => 'TYPO3 Core Extensions',  // TODO: translate!
             'iconIdentifier' => 'actions-brand-typo3',
         ];
 
         $labelsDirectory = Environment::getVarPath() . '/labels/t3';
 
         if (is_dir($labelsDirectory)) {
-            $availableExtensions = GeneralUtility::get_dirs($labelsDirectory);
-            $thirdPartyExtensions = array_diff($availableExtensions, LanguageServiceXclassed::CORE_EXTENSIONS);
+            $compatibleExtensions = GeneralUtility::get_dirs($labelsDirectory);
+
+            $listUtility = GeneralUtility::makeInstance(ListUtility::class);
+            $availableExtensions = $listUtility->getAvailableExtensions();
+            $thirdPartyExtensions = array_diff_key($availableExtensions, array_flip(LanguageServiceXclassed::CORE_EXTENSIONS));
+
             foreach ($thirdPartyExtensions as $extension) {
-                $extensions[] = [
-                    'name' => $extension,
-                    'iconIdentifier' => 'actions-extension',
-                ];
+                if (in_array($extension['key'], $compatibleExtensions)) {
+                    $extensions[$extension['key']] = [
+                        'key' => $extension['key'],
+                        'name' => $extension['title'],
+                        'icon' => $extension['icon'],
+                    ];
+                }
             }
         }
+
+        // Sort extensions by extension key (TYPO3 Core always first)
+        ksort($extensions);
 
         return $extensions;
     }
