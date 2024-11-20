@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace FriendsOfTYPO3\Crowdin\Backend\ToolbarItems;
 
 use FriendsOfTYPO3\Crowdin\Xclass\LanguageServiceXclassed;
+use TYPO3\CMS\Backend\Form\Element\CheckboxToggleElement;
+use TYPO3\CMS\Backend\Form\NodeFactory;
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -87,6 +89,8 @@ class CrowdinToolbarItem implements ToolbarItemInterface
             }
         }
 
+        $enableCheckbox = $this->createToggleSwitch('crowdin_enable', true);
+
         $content = '';
         if ($this->typo3Version >= 12) {
             $content .= '<p class="h3 dropdown-headline" id="crowdin-dropdown-headline">Crowdin</p>';
@@ -97,12 +101,54 @@ class CrowdinToolbarItem implements ToolbarItemInterface
             $content .= '</ul>';
             $content .= '</nav>';
         } else {
+            $content .= '<div class="float-end" style="width:30px;">' . $enableCheckbox . '</div>';
             $content .= '<h3 class="dropdown-headline">Crowdin</h3>';
             $content .= '<hr />';
             $content .= '<div class="dropdown-table">' . implode('', $entries) . '</div>';
         }
 
         return $content;
+    }
+
+    protected function createToggleSwitch(string $name, bool $enabled): string
+    {
+        $backupDebug = $GLOBALS['TYPO3_CONF_VARS']['BE']['debug'] ?? false;
+        // We need this to avoid the debug output in the checkbox element
+        $GLOBALS['TYPO3_CONF_VARS']['BE']['debug'] = false;
+
+        $data = [
+            'tableName' => '__VIRTUAL__',
+            'databaseRow' => ['uid' => 0],
+            'fieldName' => $name,
+            'parameterArray' => [
+                'itemFormElValue' => $enabled ? 1 : 0,
+                'fieldConf' => [
+                    'config' => [
+                        'readOnly' => false,
+                    ],
+                ],
+                'itemFormElName' => $name,
+                'itemFormElID' => $name
+            ],
+            'processedTca' => [
+                'columns' => [
+                    $name => [
+                        'config' => [
+                            'type' => 'check',
+                            'readOnly' => false,
+                        ],
+                    ],
+                ]
+            ]
+        ];
+
+        $nodeFactory = GeneralUtility::makeInstance(NodeFactory::class);
+        $toggleElement = GeneralUtility::makeInstance(CheckboxToggleElement::class, $nodeFactory, $data);
+        $result = $toggleElement->render();
+
+        $GLOBALS['TYPO3_CONF_VARS']['BE']['debug'] = $backupDebug;
+
+        return $result['html'];
     }
 
     protected function getExtensionsCompatibleWithCrowdin(): array
