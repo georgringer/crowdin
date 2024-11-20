@@ -65,7 +65,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
                 : $this->getSpriteIcon($extension['iconIdentifier']);
             if ($this->typo3Version >= 12) {
                 $entries[] = '<li>';
-                $entries[] = '  <a href="#" class="dropdown-item" role="menuitem" data-extension="' . $extension['key'] . '">';
+                $entries[] = '  <a href="#" class="crowdin-extension dropdown-item" role="menuitem" data-extension="' . $extension['key'] . '">';
                 $entries[] = '    <span class="dropdown-item-columns">';
                 $entries[] = '      <span class="dropdown-item-column dropdown-item-column-icon" aria-hidden="true">' .
                     $icon . '</span>';
@@ -75,12 +75,13 @@ class CrowdinToolbarItem implements ToolbarItemInterface
                 $entries[] = '  </a>';
                 $entries[] = '</li>';
             } else {
-                $entries[] = '<div class="dropdown-table-row" data-extension="' . $extension['key'] . '">';
+                $entries[] = '<div class="dropdown-table-row">';
                 $entries[] = '  <div class="dropdown-table-column dropdown-table-column-top dropdown-table-icon">';
                 $entries[] = $icon;
                 $entries[] = '  </div>';
                 $entries[] = '  <div class="dropdown-table-column">';
-                $entries[] = htmlspecialchars($extension['name']);
+                $entries[] = '<a href="#" class="crowdin-extension" data-extension="' . $extension['key'] . '">'
+                    . htmlspecialchars($extension['name']) . '</a>';
                 $entries[] = '  </div>';
                 $entries[] = '</div>';
             }

@@ -18,11 +18,40 @@ import Icons from '@typo3/backend/icons.js';
  * @exports @friendsoftypo3/crowdin/toolbar
  */
 class Toolbar {
-    create (options) {
-        this.options = options || {};
+  create(options) {
+    this.options = options || {};
 
-        // TODO
-    }
+    this.selectors = {
+      containerSelector: '#friendsoftypo3-crowdin-backend-toolbaritems-crowdintoolbaritem',
+      toolbarIconSelector: '.dropdown-toggle span.t3js-icon',
+    };
+
+    this.initialize();
+  }
+
+  initialize() {
+    const that = this;
+
+    document.querySelectorAll('a.crowdin-extension').forEach(function (item, idx) {
+      item.addEventListener('click', function (event) {
+        event.preventDefault();
+        that.setCurrentExtension(item.dataset.extension);
+      }.bind(this));
+    })
+  }
+
+  setCurrentExtension(extension) {
+    const that = this;
+    console.log('Setting current extension to: ' + extension);
+
+    const iconSelector = this.selectors.containerSelector + ' ' + this.selectors.toolbarIconSelector;
+
+    Icons.getIcon('spinner-circle-light', Icons.sizes.small).then(function (icon) {
+      document.querySelector(iconSelector).outerHTML = icon;
+    });
+
+    // TODO
+  }
 }
 
 export default new Toolbar();
