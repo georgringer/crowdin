@@ -11,7 +11,7 @@ trait ConfigurationOptionsTrait
     protected function getConfigurationOption(string $name, string $defaultValue): string
     {
         $user = $this->getBackendUser();
-        return $user->uc['crowdin'][$name] ?? $defaultValue;
+        return $user !== null ? $user->uc['crowdin'][$name] ?? $defaultValue : $defaultValue;
     }
 
     protected function setConfigurationOption(string $name, string $value): void

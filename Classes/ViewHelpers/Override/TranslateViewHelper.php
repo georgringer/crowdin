@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace FriendsOfTYPO3\Crowdin\ViewHelpers\Override;
 
-use FriendsOfTYPO3\Crowdin\ExtensionConfiguration;
+use FriendsOfTYPO3\Crowdin\UserConfiguration;
 use FriendsOfTYPO3\Crowdin\Xclass\LanguageServiceXclassed;
+use http\Client\Curl\User;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Localization\LanguageService;
@@ -40,8 +41,8 @@ class TranslateViewHelper extends AbstractViewHelper
         $this->registerArgument('languageKey', 'string', 'Language key ("da" for example) or "default" to use. If empty, use current language. Ignored in non-extbase context.');
         $this->registerArgument('alternativeLanguageKeys', 'array', 'Alternative language keys if no translation does exist. Ignored in non-extbase context.');
     }
-    /** @var ExtensionConfiguration */
-    protected static $extensionConfiguration;
+    /** @var UserConfiguration */
+    protected static $userConfiguration;
 
     /**
      * Return array element by key.
@@ -127,11 +128,11 @@ class TranslateViewHelper extends AbstractViewHelper
 
     protected static function translate($id, $extensionName, $arguments, $languageKey, $alternativeLanguageKeys)
     {
-        if (!self::$extensionConfiguration) {
-            self::$extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+        if (!self::$userConfiguration) {
+            self::$userConfiguration = GeneralUtility::makeInstance(UserConfiguration::class);
         }
 
-        if (self::$extensionConfiguration->isUsedForCore()) {
+        if (self::$userConfiguration->usedForCore) {
             $isCoreExt = false;
             foreach (LanguageServiceXclassed::CORE_EXTENSIONS as $extension) {
                 if (str_contains($id, 'EXT:'.$extension)) {
@@ -143,9 +144,9 @@ class TranslateViewHelper extends AbstractViewHelper
             } else {
                 $languageKey = 'default';
             }
-        } elseif (self::$extensionConfiguration->getCrowdinIdentifier()) {
-            if (str_contains($id, 'EXT:'.self::$extensionConfiguration->getExtensionKey())
-                || $extensionName === self::$extensionConfiguration->getExtensionKey()) {
+        } elseif (self::$userConfiguration->crowdinIdentifier) {
+            if (str_contains($id, 'EXT:' . self::$userConfiguration->extensionKey)
+                || $extensionName === self::$userConfiguration->extensionKey) {
                 $languageKey = 't3';
             } else {
                 $languageKey = 'default';

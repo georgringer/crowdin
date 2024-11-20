@@ -1,5 +1,0 @@
-# cat=basic/enable/100; type=boolean; label=Enable to translate TYPO3 core
-core = 1
-
-# cat=basic/enable/101; type=input; label=Extension key:If above setting is NOT set, provide an extension key supported by Crowdin: See https://localize.typo3.org/xliff/status.html for a full list.
-extensionKey = news

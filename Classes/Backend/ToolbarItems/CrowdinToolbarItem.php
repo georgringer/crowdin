@@ -166,7 +166,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
 
     protected function getExtensionsCompatibleWithCrowdin(): array
     {
-        $currentExtension = $this->getConfigurationOption('extension', 'typo3');
+        $extensionKey = $this->getConfigurationOption('extension', 'typo3');
 
         $extensions = [];
 
@@ -175,7 +175,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
             'key' => 'typo3',
             'name' => 'TYPO3 Core Extensions',  // TODO: translate!
             'iconIdentifier' => 'actions-brand-typo3',
-            'active' => $currentExtension === 'typo3',
+            'active' => $extensionKey === 'typo3',
         ];
 
         $labelsDirectory = Environment::getVarPath() . '/labels/t3';
@@ -193,7 +193,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
                         'key' => $extension['key'],
                         'name' => $extension['title'],
                         'icon' => $extension['icon'],
-                        'active' => $currentExtension === $extension['key'],
+                        'active' => $extensionKey === $extension['key'],
                     ];
                 }
             }
