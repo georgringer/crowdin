@@ -46,21 +46,43 @@ class Toolbar {
   }
 
   setCurrentExtension(extension) {
-    const that = this;
-    console.log('Setting current extension to: ' + extension);
+    this.showSpinner();
+    fetch(TYPO3.settings.ajaxUrls['crowdin_setextension'],
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            extension: extension
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+            location.reload()
+        });
+  }
 
+  toggleInPlaceTranslation(enable) {
+    this.showSpinner();
+    fetch(TYPO3.settings.ajaxUrls['crowdin_toggletranslation'],
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            enable: enable
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+            location.reload()
+        });
+  }
+
+  showSpinner() {
     const iconSelector = this.selectors.containerSelector + ' ' + this.selectors.toolbarIconSelector;
 
     Icons.getIcon('spinner-circle-light', Icons.sizes.small).then(function (icon) {
       document.querySelector(iconSelector).outerHTML = icon;
     });
-
-    // TODO
-  }
-
-  toggleInPlaceTranslation(enable) {
-    console.log('Toggling in-place translation to: ' + enable);
-    // TODO
   }
 }
 

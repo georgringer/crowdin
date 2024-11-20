@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace FriendsOfTYPO3\Crowdin\Backend\ToolbarItems;
 
+use FriendsOfTYPO3\Crowdin\Traits\ConfigurationOptionsTrait;
 use FriendsOfTYPO3\Crowdin\Xclass\LanguageServiceXclassed;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Form\Element\CheckboxToggleElement;
 use TYPO3\CMS\Backend\Form\NodeFactory;
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Information\Typo3Version;
@@ -19,6 +23,8 @@ use TYPO3\CMS\Extensionmanager\Utility\ListUtility;
 
 class CrowdinToolbarItem implements ToolbarItemInterface
 {
+    use ConfigurationOptionsTrait;
+
     private readonly int $typo3Version;
 
     public function __construct(
@@ -89,7 +95,8 @@ class CrowdinToolbarItem implements ToolbarItemInterface
             }
         }
 
-        $enableCheckbox = $this->createToggleSwitch('crowdin_enable', true);
+        $translationEnabled = $this->getConfigurationOption('enable', '0') === '1';
+        $enableCheckbox = $this->createToggleSwitch('crowdin_enable', $translationEnabled);
 
         $content = '';
         if ($this->typo3Version >= 12) {
@@ -159,6 +166,8 @@ class CrowdinToolbarItem implements ToolbarItemInterface
 
     protected function getExtensionsCompatibleWithCrowdin(): array
     {
+        $currentExtension = $this->getConfigurationOption('extension', 'typo3');
+
         $extensions = [];
 
         // TYPO3 Core is always compatible with Crowdin
@@ -166,7 +175,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
             'key' => 'typo3',
             'name' => 'TYPO3 Core Extensions',  // TODO: translate!
             'iconIdentifier' => 'actions-brand-typo3',
-            'active' => true,   // TODO: check if Core is active
+            'active' => $currentExtension === 'typo3',
         ];
 
         $labelsDirectory = Environment::getVarPath() . '/labels/t3';
@@ -184,7 +193,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
                         'key' => $extension['key'],
                         'name' => $extension['title'],
                         'icon' => $extension['icon'],
-                        'active' => false,  // TODO: check if extension is active
+                        'active' => $currentExtension === $extension['key'],
                     ];
                 }
             }
@@ -222,5 +231,44 @@ class CrowdinToolbarItem implements ToolbarItemInterface
     public function getIndex(): int
     {
         return 25;
+    }
+
+    /**
+     * @ajax
+     */
+    public function toggleTranslationMode(ServerRequestInterface $request): ResponseInterface
+    {
+        $params = $request->getParsedBody();
+        if ($params === null) {
+            // TODO: This happens in TYPO3 v12, understand the underlying issue
+            $params = json_decode($request->getBody()->getContents(), true);
+        }
+
+        $enable = (bool)($params['enable'] ?? false);
+        $this->setConfigurationOption('enable', $enable ? '1' : '0');
+
+        return new JsonResponse([
+            'success' => true,
+        ]);
+    }
+
+    /**
+     * @ajax
+     */
+    public function setCurrentExtension(ServerRequestInterface $request): ResponseInterface
+    {
+        $params = $request->getParsedBody();
+        if ($params === null) {// TODO: This happens in TYPO3 v12, understand the underlying issue
+            $params = json_decode($request->getBody()->getContents(), true);
+        }
+
+        $extension = $params['extension'] ?? '';
+        if ($extension) {
+            $this->setConfigurationOption('extension', $extension);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+        ]);
     }
 }

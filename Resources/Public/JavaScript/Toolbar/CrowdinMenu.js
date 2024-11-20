@@ -23,20 +23,41 @@ define([
   };
 
   CrowdinMenu.setCurrentExtension = function (extension) {
-    console.log('Setting current extension to: ' + extension);
+    this.showSpinner();
+    $.ajax({
+      url: TYPO3.settings.ajaxUrls['crowdin_setextension'],
+      type: 'post',
+      data: {
+        extension: extension
+      },
+      cache: false,
+      success: function (data) {
+        location.reload()
+      }
+    });
+  }
 
+  CrowdinMenu.toggleInPlaceTranslation = function (enable) {
+    this.showSpinner();
+    $.ajax({
+      url: TYPO3.settings.ajaxUrls['crowdin_toggletranslation'],
+      type: 'post',
+      data: {
+        enable: enable
+      },
+      cache: false,
+      success: function (data) {
+        location.reload()
+      }
+    });
+  }
+
+  CrowdinMenu.showSpinner = function () {
     var $toolbarItemIcon = $(this.options.toolbarIconSelector, this.options.containerSelector);
 
     Icons.getIcon('spinner-circle-light', Icons.sizes.small).done(function(spinner) {
       $toolbarItemIcon.replaceWith(spinner);
     });
-
-    // TODO
-  }
-
-  CrowdinMenu.toggleInPlaceTranslation = function (enable) {
-    console.log('Toggling in-place translation to: ' + enable);
-    // TODO
   }
 
   /**
