@@ -66,7 +66,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
                 ? '<img src="' . htmlspecialchars($extension['icon']) . '" alt="' . htmlspecialchars($extension['name']) . '" style="width:16px">'
                 : $this->getSpriteIcon($extension['iconIdentifier']);
             if ($this->typo3Version >= 12) {
-                $entries[] = '<li' . ($extension['active'] ? ' class="bg-primary"' : '') . '>';
+                $entries[] = '<li' . ($extension['active'] ? ' style="background:#6DAAE0"' : '') . '>';
                 $entries[] = '  <a href="#" class="crowdin-extension dropdown-item" role="menuitem" data-extension="' . $extension['key'] . '">';
                 $entries[] = '    <span class="dropdown-item-columns">';
                 $entries[] = '      <span class="dropdown-item-column dropdown-item-column-icon" aria-hidden="true">' .
