@@ -37,7 +37,12 @@ class Toolbar {
         event.preventDefault();
         that.setCurrentExtension(item.dataset.extension);
       }.bind(this));
-    })
+    });
+
+    document.querySelector(this.selectors.containerSelector + ' [data-formengine-input-name="crowdin_enable"]').addEventListener('change', function (event) {
+      event.preventDefault();
+      that.toggleInPlaceTranslation(event.target.checked);
+    }.bind(this));
   }
 
   setCurrentExtension(extension) {
@@ -50,6 +55,11 @@ class Toolbar {
       document.querySelector(iconSelector).outerHTML = icon;
     });
 
+    // TODO
+  }
+
+  toggleInPlaceTranslation(enable) {
+    console.log('Toggling in-place translation to: ' + enable);
     // TODO
   }
 }

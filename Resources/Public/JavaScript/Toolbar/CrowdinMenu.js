@@ -16,6 +16,10 @@ define([
       event.preventDefault();
       that.setCurrentExtension(event.target.dataset.extension);
     });
+    $(this.options.containerSelector + ' [data-formengine-input-name="crowdin_enable"]').on('change', function (event) {
+      event.preventDefault();
+      that.toggleInPlaceTranslation(event.target.checked);
+    });
   };
 
   CrowdinMenu.setCurrentExtension = function (extension) {
@@ -27,6 +31,11 @@ define([
       $toolbarItemIcon.replaceWith(spinner);
     });
 
+    // TODO
+  }
+
+  CrowdinMenu.toggleInPlaceTranslation = function (enable) {
+    console.log('Toggling in-place translation to: ' + enable);
     // TODO
   }
 
