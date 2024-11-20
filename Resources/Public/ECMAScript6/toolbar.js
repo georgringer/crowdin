@@ -19,6 +19,7 @@ import Icons from '@typo3/backend/icons.js';
  */
 class Toolbar {
   create(options) {
+    const that = this;
     this.options = options || {};
 
     this.selectors = {
@@ -26,7 +27,9 @@ class Toolbar {
       toolbarIconSelector: '.dropdown-toggle span.t3js-icon',
     };
 
-    this.initialize();
+    setTimeout(function() {
+        that.initialize();
+    }, 1000);
   }
 
   initialize() {

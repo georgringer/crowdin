@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FriendsOfTYPO3\Crowdin\Xclass;
 
+use FriendsOfTYPO3\Crowdin\Traits\ConfigurationOptionsTrait;
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Information\Typo3Version;
@@ -17,6 +18,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class LanguageServiceFactoryXclassed extends LanguageServiceFactory
 {
+    use ConfigurationOptionsTrait;
 
     /**
      * Factory method to create a language service object.
@@ -36,7 +38,10 @@ class LanguageServiceFactoryXclassed extends LanguageServiceFactory
 
     public function createFromUserPreferences(?AbstractUserAuthentication $user): LanguageService
     {
-        if ($user && ($user->user['lang'] ?? false)) {
+        if ($user !== null) {
+            if ($user && static::getConfigurationOption('enable', '0') === '1') {
+                $user->user['lang'] = 't3';
+            }
             if ((new Typo3Version())->getMajorVersion() >= 12) {
                 return $this->create($this->locales->createLocale($user->user['lang']));
             } else {

@@ -95,7 +95,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
             }
         }
 
-        $translationEnabled = $this->getConfigurationOption('enable', '0') === '1';
+        $translationEnabled = static::getConfigurationOption('enable', '0') === '1';
         $enableCheckbox = $this->createToggleSwitch('crowdin_enable', $translationEnabled);
 
         $content = '';
@@ -166,7 +166,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
 
     protected function getExtensionsCompatibleWithCrowdin(): array
     {
-        $extensionKey = $this->getConfigurationOption('extension', 'typo3');
+        $extensionKey = static::getConfigurationOption('extension', 'typo3');
 
         $extensions = [];
 
@@ -245,7 +245,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
         }
 
         $enable = (bool)($params['enable'] ?? false);
-        $this->setConfigurationOption('enable', $enable ? '1' : '0');
+        static::setConfigurationOption('enable', $enable ? '1' : '0');
 
         return new JsonResponse([
             'success' => true,
@@ -264,7 +264,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
 
         $extension = $params['extension'] ?? '';
         if ($extension) {
-            $this->setConfigurationOption('extension', $extension);
+            static::setConfigurationOption('extension', $extension);
         }
 
         return new JsonResponse([

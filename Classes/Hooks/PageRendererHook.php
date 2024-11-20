@@ -19,10 +19,7 @@ class PageRendererHook
 
     public function run(array &$params): void
     {
-        if ($this->getConfigurationOption('enable', '0') === '1'
-            // TODO: Can we get rid of this additional check and change that on-the-fly?
-            && ($this->getBackendUser()->user['lang'] ?? '') === self::LANGUAGE_KEY) {
-
+        if (static::getConfigurationOption('enable', '0') === '1') {
             $projectIdentifier = $this->getProjectIdentifier();
             if ($projectIdentifier) {
                 $out = [];
@@ -56,10 +53,5 @@ class PageRendererHook
         }
 
         return $userConfiguration->crowdinIdentifier;
-    }
-
-    protected function getBackendUser(): BackendUserAuthentication
-    {
-        return $GLOBALS['BE_USER'];
     }
 }

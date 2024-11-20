@@ -8,20 +8,20 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 
 trait ConfigurationOptionsTrait
 {
-    protected function getConfigurationOption(string $name, string $defaultValue): string
+    protected static function getConfigurationOption(string $name, string $defaultValue): string
     {
-        $user = $this->getBackendUser();
+        $user = static::getBackendUser();
         return $user !== null ? $user->uc['crowdin'][$name] ?? $defaultValue : $defaultValue;
     }
 
-    protected function setConfigurationOption(string $name, string $value): void
+    protected static function setConfigurationOption(string $name, string $value): void
     {
-        $user = $this->getBackendUser();
+        $user = static::getBackendUser();
         $user->uc['crowdin'][$name] = $value;
         $user->writeUC();
     }
 
-    protected function getBackendUser(): BackendUserAuthentication
+    protected static function getBackendUser(): BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
     }

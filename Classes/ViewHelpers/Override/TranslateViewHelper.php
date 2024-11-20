@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FriendsOfTYPO3\Crowdin\ViewHelpers\Override;
 
+use FriendsOfTYPO3\Crowdin\Traits\ConfigurationOptionsTrait;
 use FriendsOfTYPO3\Crowdin\UserConfiguration;
 use FriendsOfTYPO3\Crowdin\Xclass\LanguageServiceXclassed;
 use http\Client\Curl\User;
@@ -21,8 +22,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class TranslateViewHelper extends AbstractViewHelper
 {
-
     use CompileWithRenderStatic;
+    use ConfigurationOptionsTrait;
 
     /**
      * Output is escaped already. We must not escape children, to avoid double encoding.
@@ -135,7 +136,7 @@ class TranslateViewHelper extends AbstractViewHelper
         if (self::$userConfiguration->usedForCore) {
             $isCoreExt = false;
             foreach (LanguageServiceXclassed::CORE_EXTENSIONS as $extension) {
-                if (str_contains($id, 'EXT:'.$extension)) {
+                if (str_contains($id, 'EXT:' . $extension)) {
                     $isCoreExt = true;
                 }
             }
@@ -156,7 +157,6 @@ class TranslateViewHelper extends AbstractViewHelper
         return LocalizationUtility::translate($id, $extensionName, $arguments, $languageKey, $alternativeLanguageKeys);
     }
 
-
     protected static function getLanguageService(?ServerRequestInterface $request = null): LanguageService
     {
         if (isset($GLOBALS['LANG'])) {
@@ -168,7 +168,12 @@ class TranslateViewHelper extends AbstractViewHelper
                 ?? $request->getAttribute('site')->getDefaultLanguage());
             return $GLOBALS['LANG'];
         }
-        $GLOBALS['LANG'] = $languageServiceFactory->createFromUserPreferences($GLOBALS['BE_USER'] ?? null);
+
+        $user = $GLOBALS['BE_USER'] ?? null;
+        if ($user && static::getConfigurationOption('enable', '0') === '1') {
+            $user->user['lang'] = 't3';
+        }
+        $GLOBALS['LANG'] = $languageServiceFactory->createFromUserPreferences($user);
         return $GLOBALS['LANG'];
     }
 }
