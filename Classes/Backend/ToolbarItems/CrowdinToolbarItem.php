@@ -66,7 +66,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
                 ? '<img src="' . htmlspecialchars($extension['icon']) . '" alt="' . htmlspecialchars($extension['name']) . '" style="width:16px">'
                 : $this->getSpriteIcon($extension['iconIdentifier']);
             if ($this->typo3Version >= 12) {
-                $entries[] = '<li>';
+                $entries[] = '<li' . ($extension['active'] ? ' class="bg-primary"' : '') . '>';
                 $entries[] = '  <a href="#" class="crowdin-extension dropdown-item" role="menuitem" data-extension="' . $extension['key'] . '">';
                 $entries[] = '    <span class="dropdown-item-columns">';
                 $entries[] = '      <span class="dropdown-item-column dropdown-item-column-icon" aria-hidden="true">' .
@@ -93,6 +93,7 @@ class CrowdinToolbarItem implements ToolbarItemInterface
 
         $content = '';
         if ($this->typo3Version >= 12) {
+            $content .= '<div class="float-end" style="width:30px;margin-top:3px">' . $enableCheckbox . '</div>';
             $content .= '<p class="h3 dropdown-headline" id="crowdin-dropdown-headline">Crowdin</p>';
             $content .= '<hr class="dropdown-divider" aria-hidden="true">';
             $content .= '<nav class="t3js-crowdinmenu">';
@@ -142,8 +143,13 @@ class CrowdinToolbarItem implements ToolbarItemInterface
             ]
         ];
 
-        $nodeFactory = GeneralUtility::makeInstance(NodeFactory::class);
-        $toggleElement = GeneralUtility::makeInstance(CheckboxToggleElement::class, $nodeFactory, $data);
+        if ($this->typo3Version >= 13) {
+            $toggleElement = GeneralUtility::makeInstance(CheckboxToggleElement::class);
+            $toggleElement->setData($data);
+        } else {
+            $nodeFactory = GeneralUtility::makeInstance(NodeFactory::class);
+            $toggleElement = GeneralUtility::makeInstance(CheckboxToggleElement::class, $nodeFactory, $data);
+        }
         $result = $toggleElement->render();
 
         $GLOBALS['TYPO3_CONF_VARS']['BE']['debug'] = $backupDebug;
