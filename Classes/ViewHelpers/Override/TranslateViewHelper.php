@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GeorgRinger\Crowdin\ViewHelpers\Override;
+namespace FriendsOfTYPO3\Crowdin\ViewHelpers\Override;
 
-use GeorgRinger\Crowdin\ExtensionConfiguration;
-use GeorgRinger\Crowdin\Xclass\LanguageServiceXclassed;
+use FriendsOfTYPO3\Crowdin\ExtensionConfiguration;
+use FriendsOfTYPO3\Crowdin\Xclass\LanguageServiceXclassed;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Localization\LanguageService;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GeorgRinger\Crowdin\Xclass;
+namespace FriendsOfTYPO3\Crowdin\Xclass;
 
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;

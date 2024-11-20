@@ -1,5 +1,5 @@
 {
-	"name": "georgringer/crowdin",
+	"name": "friendsoftypo3/crowdin",
 	"type": "typo3-cms-extension",
 	"description": "Crowdin integration for TYPO3",
 	"keywords": [
@@ -9,16 +9,18 @@
 		"localization",
 		"translation"
 	],
-	"homepage": "https://github.com/georgringer/crowdin",
+	"homepage": "https://typo3.org",
 	"support": {
-		"issues": "https://github.com/georgringer/crowdin/issues"
+		"chat": "https://typo3.org/help/",
+		"docs": "https://github.com/FriendsOfTYPO3/crowdin/blob/main/README.md",
+		"issues": "https://github.com/FriendsOfTYPO3/crowdin/issues",
+		"source": "https://github.com/FriendsOfTYPO3/crowdin"
 	},
 	"authors": [
 		{
-			"name": "Georg Ringer",
-			"email": "mail@ringer.it",
-			"role": "Developer",
-			"homepage": "https://www.ringer.it"
+			"name": "TYPO3 Translation Team",
+			"email": "typo3cms@typo3.org",
+			"role": "Developer"
 		}
 	],
 	"license": [
@@ -29,7 +31,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"GeorgRinger\\Crowdin\\": "Classes/"
+			"FriendsOfTYPO3\\Crowdin\\": "Classes/"
 		}
 	},
 	"extra": {

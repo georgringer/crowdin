@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GeorgRinger\Crowdin;
+namespace FriendsOfTYPO3\Crowdin;
 
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
@@ -30,14 +30,14 @@ class Setup
             $changesToBeWritten = true;
         }
 
-        if (!in_array('GeorgRinger\\Crowdin\\ViewHelpers\\Override', $localConfiguration['SYS']['fluid']['namespaces']['f'] ?? [], true)) {
+        if (!in_array('FriendsOfTYPO3\\Crowdin\\ViewHelpers\\Override', $localConfiguration['SYS']['fluid']['namespaces']['f'] ?? [], true)) {
             if (!in_array('TYPO3\\CMS\\Fluid\\ViewHelpers', $localConfiguration['SYS']['fluid']['namespaces']['f'] ?? [], true)) {
                 $localConfiguration['SYS']['fluid']['namespaces']['f'][] = 'TYPO3\\CMS\\Fluid\\ViewHelpers';
             }
             if (!in_array('TYPO3Fluid\\Fluid\\ViewHelpers', $localConfiguration['SYS']['fluid']['namespaces']['f'] ?? [], true)) {
                 $localConfiguration['SYS']['fluid']['namespaces']['f'][] = 'TYPO3Fluid\\Fluid\\ViewHelpers';
             }
-            $localConfiguration['SYS']['fluid']['namespaces']['f'][] = 'GeorgRinger\\Crowdin\\ViewHelpers\\Override';
+            $localConfiguration['SYS']['fluid']['namespaces']['f'][] = 'FriendsOfTYPO3\\Crowdin\\ViewHelpers\\Override';
             $changesToBeWritten = true;
         }
 
@@ -56,9 +56,9 @@ class Setup
             unset($localConfiguration['SYS']['localization']['locales']['user']['t3']);
             $changesToBeWritten = true;
         }
-        if (in_array('GeorgRinger\\Crowdin\\ViewHelpers\\Override', $localConfiguration['SYS']['fluid']['namespaces']['f'] ?? [], true)) {
+        if (in_array('FriendsOfTYPO3\\Crowdin\\ViewHelpers\\Override', $localConfiguration['SYS']['fluid']['namespaces']['f'] ?? [], true)) {
             foreach ($localConfiguration['SYS']['fluid']['namespaces']['f'] as $k => $v) {
-                if ($v === 'GeorgRinger\\Crowdin\\ViewHelpers\\Override') {
+                if ($v === 'FriendsOfTYPO3\\Crowdin\\ViewHelpers\\Override') {
                     unset($localConfiguration['SYS']['fluid']['namespaces']['f'][$k]);
                     $changesToBeWritten = true;
                 }

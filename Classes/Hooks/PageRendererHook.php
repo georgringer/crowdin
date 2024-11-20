@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GeorgRinger\Crowdin\Hooks;
+namespace FriendsOfTYPO3\Crowdin\Hooks;
 
-use GeorgRinger\Crowdin\ExtensionConfiguration;
+use FriendsOfTYPO3\Crowdin\ExtensionConfiguration;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Core\RequestId;
 use TYPO3\CMS\Core\Information\Typo3Version;

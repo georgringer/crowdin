@@ -1,3 +1,10 @@
+[![Latest Stable Version](https://poser.pugx.org/friendsoftypo3/crowdin/v/stable)](https://extensions.typo3.org/extension/crowdin/)
+[![TYPO3 13](https://img.shields.io/badge/TYPO3-13-orange.svg)](https://get.typo3.org/version/13)
+[![TYPO3 12](https://img.shields.io/badge/TYPO3-12-orange.svg)](https://get.typo3.org/version/12)
+[![TYPO3 11](https://img.shields.io/badge/TYPO3-11-orange.svg)](https://get.typo3.org/version/11)
+[![Total Downloads](https://poser.pugx.org/friendsoftypo3/crowdin/downloads)](https://packagist.org/packages/friendsoftypo3/crowdin)
+[![Monthly Downloads](https://poser.pugx.org/friendsoftypo3/crowdin/d/monthly)](https://packagist.org/packages/friendsoftypo3/crowdin)
+
 # TYPO3 Extension `crowdin`
 
 This extensions integrates the inplace editing of Crowdin into TYPO3.
@@ -11,8 +18,8 @@ Using this features makes it fast and simple to add translations of XLF files us
 
 ### Using composer
 
-1. `composer req georgringer/crowdin`.
-2. `./typo3cms crowdin:enable`
+1. `composer req friendsoftypo3/crowdin`.
+2. `./vendor/bin/typo3 crowdin:enable`
 
 ### Non composer
 
@@ -30,7 +37,7 @@ $GLOBALS['TYPO3_CONF_VARS']
             'f' => [
                 'TYPO3\\CMS\\Fluid\\ViewHelpers',
                 'TYPO3Fluid\\Fluid\\ViewHelpers',
-                'GeorgRinger\\Crowdin\\ViewHelpers\\Override',
+                'FriendsOfTYPO3\\Crowdin\\ViewHelpers\\Override',
             ],
         ],
     ];
@@ -46,7 +53,8 @@ Follow the next steps to be able to use Crowdin in the backend:
 3. Select *Crowdin In-Context Localization*.
 4. Click save button.
 
-After the automatic reload, a Crowdin will be shown to login with your Crowdin account and to select the language you want to translate to.
+After the automatic reload, a Crowdin modal will be shown to log in with your Crowdin account and to
+select the language you want to translate to.
 
 To enable in-context localization: Switch your user to Language *Crowdin In-Context Localization*
 
@@ -55,5 +63,7 @@ To enable in-context localization: Switch your user to Language *Crowdin In-Cont
 This extensions can be configured in the Install Tool using *Settings* => *Extension Configuration* => *Crowdin*.
 
 - `Enable to translate TYPO3 core`: Enable this checkbox to translate TYPO3 and its system extensions.
-- `Extension key`: If the checkbox above is **NOT** set, an extension key can be provided which can be translated. A full list of available extensions on Crowdin is available at [localize.typo3.org/xliff/status.html](https://localize.typo3.org/xliff/status.html). e.g. `news`.
+- `Extension key`: If the checkbox above is **NOT** set, an extension key can be provided which can be
+  translated. A full list of available extensions on Crowdin is available at
+  [localize.typo3.org/xliff/status.html](https://localize.typo3.org/xliff/status.html). E.g., `news`.
 

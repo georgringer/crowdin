@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GeorgRinger\Crowdin\Command;
+namespace FriendsOfTYPO3\Crowdin\Command;
 
-use GeorgRinger\Crowdin\Setup;
+use FriendsOfTYPO3\Crowdin\Setup;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

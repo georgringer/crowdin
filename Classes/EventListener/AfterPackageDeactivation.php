@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GeorgRinger\Crowdin\EventListener;
+namespace FriendsOfTYPO3\Crowdin\EventListener;
 
-use GeorgRinger\Crowdin\Setup;
+use FriendsOfTYPO3\Crowdin\Setup;
 use TYPO3\CMS\Core\Package\Event\AfterPackageDeactivationEvent;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

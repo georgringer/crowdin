@@ -4,40 +4,40 @@ services:
     autoconfigure: true
     public: false
 
-  GeorgRinger\Crowdin\:
+  FriendsOfTYPO3\Crowdin\:
     resource: '../Classes/*'
     # glob for services that have been previously available as
     # container entries and have been removed in the mean time
     # (e.g. because factories are to be used instead)
     exclude: '../Classes/{Xclass/LanguageServiceXclassed.php}'
 
-  GeorgRinger\Crowdin\EventListener\AfterPackageActivation:
+  FriendsOfTYPO3\Crowdin\EventListener\AfterPackageActivation:
     tags:
       - name: event.listener
         identifier: 'core-afterpackageactivation-crowdin'
         event: TYPO3\CMS\Core\Package\Event\AfterPackageActivationEvent
 
-  GeorgRinger\Crowdin\EventListener\AfterPackageDeactivation:
+  FriendsOfTYPO3\Crowdin\EventListener\AfterPackageDeactivation:
     tags:
       - name: event.listener
         identifier: 'core-afterpackagedeactivation-crowdin'
         event: TYPO3\CMS\Core\Package\Event\AfterPackageDeactivationEvent
 
-  GeorgRinger\Crowdin\Command\EnableCommand:
+  FriendsOfTYPO3\Crowdin\Command\EnableCommand:
     tags:
       - name: 'console.command'
         command: 'crowdin:enable'
         schedulable: false
         description: 'Enable Crowdin'
 
-  GeorgRinger\Crowdin\Command\DisableCommand:
+  FriendsOfTYPO3\Crowdin\Command\DisableCommand:
     tags:
       - name: 'console.command'
         command: 'crowdin:disable'
         schedulable: false
         description: 'Disable Crowdin'
 
-  GeorgRinger\Crowdin\Xclass\LanguageServiceFactoryXclassed:
+  FriendsOfTYPO3\Crowdin\Xclass\LanguageServiceFactoryXclassed:
     public: true
     arguments:
       $runtimeCache: '@cache.runtime'

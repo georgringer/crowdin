@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GeorgRinger\Crowdin\Xclass;
+namespace FriendsOfTYPO3\Crowdin\Xclass;
 
-use GeorgRinger\Crowdin\ExtensionConfiguration;
+use FriendsOfTYPO3\Crowdin\ExtensionConfiguration;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
