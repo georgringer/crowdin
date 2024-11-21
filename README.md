@@ -7,12 +7,14 @@
 
 # TYPO3 Extension `crowdin`
 
-This extensions integrates the inplace editing of Crowdin into TYPO3.
-Using this features makes it fast and simple to add translations of XLF files used in the backend.
+This extensions integrates the in-context editing of Crowdin into TYPO3.
+Using this features makes it fast and simple to add translations of XLF
+files used in the backend.
 
 ![In-Context Localization](Resources/Public/Screenshots/crowdin-inline-localization.png)
 
-**Important:** This extensions can **not** be used to translate content but "static" translations saved in `xlf` files.
+**Important:** This extensions can **not** be used to translate content but
+"static" translations saved in `xlf` files.
 
 ## 1. Install
 
@@ -48,22 +50,18 @@ $GLOBALS['TYPO3_CONF_VARS']
 Follow the next steps to be able to use Crowdin in the backend:
 
 1. Switch to *Install Tool* => *Maintenance* => **Manage Language Packs**
-2. Click **+  Add language** and select **Crowdin In-Context Localization [t3]**, click **Update all**.
-3. Switch to the **User settings**
-3. Select *Crowdin In-Context Localization*.
-4. Click save button.
+2. Click **+  Add language** and select **Crowdin In-Context Localization [t3]**,
+   click **Update all**.
+3. Use the Crowdin icon in the top toolbar (usuallly next to the Help icon) to
+   open the Crowdin configuration popup.
+4. Click on the extension you want to translate.
+5. Use the toggle switch to enable/disable in-context localization.
 
-After the automatic reload, a Crowdin modal will be shown to log in with your Crowdin account and to
-select the language you want to translate to.
+After the automatic reload, a Crowdin modal will be shown to log in with your
+Crowdin account and to select the language you want to translate to.
 
-To enable in-context localization: Switch your user to Language *Crowdin In-Context Localization*
-
-## Extension Configuration
-
-This extensions can be configured in the Install Tool using *Settings* => *Extension Configuration* => *Crowdin*.
-
-- `Enable to translate TYPO3 core`: Enable this checkbox to translate TYPO3 and its system extensions.
-- `Extension key`: If the checkbox above is **NOT** set, an extension key can be provided which can be
-  translated. A full list of available extensions on Crowdin is available at
-  [localize.typo3.org/xliff/status.html](https://localize.typo3.org/xliff/status.html). E.g., `news`.
-
+**Important:** Your preferred language may switch to some cryptic language
+with identifiers everywhere, instead of real text. This may happen when you
+disable in-context localization. To switch back to your preferred language,
+you need to open your user settings (click on your avatar, top right) and preset
+your preferred language back (from "Crowdin In-Context Localization").
