@@ -7,17 +7,17 @@ Configuration
 =============
 
 
-#. Log into backend and download at least two language packs from Admin Tool => Maintenance => Manage Language Packs:
+#.  Log into backend and download at least two language packs from Admin Tool => Maintenance => Manage Language Packs:
 
-   #. The language you want to translate to
+    #. The language you want to translate to
 
-   #. The language pack **Crowdin In-Context Localization [t3]**
+    #. The language pack **Crowdin In-Context Localization [t3]**
 
-   #. Click **Update all**
+    #. Click **Update all**
 
-#. Go to your profile **User settings** and select **Crowdin In-Context Localization [t3]** as your Languages
+#.  Go to your profile **User settings** and select **Crowdin In-Context Localization [t3]** as your Languages
 
-#. When you click save, Typo3 will connect to Crowdin and you will be asked to login using your Crowdin Credentials
+#.  When you click save, Typo3 will connect to Crowdin and you will be asked to login using your Crowdin Credentials
 
 # Translating extensions
 

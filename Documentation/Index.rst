@@ -6,9 +6,9 @@
 Crowdin
 =========
 
-This extension serve to support both backend and frontend translation This
-extensions integrates the inplace editing of Crowdin into TYPO3. Using this
-features makes it fast and simple to add translations of XLF files used in
+This extension serves to support both backend and frontend translation. This
+extensions integrates the in-context editing of Crowdin into TYPO3. Using this
+feature makes it fast and simple to add translations of XLF files used in
 the backend.
 
 ----
