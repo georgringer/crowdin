@@ -7,14 +7,16 @@
   <extension class="\T3Docs\Typo3DocsTheme\DependencyInjection\Typo3DocsThemeExtension"
              project-home="https://extensions.typo3.org/extension/crowdin"
              project-contact="https://typo3.slack.com/archives/CR75200FL"
-             project-repository="https://github.com/FriendsOfTYPO3/crowdin/"
+             project-repository="https://github.com/FriendsOfTYPO3/crowdin"
              project-issues="https://github.com/FriendsOfTYPO3/crowdin/issues"
-             project-discussions="https://typo3.slack.com/archives/CR75200FL"
+             project-discussions="https://typo3.slack.com/archives/C032FRT0W"
              edit-on-github-branch="main"
-             edit-on-github="Documentation/"
+             edit-on-github="FriendsOfTYPO3/crowdin"
              typo3-core-preferred="stable"
   />
   <project title="Crowdin"
+           release="3.0.0"
            version="3.0"
+           copyright="2019-2024"
   />
 </guides>
