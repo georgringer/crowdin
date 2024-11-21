@@ -2,9 +2,9 @@
 
 .. _start:
 
-=========
+========
 Crowdin
-=========
+========
 
 This extension serves to support both backend and frontend translation. This
 extensions integrates the in-context editing of Crowdin into TYPO3. Using this
