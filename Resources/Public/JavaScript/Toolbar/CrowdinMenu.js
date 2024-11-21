@@ -18,7 +18,7 @@ define([
     });
     $(this.options.containerSelector + ' [data-formengine-input-name="crowdin_enable"]').on('change', function (event) {
       event.preventDefault();
-      that.toggleInPlaceTranslation(event.target.checked);
+      that.toggleInContextLocalization(event.target.checked);
     });
   };
 
@@ -37,7 +37,7 @@ define([
     });
   }
 
-  CrowdinMenu.toggleInPlaceTranslation = function (enable) {
+  CrowdinMenu.toggleInContextLocalization = function (enable) {
     this.showSpinner();
     $.ajax({
       url: TYPO3.settings.ajaxUrls['crowdin_toggletranslation'],

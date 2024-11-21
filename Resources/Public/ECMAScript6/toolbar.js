@@ -44,7 +44,7 @@ class Toolbar {
 
     document.querySelector(this.selectors.containerSelector + ' [data-formengine-input-name="crowdin_enable"]').addEventListener('change', function (event) {
       event.preventDefault();
-      that.toggleInPlaceTranslation(event.target.checked);
+      that.toggleInContextLocalization(event.target.checked);
     }.bind(this));
   }
 
@@ -64,7 +64,7 @@ class Toolbar {
         });
   }
 
-  toggleInPlaceTranslation(enable) {
+  toggleInContextLocalization(enable) {
     this.showSpinner();
     fetch(TYPO3.settings.ajaxUrls['crowdin_toggletranslation'],
         {
