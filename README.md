@@ -65,3 +65,9 @@ with identifiers everywhere, instead of real text. This may happen when you
 disable in-context localization. To switch back to your preferred language,
 you need to open your user settings (click on your avatar, top right) and preset
 your preferred language back (from "Crowdin In-Context Localization").
+
+
+## Documentation
+
+Full documentation is available at
+https://docs.typo3.org/p/friendsoftypo3/crowdin/main/en-us/.

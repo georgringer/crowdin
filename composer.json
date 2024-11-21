@@ -12,14 +12,14 @@
 	"homepage": "https://typo3.org",
 	"support": {
 		"chat": "https://typo3.org/help/",
-		"docs": "https://github.com/FriendsOfTYPO3/crowdin/blob/main/README.md",
+		"docs": "https://docs.typo3.org/p/friendsoftypo3/crowdin/main/en-us/",
 		"issues": "https://github.com/FriendsOfTYPO3/crowdin/issues",
 		"source": "https://github.com/FriendsOfTYPO3/crowdin"
 	},
 	"authors": [
 		{
 			"name": "TYPO3 Localization Team",
-			"email": "friendsof@typo3.org",
+			"email": "localization@typo3.org",
 			"role": "Developer"
 		}
 	],
