@@ -25,7 +25,7 @@ Installation
 # Additional information
 
 The enable command above writes the following information to
-:file`LocalConfiguration.php` / :file:`settings.php`:
+:file:`LocalConfiguration.php` / :file:`settings.php`:
 
 ..  code-block:: php
 
