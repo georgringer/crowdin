@@ -6,26 +6,27 @@
 Installation
 ============
 
-.. important::
+..  important::
 
-    You will need an account at Crowdin to get efficient utilisation of this extension. An account
-    give you the role as translator per default.
+    You will need an account at Crowdin to get efficient utilisation of this
+    extension. An account gives you the role as translator per default.
 
 
-#. Using composer
+#.  Using composer
 
-   #. `composer require friendsoftypo3/crowdin`.
-   #. `./vendor/bin/typo3 crowdin:enable`.
+    #. `composer require friendsoftypo3/crowdin`.
+    #. `./vendor/bin/typo3 crowdin:enable`.
 
-#. Non composer
+#.  Non composer
 
-   #. Download the extension from TER
-   #. `./typo3/sysext/core/bin/typo3 crowdin:enable`.
+    #. Download the extension from TER.
+    #. `./typo3/sysext/core/bin/typo3 crowdin:enable`.
 
 Additional information
-============
+======================
 
-The enable command above writes the following information to LocalConfiguration.php/settings.php:
+The ``enable`` command above writes the following information to
+:file:`LocalConfiguration.php` / :file:`settings.php`:
 
 ..  code-block:: php
 
@@ -39,4 +40,3 @@ The enable command above writes the following information to LocalConfiguration.
                 ],
             ],
         ];
-

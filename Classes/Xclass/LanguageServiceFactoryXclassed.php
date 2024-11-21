@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FriendsOfTYPO3\Crowdin\Xclass;
 
+use FriendsOfTYPO3\Crowdin\Traits\ConfigurationOptionsTrait;
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Information\Typo3Version;
@@ -17,6 +18,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class LanguageServiceFactoryXclassed extends LanguageServiceFactory
 {
+    use ConfigurationOptionsTrait;
 
     /**
      * Factory method to create a language service object.
@@ -36,11 +38,14 @@ class LanguageServiceFactoryXclassed extends LanguageServiceFactory
 
     public function createFromUserPreferences(?AbstractUserAuthentication $user): LanguageService
     {
-        if ($user && ($user->user['lang'] ?? false)) {
+        if ($user !== null) {
+            if ($user && static::getConfigurationOption('enable', '0') === '1') {
+                $user->user['lang'] = 't3';
+            }
             if ((new Typo3Version())->getMajorVersion() >= 12) {
-                return $this->create($this->locales->createLocale($user->user['lang']));
+                return $this->create($this->locales->createLocale($user->user['lang'] ?? ''));
             } else {
-                return $this->create($user->user['lang']);
+                return $this->create($user->user['lang'] ?? '');
             }
         }
         return $this->create('en');
@@ -53,8 +58,10 @@ class LanguageServiceFactoryXclassed extends LanguageServiceFactory
         // allowed language keys)
         $languageService = $this->create((string)$language->getLocale() ?: $language->getTypo3Language());
         // Always disable debugging for frontend
-        // @deprecated since TYPO3 v12.4. will be removed in TYPO3 v13.0. Remove together with code in LanguageService
-        $languageService->debugKey = false;
+        if ((new Typo3Version())->getMajorVersion() < 13) {
+            // @deprecated since TYPO3 v12.4. will be removed in TYPO3 v13.0. Remove together with code in LanguageService
+            $languageService->debugKey = false;
+        }
         return $languageService;
     }
 }

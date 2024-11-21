@@ -6,6 +6,7 @@
 Known problems
 ==============
 
+
 Where is the extension in the TYPO3 toolbar
 ==============
 

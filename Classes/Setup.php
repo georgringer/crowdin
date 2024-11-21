@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace FriendsOfTYPO3\Crowdin;
 
-use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Configuration\ConfigurationManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * This file is part of the "crowdin" Extension for TYPO3 CMS.

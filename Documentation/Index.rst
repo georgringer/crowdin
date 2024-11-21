@@ -2,13 +2,13 @@
 
 .. _start:
 
-=========
+========
 Crowdin
-=========
+========
 
-This extension serve to support both backend and frontend translation This
-extensions integrates the inplace editing of Crowdin into TYPO3. Using this
-features makes it fast and simple to add translations of XLF files used in
+This extension serves to support both backend and frontend translation. This
+extensions integrates the in-context editing of Crowdin into TYPO3. Using this
+feature makes it fast and simple to add translations of XLF files used in
 the backend.
 
 ----
@@ -22,23 +22,24 @@ the backend.
 
     ..  card:: Introduction
 
-        Get starting with online translation and contribute to making TYPO3 better
-        by providing the worlds best CMS available in your favorite language
+        Get starting with online translation and contribute to making TYPO3
+        better by providing the worlds best CMS available in your favorite
+        language.
 
         ..  card-footer:: :ref:`Get an overview <introduction>`
             :button-style: btn btn-secondary stretched-link
 
     ..  card:: Installation
 
-        Get the extension installed or updated
+        Get the extension installed or updated.
 
         ..  card-footer:: :ref:`View the installation steps <installation>`
             :button-style: btn btn-secondary stretched-link
 
     ..  card:: Configuration
 
-        Learn how to load the Crowdin features into both backend and frontend and
-        switch between translating TYPO3 core or your favorite extensions.
+        Learn how to load the Crowdin features into both backend and frontend
+        and switch between translating TYPO3 core or your favorite extensions.
 
         ..  card-footer:: :ref:`Learn how to configure the extension <configuration>`
             :button-style: btn btn-secondary stretched-link
