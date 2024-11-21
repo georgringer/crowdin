@@ -43,9 +43,9 @@ class LanguageServiceFactoryXclassed extends LanguageServiceFactory
                 $user->user['lang'] = 't3';
             }
             if ((new Typo3Version())->getMajorVersion() >= 12) {
-                return $this->create($this->locales->createLocale($user->user['lang']));
+                return $this->create($this->locales->createLocale($user->user['lang'] ?? ''));
             } else {
-                return $this->create($user->user['lang']);
+                return $this->create($user->user['lang'] ?? '');
             }
         }
         return $this->create('en');
