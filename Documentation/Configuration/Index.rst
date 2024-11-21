@@ -31,7 +31,7 @@ Screenshots
 
 When the things are running, you should have access to the Crowdin Modal Tool in the bottom of the browser window
 
-..  figure:: /Images/CrowdinTool.png
+..  figure:: /Images/crowdin-tool.png
     :class: with-shadow
     :alt: Crowdin Tool
     :width: 288px

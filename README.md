@@ -11,7 +11,7 @@ This extensions integrates the in-context editing of Crowdin into TYPO3.
 Using this features makes it fast and simple to add translations of XLF
 files used in the backend.
 
-![In-Context Localization](Resources/Public/Screenshots/crowdin-inline-localization.png)
+![In-Context Localization](Documentation/Images/crowdin-inline-localization.png)
 
 **Important:** This extensions can **not** be used to translate content but
 "static" translations saved in `xlf` files.
