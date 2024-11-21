@@ -18,8 +18,8 @@
 	},
 	"authors": [
 		{
-			"name": "TYPO3 Translation Team",
-			"email": "typo3cms@typo3.org",
+			"name": "TYPO3 Localization Team",
+			"email": "friendsof@typo3.org",
 			"role": "Developer"
 		}
 	],
