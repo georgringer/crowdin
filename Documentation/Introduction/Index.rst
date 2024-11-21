@@ -35,11 +35,11 @@ Crowdin and
 
     Crowdin integration into TYPO3.
 
-Once installed, use the Crowdin icon in the top toolbar to start localizing your
+Once installed, use the Crowdin icon in the TYPO3 top bar to start localizing your
 TYPO3 instance and extensions:
 
 ..  figure:: /Images/crowdin-toolbar.png
     :class: with-shadow
     :alt: Toolbar for Crowdin
 
-    Context menu for Crowdin in the TYPO3 top toolbar.
+    Context menu for Crowdin in the TYPO3 top bar.
