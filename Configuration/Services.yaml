@@ -11,6 +11,10 @@ services:
     # (e.g. because factories are to be used instead)
     exclude: '../Classes/{Xclass/LanguageServiceXclassed.php}'
 
+  # Required for TYPO3 v11
+  FriendsOfTYPO3\Crowdin\Backend\ToolbarItems\CrowdinToolbarItem:
+    public: true
+
   FriendsOfTYPO3\Crowdin\EventListener\AfterPackageActivation:
     tags:
       - name: event.listener

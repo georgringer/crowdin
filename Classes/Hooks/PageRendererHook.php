@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace FriendsOfTYPO3\Crowdin\Hooks;
 
-use FriendsOfTYPO3\Crowdin\ExtensionConfiguration;
+use FriendsOfTYPO3\Crowdin\Traits\ConfigurationOptionsTrait;
+use FriendsOfTYPO3\Crowdin\UserConfiguration;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Core\RequestId;
 use TYPO3\CMS\Core\Information\Typo3Version;
@@ -12,11 +13,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PageRendererHook
 {
+    use ConfigurationOptionsTrait;
+
     private const LANGUAGE_KEY = 't3';
 
     public function run(array &$params): void
     {
-        if (($this->getBackendUser()->user['uid'] ?? 0) && ($this->getBackendUser()->user['lang'] ?? '') === self::LANGUAGE_KEY) {
+        if (static::getConfigurationOption('enable', '0') === '1') {
             $projectIdentifier = $this->getProjectIdentifier();
             if ($projectIdentifier) {
                 $out = [];
@@ -44,16 +47,11 @@ class PageRendererHook
 
     protected function getProjectIdentifier(): string
     {
-        $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
-        if ($extensionConfiguration->isUsedForCore()) {
+        $userConfiguration = GeneralUtility::makeInstance(UserConfiguration::class);
+        if ($userConfiguration->usedForCore) {
             return 'typo3-cms';
         }
 
-        return $extensionConfiguration->getCrowdinIdentifier();
-    }
-
-    protected function getBackendUser(): BackendUserAuthentication
-    {
-        return $GLOBALS['BE_USER'];
+        return $userConfiguration->crowdinIdentifier;
     }
 }

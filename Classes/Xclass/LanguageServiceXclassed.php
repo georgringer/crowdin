@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace FriendsOfTYPO3\Crowdin\Xclass;
 
-use FriendsOfTYPO3\Crowdin\ExtensionConfiguration;
+use FriendsOfTYPO3\Crowdin\UserConfiguration;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class LanguageServiceXclassed extends LanguageService
 {
-    /** @var ExtensionConfiguration */
-    protected $extensionConfiguration;
+    /** @var UserConfiguration */
+    protected $userConfiguration;
 
     public const CORE_EXTENSIONS = [
         'about',
@@ -81,11 +81,11 @@ class LanguageServiceXclassed extends LanguageService
         if (!is_string($path)) {
             return;
         }
-        $this->loadExtensionConfiguration();
-        if ($this->extensionConfiguration->isUsedForCore()) {
+        $this->loadUserConfiguration();
+        if ($this->userConfiguration->usedForCore) {
             $isCoreExt = false;
             foreach (self::CORE_EXTENSIONS as $extension) {
-                if (str_contains($path, 'EXT:'.$extension)) {
+                if (str_contains($path, 'EXT:' . $extension)) {
                     $isCoreExt = true;
                 }
             }
@@ -94,8 +94,8 @@ class LanguageServiceXclassed extends LanguageService
             } else {
                 $this->lang = 'default';
             }
-        } elseif ($this->extensionConfiguration->getCrowdinIdentifier()) {
-            if (str_contains($path, 'EXT:'.$this->extensionConfiguration->getExtensionKey())) {
+        } elseif ($this->userConfiguration->crowdinIdentifier) {
+            if (str_contains($path, 'EXT:' . $this->userConfiguration->extensionKey)) {
                 $this->lang = 't3';
             } else {
                 $this->lang = 'default';
@@ -103,10 +103,10 @@ class LanguageServiceXclassed extends LanguageService
         }
     }
 
-    protected function loadExtensionConfiguration(): void
+    protected function loadUserConfiguration(): void
     {
-        if (!$this->extensionConfiguration) {
-            $this->extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+        if (!$this->userConfiguration) {
+            $this->userConfiguration = GeneralUtility::makeInstance(UserConfiguration::class);
         }
     }
 }
