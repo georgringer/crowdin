@@ -6,7 +6,7 @@
 Known problems
 ==============
 
-A selection of known issues ...
+A selection of known issues...
 
 This extension does not offer anything... and it is not in the scope of
 intended usage.

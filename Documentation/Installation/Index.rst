@@ -22,9 +22,11 @@ Installation
     #. Download the extension from TER.
     #. `./typo3/sysext/core/bin/typo3 crowdin:enable`.
 
-# Additional information
 
-The enable command above writes the following information to
+Additional information
+======================
+
+The ``enable`` command above writes the following information to
 :file:`LocalConfiguration.php` / :file:`settings.php`:
 
 ..  code-block:: php
