@@ -24,11 +24,10 @@ The extension makes a connection between your TYPO3 instance and your account at
 Crowdin and
 
 - Enables you to make in-context translate TYPO3 core and available TYPO3
-  extensions
-- Enables you to see and translate labels directly in both backend and frontend
+  extensions.
+- Enables you to see and translate labels directly in both backend and frontend.
 - Gives you access to the same tools as when translating in Crowdin (Translation
-  Memory, Glossary, etc)
-
+  Memory, Glossary, etc.).
 
 ..  figure:: /Images/crowdin-view.png
     :class: with-shadow
@@ -37,4 +36,10 @@ Crowdin and
     Crowdin integration into TYPO3.
 
 Once installed, use the Crowdin icon in the top toolbar to start localizing your
-TYPO3 instance and extensions.
+TYPO3 instance and extensions:
+
+..  figure:: /Images/crowdin-toolbar.png
+    :class: with-shadow
+    :alt: Toolbar for Crowdin
+
+    Context menu for Crowdin in the TYPO3 top toolbar.

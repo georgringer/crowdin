@@ -17,19 +17,24 @@ Configuration
 
 #.  Go to your profile **User settings** and select **Crowdin In-Context Localization [t3]** as your Languages
 
-#.  When you click save, Typo3 will connect to Crowdin and you will be asked to login using your Crowdin Credentials
+#.  When you click save, TYPO3 will connect to Crowdin and you will be asked to login using your Crowdin Credentials
 
-# Translating extensions
 
-You can switch between TYPO3 Core and different preinstalled extensions by using the selector in the task bar.
+Translating extensions
+======================
 
-To be able to translate an extension, it needs to be enabled as a project on Crowdin
+You can switch between TYPO3 Core and different preinstalled extensions by using
+the selector in the task bar.
+
+To be able to translate an extension, it needs to be enabled as a project on
+Crowdin.
 
 
 Screenshots
 ===========
 
-When the things are running, you should have access to the Crowdin Modal Tool in the bottom of the browser window
+When the things are running, you should have access to the Crowdin Modal Tool in
+the bottom of the browser window:
 
 ..  figure:: /Images/crowdin-tool.png
     :class: with-shadow
@@ -37,3 +42,13 @@ When the things are running, you should have access to the Crowdin Modal Tool in
     :width: 288px
 
     Crowdin Tool after installation.
+
+whereas the Crowdin Icon in the top toolbar will let you enable/disable
+in-context localization and switch between translating TYPO3 core or your
+favorite extensions:
+
+..  figure:: /Images/crowdin-toolbar.png
+    :class: with-shadow
+    :alt: Toolbar for Crowdin
+
+    Context menu for Crowdin in the TYPO3 top toolbar.
