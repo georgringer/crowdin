@@ -7,13 +7,13 @@ Configuration
 =============
 
 
-#.  Log into backend and download at least two language packs from Admin Tool => Maintenance => Manage Language Packs:
+#.  Log into backend and download at least two language packs from :guilabel:`ADMIN TOOLS > Maintenance > Manage Language Packs` :
 
     #. The language you want to translate to
 
     #. The language pack **Crowdin In-Context Localization [t3]**
 
-    #. Click **Update all**
+    #. Click :guilabel:`Update all`
 
 #.  Go to your profile **User settings** and select **Crowdin In-Context Localization [t3]** as your Languages
 
@@ -23,8 +23,8 @@ Configuration
 Translating extensions
 ======================
 
-You can switch between TYPO3 Core and different preinstalled extensions by using
-the selector in the task bar.
+You can switch between TYPO3 Core and your local extensions by using
+the selector in the TYPO3 top bar.
 
 To be able to translate an extension, it needs to be enabled as a project on
 Crowdin.
@@ -43,7 +43,7 @@ the bottom of the browser window:
 
     Crowdin Tool after installation.
 
-whereas the Crowdin Icon in the top toolbar will let you enable/disable
+whereas the Crowdin Icon in the TYPO3 top bar will let you enable/disable
 in-context localization and switch between translating TYPO3 core or your
 favorite extensions:
 
@@ -51,4 +51,4 @@ favorite extensions:
     :class: with-shadow
     :alt: Toolbar for Crowdin
 
-    Context menu for Crowdin in the TYPO3 top toolbar.
+    Context menu for Crowdin in the TYPO3 top bar.
