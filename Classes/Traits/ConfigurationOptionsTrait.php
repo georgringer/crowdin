@@ -21,7 +21,7 @@ trait ConfigurationOptionsTrait
         $user->writeUC();
     }
 
-    protected static function getBackendUser(): BackendUserAuthentication
+    protected static function getBackendUser(): ?BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
     }
