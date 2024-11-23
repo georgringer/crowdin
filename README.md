@@ -11,63 +11,11 @@ This extensions integrates the in-context editing of Crowdin into TYPO3.
 Using this features makes it fast and simple to add translations of XLF
 files used in the backend.
 
-![In-Context Localization](Documentation/Images/crowdin-inline-localization.png)
 
-**Important:** This extensions can **not** be used to translate content but
-"static" translations saved in `xlf` files.
+|                  | URL                                                         |
+|------------------|-------------------------------------------------------------|
+| **Repository:**  | https://github.com/FriendsOfTYPO3/crowdin                   |
+| **Read online:** | https://docs.typo3.org/p/friendsoftypo3/crowdin/main/en-us/ |
+| **TER:**         | https://extensions.typo3.org/extension/crowdin              |
+| **Packagist:**   | https://packagist.org/packages/friendsoftypo3/crowdin       |
 
-## 1. Install
-
-### Using composer
-
-1. `composer req friendsoftypo3/crowdin`.
-2. `./vendor/bin/typo3 crowdin:enable`
-
-### Non composer
-
-1. Download the extension from TER
-2. `./typo3/sysext/core/bin/typo3 crowdin:enable`
-
-### Additional information
-
-The enable command writes the following information to `LocalConfiguration.php`:
-
-```php
-$GLOBALS['TYPO3_CONF_VARS']
-    ['SYS']['localization']['locales']['user']['t3'] = 'Crowdin In-Context Localization';
-    ['SYS']['fluid']['namespaces'] => [
-            'f' => [
-                'TYPO3\\CMS\\Fluid\\ViewHelpers',
-                'TYPO3Fluid\\Fluid\\ViewHelpers',
-                'FriendsOfTYPO3\\Crowdin\\ViewHelpers\\Override',
-            ],
-        ],
-    ];
-```
-
-## Usage
-
-Follow the next steps to be able to use Crowdin in the backend:
-
-1. Switch to *Install Tool* => *Maintenance* => **Manage Language Packs**
-2. Click **+  Add language** and select **Crowdin In-Context Localization [t3]**,
-   click **Update all**.
-3. Use the Crowdin icon in the top toolbar (usuallly next to the Help icon) to
-   open the Crowdin configuration popup.
-4. Click on the extension you want to translate.
-5. Use the toggle switch to enable/disable in-context localization.
-
-After the automatic reload, a Crowdin modal will be shown to log in with your
-Crowdin account and to select the language you want to translate to.
-
-**Important:** Your preferred language may switch to some cryptic language
-with identifiers everywhere, instead of real text. This may happen when you
-disable in-context localization. To switch back to your preferred language,
-you need to open your user settings (click on your avatar, top right) and preset
-your preferred language back (from "Crowdin In-Context Localization").
-
-
-## Documentation
-
-Full documentation is available at
-https://docs.typo3.org/p/friendsoftypo3/crowdin/main/en-us/.
